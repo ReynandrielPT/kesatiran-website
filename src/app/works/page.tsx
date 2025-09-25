@@ -57,9 +57,9 @@ export default function WorksPage() {
   const visualWorks = works.filter((work) => work.type === "visual");
 
   const tabs = [
-    { id: "audio" as const, label: "Audio", count: audioWorks.length },
-    { id: "image" as const, label: "Image", count: imageWorks.length },
-    { id: "visual" as const, label: "Visual", count: visualWorks.length },
+    { id: "audio" as const, label: "songs", count: audioWorks.length },
+    { id: "image" as const, label: "gallery", count: imageWorks.length },
+    { id: "visual" as const, label: "video", count: visualWorks.length },
   ];
 
   // Audio player functions
@@ -148,10 +148,13 @@ export default function WorksPage() {
       {/* Page Header */}
       <div className="border-b border-border">
         <div className="container mx-auto px-6 py-8">
-          <h1 className="text-4xl font-bold text-foreground mb-4">Our Works</h1>
-          <p className="text-muted-foreground text-lg max-w-2xl">
-            Explore our creative projects spanning audio production, visual
-            design, and technical implementations.
+          <h1 className="text-4xl font-bold text-foreground mb-4 lowercase tracking-tight">
+            our art projects
+          </h1>
+          <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
+            a mix of songs we made for fun (or focus), photographs & renders we
+            liked enough to keep, posters & random design experiments, plus
+            little motion / video things. just stuff we enjoyed creating.
           </p>
         </div>
       </div>
@@ -181,61 +184,117 @@ export default function WorksPage() {
       <div className="container mx-auto px-6 py-8">
         {/* Audio Section */}
         {activeTab === "audio" && (
-          <div className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {audioWorks.map((work) => (
-                <div
-                  key={work.id}
-                  className="bg-card rounded-lg p-6 shadow-sm border border-border hover:shadow-md transition-shadow"
-                >
-                  <div className="relative mb-4">
-                    <img
-                      src={work.thumb}
-                      alt={work.title}
-                      className="w-full aspect-square object-cover rounded-lg"
-                    />
+          <div className="space-y-4">
+            <p className="text-xs text-muted-foreground px-1">
+              small loops & ambient bits we use while hanging out or coding.
+            </p>
+            <div className="space-y-3">
+              {audioWorks.map((work) => {
+                const active = audioPlayer.currentTrack?.id === work.id;
+                return (
+                  <div
+                    key={work.id}
+                    className={`group flex items-center gap-4 rounded-xl border px-4 py-3 bg-card/70 backdrop-blur-sm transition hover:bg-card ${
+                      active ? "border-accent/60 shadow-sm" : "border-border"
+                    }`}
+                  >
+                    {/* Thumbnail & play */}
                     <button
                       onClick={() => playTrack(work)}
-                      className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg opacity-0 hover:opacity-100 transition-opacity"
+                      className={`relative h-16 w-16 flex-shrink-0 rounded-lg overflow-hidden ring-1 ring-border hover:ring-accent/50 transition focus:outline-none focus:ring-2 focus:ring-accent ${
+                        active ? "ring-accent/50" : ""
+                      }`}
+                      aria-label={
+                        active && audioPlayer.isPlaying
+                          ? `Pause ${work.title}`
+                          : `Play ${work.title}`
+                      }
                     >
-                      {audioPlayer.currentTrack?.id === work.id &&
-                      audioPlayer.isPlaying ? (
-                        <Pause className="w-12 h-12 text-white" />
+                      <img
+                        src={work.thumb}
+                        alt={work.title}
+                        className="h-full w-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                        {active && audioPlayer.isPlaying ? (
+                          <Pause className="w-6 h-6 text-white" />
+                        ) : (
+                          <Play className="w-6 h-6 text-white" />
+                        )}
+                      </div>
+                      {active && (
+                        <div className="absolute bottom-1 left-1 right-1 h-1 bg-white/30 rounded overflow-hidden">
+                          <div
+                            className="h-full bg-white/90"
+                            style={{
+                              width: `$${`{
+                                (audioPlayer.currentTime /
+                                  (audioPlayer.duration || 1)) * 100
+                              }`}%`,
+                            }}
+                          />
+                        </div>
+                      )}
+                    </button>
+
+                    {/* Meta */}
+                    <div className="flex-1 min-w-0 space-y-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-sm font-medium truncate max-w-[220px]">
+                          {work.title}
+                        </h3>
+                        {work.duration && (
+                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-accent/10 text-accent tabular-nums">
+                            {work.duration}
+                          </span>
+                        )}
+                      </div>
+                      {work.artist && (
+                        <p className="text-[11px] opacity-70 truncate max-w-[240px]">
+                          {work.artist}
+                        </p>
+                      )}
+                      <p className="text-[11px] opacity-60 line-clamp-2 pr-4">
+                        {work.description}
+                      </p>
+                      <div className="flex flex-wrap gap-1 pt-1">
+                        {work.tags.slice(0, 3).map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-1.5 py-0.5 bg-accent/10 text-accent text-[10px] rounded-full"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                        {work.tags.length > 3 && (
+                          <span className="px-1.5 py-0.5 bg-border text-[10px] rounded-full">
+                            +{work.tags.length - 3}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Play/Pause standalone for accessibility */}
+                    <button
+                      onClick={() => playTrack(work)}
+                      className={`p-2 rounded-full transition text-accent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent ${
+                        active ? "bg-accent/10" : ""
+                      }`}
+                      aria-label={
+                        active && audioPlayer.isPlaying
+                          ? `Pause ${work.title}`
+                          : `Play ${work.title}`
+                      }
+                    >
+                      {active && audioPlayer.isPlaying ? (
+                        <Pause className="w-4 h-4" />
                       ) : (
-                        <Play className="w-12 h-12 text-white" />
+                        <Play className="w-4 h-4" />
                       )}
                     </button>
                   </div>
-
-                  <h3 className="font-semibold text-lg text-foreground mb-2">
-                    {work.title}
-                  </h3>
-                  {work.artist && (
-                    <p className="text-muted-foreground text-sm mb-2">
-                      by {work.artist}
-                    </p>
-                  )}
-                  {work.duration && (
-                    <p className="text-muted-foreground text-sm mb-3">
-                      {work.duration}
-                    </p>
-                  )}
-                  <p className="text-muted-foreground text-sm mb-4">
-                    {work.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2">
-                    {work.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-1 bg-accent/10 text-accent text-xs rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
@@ -243,6 +302,10 @@ export default function WorksPage() {
         {/* Image Section */}
         {activeTab === "image" && (
           <div className="space-y-8">
+            <p className="text-xs text-muted-foreground px-1">
+              photos, portrait series, rough design frames, 3d renders & static
+              ideas.
+            </p>
             {imageWorks.map((work) => (
               <div
                 key={work.id}
@@ -311,6 +374,9 @@ export default function WorksPage() {
         {/* Visual Section */}
         {activeTab === "visual" && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <p className="text-xs text-muted-foreground col-span-full px-1 -mt-2">
+              motion pieces, prototypes & little narrated demo clips.
+            </p>
             {visualWorks.map((work) => (
               <div
                 key={work.id}

@@ -1,293 +1,168 @@
 "use client";
 
-import React, { useState } from "react";
-import { MemberCard } from "@/components/MemberCard";
+import React, { useState, useMemo } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import { Filter, Users, Award, Briefcase, Calendar } from "lucide-react";
-
-// Import data
+import { Card } from "@/components/ui/Card";
+import { Badge } from "@/components/ui/Badge";
+import { Users, Filter, Sparkles } from "lucide-react";
 import membersData from "@/data/members.json";
-import teamStatsData from "@/data/team-stats.json";
 
 export default function TeamPage() {
-  const [selectedFilter, setSelectedFilter] = useState("all");
-  const [sortBy, setSortBy] = useState("name");
+  // Casual tag filter: use role words + departments reduced to a simple set
+  const [activeTag, setActiveTag] = useState<string>("all");
 
-  // Get unique departments for filtering
-  const departments = Array.from(
-    new Set(membersData.map((member: any) => member.department))
-  );
-
-  // Filter and sort members
-  const filteredMembers = membersData
-    .filter(
-      (member: any) =>
-        selectedFilter === "all" || member.department === selectedFilter
-    )
-    .sort((a: any, b: any) => {
-      if (sortBy === "name") return a.name.localeCompare(b.name);
-      if (sortBy === "role") return a.role.localeCompare(b.role);
-      if (sortBy === "date")
-        return (
-          new Date(b.member_since).getTime() -
-          new Date(a.member_since).getTime()
-        );
-      return 0;
+  const tags = useMemo(() => {
+    const base = new Set<string>();
+    membersData.forEach((m: any) => {
+      if (m.department) base.add(m.department.toLowerCase());
+      m.role
+        .split(/[,/]|and|&/i)
+        .map((r: string) => r.trim().toLowerCase())
+        .filter(Boolean)
+        .forEach((r: string) => base.add(r));
     });
+    return Array.from(base).slice(0, 10); // keep it small
+  }, []);
+
+  const filtered = membersData.filter((m: any) => {
+    if (activeTag === "all") return true;
+    const haystack = [m.department, m.role].join(" ").toLowerCase();
+    return haystack.includes(activeTag);
+  });
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="px-6 py-16 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-16">
-            <h1
-              className="text-4xl font-bold tracking-tight sm:text-5xl mb-4"
-              style={{ color: "var(--text)" }}
-            >
-              Our Team
+    <div className="min-h-screen pb-24 space-y-20">
+      {/* Warm Intro */}
+      <section className="pt-20 px-6 mx-auto max-w-6xl">
+        <div className="space-y-8">
+          <div className="flex items-center gap-2 text-[11px] font-medium text-[var(--accent)]">
+            <Sparkles size={14} /> our little circle
+          </div>
+          <div className="max-w-2xl space-y-4">
+            <h1 className="text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight">
+              people behind the tiny things
             </h1>
-            <p
-              className="text-xl leading-8 max-w-3xl mx-auto"
-              style={{ color: "var(--muted)" }}
-            >
-              Meet the talented individuals who make Kesatiran a creative
-              powerhouse. Our diverse team brings together expertise in
-              development, design, and innovation.
+            <p className="text-sm sm:text-base text-[color-mix(in_srgb,var(--foreground)_70%,transparent)]">
+              Not a formal org chart—just friends building and doodling on the
+              internet while sharing music links, snack pics and half-finished
+              ideas.
             </p>
           </div>
-
-          {/* Team Statistics */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            <div
-              className="text-center p-6 rounded-xl"
-              style={{
-                backgroundColor: "var(--card)",
-                boxShadow: "var(--shadow)",
-              }}
-            >
-              <Users
-                size={32}
-                className="mx-auto mb-3"
-                style={{ color: "var(--accent)" }}
-              />
-              <div
-                className="text-3xl font-bold mb-1"
-                style={{ color: "var(--text)" }}
+          {/* Avatar strip */}
+          <div className="flex -space-x-4 overflow-hidden">
+            {membersData.slice(0, 12).map((m: any) => (
+              <Link
+                key={m.id}
+                href={`/profile/${m.slug}`}
+                className="relative inline-block h-14 w-14 rounded-full ring-2 ring-[var(--background)] hover:z-20"
               >
-                {teamStatsData.total_members}
-              </div>
-              <div className="text-sm" style={{ color: "var(--muted)" }}>
-                Team Members
-              </div>
-            </div>
-
-            <div
-              className="text-center p-6 rounded-xl"
-              style={{
-                backgroundColor: "var(--card)",
-                boxShadow: "var(--shadow)",
-              }}
-            >
-              <Calendar
-                size={32}
-                className="mx-auto mb-3"
-                style={{ color: "var(--accent)" }}
-              />
-              <div
-                className="text-3xl font-bold mb-1"
-                style={{ color: "var(--text)" }}
-              >
-                {teamStatsData.combined_experience}+
-              </div>
-              <div className="text-sm" style={{ color: "var(--muted)" }}>
-                Years Experience
-              </div>
-            </div>
-
-            <div
-              className="text-center p-6 rounded-xl"
-              style={{
-                backgroundColor: "var(--card)",
-                boxShadow: "var(--shadow)",
-              }}
-            >
-              <Briefcase
-                size={32}
-                className="mx-auto mb-3"
-                style={{ color: "var(--accent)" }}
-              />
-              <div
-                className="text-3xl font-bold mb-1"
-                style={{ color: "var(--text)" }}
-              >
-                {teamStatsData.projects_completed}
-              </div>
-              <div className="text-sm" style={{ color: "var(--muted)" }}>
-                Projects Completed
-              </div>
-            </div>
-
-            <div
-              className="text-center p-6 rounded-xl"
-              style={{
-                backgroundColor: "var(--card)",
-                boxShadow: "var(--shadow)",
-              }}
-            >
-              <Award
-                size={32}
-                className="mx-auto mb-3"
-                style={{ color: "var(--accent)" }}
-              />
-              <div
-                className="text-3xl font-bold mb-1"
-                style={{ color: "var(--text)" }}
-              >
-                {teamStatsData.clients_served}
-              </div>
-              <div className="text-sm" style={{ color: "var(--muted)" }}>
-                Happy Clients
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Filter and Sort Controls */}
-      <section className="px-6 pb-8 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-            {/* Filter by Department */}
-            <div className="flex flex-wrap gap-2">
-              <Button
-                variant={selectedFilter === "all" ? "primary" : "outline"}
-                size="sm"
-                onClick={() => setSelectedFilter("all")}
-              >
-                All
-              </Button>
-              {departments.map((dept) => (
-                <Button
-                  key={dept}
-                  variant={selectedFilter === dept ? "primary" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedFilter(dept)}
-                >
-                  {dept}
-                </Button>
-              ))}
-            </div>
-
-            {/* Sort Controls */}
-            <div className="flex items-center gap-2">
-              <Filter size={16} style={{ color: "var(--muted)" }} />
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="px-3 py-1 text-sm rounded-lg border-0 focus:ring-2"
-                style={{
-                  backgroundColor: "var(--card)",
-                  color: "var(--text)",
-                  boxShadow: "var(--shadow)",
-                }}
-              >
-                <option value="name">Sort by Name</option>
-                <option value="role">Sort by Role</option>
-                <option value="date">Sort by Join Date</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Team Members Grid */}
-      <section className="px-6 pb-16 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredMembers.map((member: any, index: number) => (
-              <div
-                key={member.id}
-                className="fade-in-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <MemberCard member={member} showSkills />
-              </div>
+                <Image
+                  src={m.avatar || m.photo}
+                  alt={m.name}
+                  fill
+                  sizes="56px"
+                  className="object-cover rounded-full"
+                />
+              </Link>
             ))}
           </div>
-
-          {filteredMembers.length === 0 && (
-            <div className="text-center py-16">
-              <p className="text-lg" style={{ color: "var(--muted)" }}>
-                No team members found for the selected filter.
-              </p>
-            </div>
-          )}
         </div>
       </section>
 
-      {/* Specializations Section */}
-      <section
-        className="px-6 pb-16 lg:px-8"
-        style={{ backgroundColor: "var(--card)" }}
-      >
-        <div className="mx-auto max-w-7xl py-16">
-          <div className="text-center mb-12">
-            <h2
-              className="text-3xl font-bold tracking-tight sm:text-4xl mb-4"
-              style={{ color: "var(--text)" }}
+      {/* Simple tag filters */}
+      <section className="px-6 mx-auto max-w-6xl space-y-6">
+        <div className="flex flex-wrap gap-2 items-center">
+          <Button
+            size="xs"
+            variant={activeTag === "all" ? "gradient" : "outline"}
+            pill
+            onClick={() => setActiveTag("all")}
+          >
+            all
+          </Button>
+          {tags.map((t) => (
+            <Button
+              key={t}
+              size="xs"
+              variant={activeTag === t ? "solid" : "outline"}
+              pill
+              onClick={() => setActiveTag(t)}
             >
-              Our Specializations
+              {t}
+            </Button>
+          ))}
+          <div className="flex items-center gap-1 text-[11px] opacity-60 ml-2">
+            <Filter size={12} /> filter vibe
+          </div>
+        </div>
+      </section>
+
+      {/* Member Grid – lighter cards */}
+      <section className="px-6 mx-auto max-w-6xl">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filtered.map((m: any) => (
+            <Link key={m.id} href={`/profile/${m.slug}`} className="group">
+              <Card className="p-5 flex flex-col gap-5 h-full">
+                <div className="flex items-center gap-4">
+                  <div className="relative h-16 w-16 rounded-xl overflow-hidden ring-1 ring-[color-mix(in_srgb,var(--foreground)_15%,transparent)] group-hover:ring-[var(--accent)]/60 transition">
+                    <Image
+                      src={m.avatar || m.photo}
+                      alt={m.name}
+                      fill
+                      sizes="64px"
+                      className="object-cover group-hover:scale-[1.05] transition"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-sm font-semibold truncate">{m.name}</h3>
+                    <p className="text-[11px] opacity-60 truncate">{m.role}</p>
+                  </div>
+                </div>
+                <p className="text-[11px] leading-relaxed line-clamp-3 opacity-70">
+                  {m.bio_short}
+                </p>
+                <div className="flex flex-wrap gap-1 mt-auto">
+                  {m.skills?.slice(0, 3).map((s: any) => (
+                    <Badge key={s.name} size="xs" variant="soft">
+                      {s.name}
+                    </Badge>
+                  ))}
+                  {m.skills && m.skills.length > 3 && (
+                    <Badge size="xs" variant="outline">
+                      +{m.skills.length - 3}
+                    </Badge>
+                  )}
+                </div>
+              </Card>
+            </Link>
+          ))}
+        </div>
+        {filtered.length === 0 && (
+          <div className="text-center py-24 text-sm opacity-60">
+            nobody under that tag right now
+          </div>
+        )}
+      </section>
+
+      {/* Friendly footer blurb inside page (main site footer can still exist) */}
+      <section className="px-6 mx-auto max-w-6xl pt-10">
+        <div className="rounded-2xl p-8 bg-[color-mix(in_srgb,var(--foreground)_4%,transparent)] ring-1 ring-[color-mix(in_srgb,var(--foreground)_10%,transparent)] flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+          <div className="flex-1 space-y-2">
+            <h2 className="text-base font-semibold flex items-center gap-2">
+              <Users size={16} /> circle energy
             </h2>
-            <p
-              className="text-lg max-w-2xl mx-auto"
-              style={{ color: "var(--muted)" }}
-            >
-              The diverse skills and expertise that make our team exceptional.
+            <p className="text-[12px] opacity-70 leading-relaxed max-w-md">
+              we cheer for each other's half-finished stuff & random ideas.
+              profiles are just snapshots; ask us what we're poking at now.
             </p>
           </div>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            {teamStatsData.specializations.map((specialization, index) => (
-              <span
-                key={index}
-                className="px-6 py-3 text-sm font-medium rounded-full transition-all duration-200 hover:scale-105"
-                style={{
-                  backgroundColor: "var(--accent)",
-                  color: "white",
-                }}
-              >
-                {specialization}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="px-6 py-16 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-7xl text-center">
-          <h2
-            className="text-3xl font-bold tracking-tight sm:text-4xl mb-4"
-            style={{ color: "var(--text)" }}
-          >
-            Want to Work with Us?
-          </h2>
-          <p
-            className="text-lg leading-8 max-w-2xl mx-auto mb-8"
-            style={{ color: "var(--muted)" }}
-          >
-            We're always excited to collaborate on new projects and explore
-            creative solutions. Let's build something amazing together.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg">
-              <a href="mailto:hello@kesatiran.com">Contact Us</a>
+          <Link href="/">
+            <Button variant="outline" size="sm" pill>
+              back home
             </Button>
-            <Button variant="outline" size="lg">
-              <a href="/works">View Our Works</a>
-            </Button>
-          </div>
+          </Link>
         </div>
       </section>
     </div>
