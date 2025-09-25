@@ -1,0 +1,86 @@
+[
+  {
+    "id": "cyber-odyssey",
+    "title": "Cyber Odyssey",
+    "cover": "/media/games/cyber-odyssey-cover.jpg",
+    "description": "A futuristic RPG set in a cyberpunk world where you play as a hacker fighting corporate oppression.",
+    "tags": ["RPG", "Cyberpunk", "Single-player"],
+    "platforms": ["PC", "Steam"],
+    "genre": "RPG",
+    "releaseDate": "2023-11-15",
+    "developer": "Kesatiran Games",
+    "links": {
+      "steam": "https://store.steampowered.com/app/cyberoddyssey",
+      "trailer": "https://youtube.com/watch?v=cyberoddyssey",
+      "website": "https://cyberoddyssey.kesatiran.com"
+    },
+    "screenshots": [
+      "/media/games/cyber-odyssey-1.jpg",
+      "/media/games/cyber-odyssey-2.jpg",
+      "/media/games/cyber-odyssey-3.jpg"
+    ]
+  },
+  {
+    "id": "puzzle-realms",
+    "title": "Puzzle Realms",
+    "cover": "/media/games/puzzle-realms-cover.jpg",
+    "description": "A mind-bending puzzle game that combines logic with beautiful hand-drawn art and ambient soundscapes.",
+    "tags": ["Puzzle", "Indie", "Relaxing"],
+    "platforms": ["PC", "Mobile", "Switch"],
+    "genre": "Puzzle",
+    "releaseDate": "2023-08-22",
+    "developer": "Kesatiran Indie",
+    "links": {
+      "playstore": "https://play.google.com/store/apps/details?id=puzzlerealms",
+      "appstore": "https://apps.apple.com/app/puzzle-realms",
+      "steam": "https://store.steampowered.com/app/puzzlerealms"
+    },
+    "screenshots": [
+      "/media/games/puzzle-realms-1.jpg",
+      "/media/games/puzzle-realms-2.jpg",
+      "/media/games/puzzle-realms-3.jpg",
+      "/media/games/puzzle-realms-4.jpg"
+    ]
+  },
+  {
+    "id": "space-trader",
+    "title": "Space Trader",
+    "cover": "/media/games/space-trader-cover.jpg",
+    "description": "Build your galactic trading empire in this strategic simulation game with procedurally generated universes.",
+    "tags": ["Strategy", "Simulation", "Space"],
+    "platforms": ["PC", "Mac"],
+    "genre": "Strategy",
+    "releaseDate": "2024-01-10",
+    "developer": "Kesatiran Strategy",
+    "links": {
+      "steam": "https://store.steampowered.com/app/spacetrader",
+      "gog": "https://gog.com/game/space_trader",
+      "trailer": "https://youtube.com/watch?v=spacetrader"
+    },
+    "screenshots": [
+      "/media/games/space-trader-1.jpg",
+      "/media/games/space-trader-2.jpg"
+    ]
+  },
+  {
+    "id": "neon-runner",
+    "title": "Neon Runner",
+    "cover": "/media/games/neon-runner-cover.jpg",
+    "description": "Fast-paced endless runner with synthwave aesthetics and reactive music that adapts to your performance.",
+    "tags": ["Action", "Endless", "Synthwave"],
+    "platforms": ["Mobile", "PC"],
+    "genre": "Action",
+    "releaseDate": "2023-06-05",
+    "developer": "Kesatiran Mobile",
+    "links": {
+      "playstore": "https://play.google.com/store/apps/details?id=neonrunner",
+      "appstore": "https://apps.apple.com/app/neon-runner",
+      "trailer": "https://youtube.com/watch?v=neonrunner"
+    },
+    "screenshots": [
+      "/media/games/neon-runner-1.jpg",
+      "/media/games/neon-runner-2.jpg",
+      "/media/games/neon-runner-3.jpg"
+    ]
+  }
+]

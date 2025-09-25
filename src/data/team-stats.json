@@ -1,0 +1,28 @@
+{
+  "total_members": 3,
+  "combined_experience": 15,
+  "projects_completed": 47,
+  "clients_served": 23,
+  "team_founded": "2021-01-15",
+  "specializations": [
+    "Web Development",
+    "UI/UX Design",
+    "Cloud Infrastructure",
+    "Mobile Applications",
+    "DevOps & Automation"
+  ],
+  "awards": [
+    {
+      "year": "2023",
+      "title": "Best UX Design Award",
+      "category": "Mobile Banking App",
+      "organization": "Design Excellence Awards"
+    },
+    {
+      "year": "2022",
+      "title": "Innovation in Cloud Architecture",
+      "category": "Multi-Cloud Strategy",
+      "organization": "Cloud Computing Awards"
+    }
+  ]
+}

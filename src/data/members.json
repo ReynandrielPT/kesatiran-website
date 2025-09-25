@@ -1,0 +1,174 @@
+[
+  {
+    "id": "john-doe",
+    "name": "John Doe",
+    "slug": "john-doe",
+    "photo": "/media/team/john-doe.jpg",
+    "avatar": "/media/team/john-doe-avatar.jpg",
+    "role": "Full Stack Developer",
+    "department": "Engineering",
+    "location": "San Francisco, CA",
+    "bio_short": "Passionate full-stack developer with 5+ years of experience in React and Node.js. Love creating beautiful, functional web applications.",
+    "bio_long": "John is a seasoned full-stack developer who brings both technical expertise and creative vision to every project. With over 5 years of experience in modern web development, he specializes in React, Node.js, and cloud architecture. John believes in writing clean, maintainable code and is passionate about user experience design. When he's not coding, you can find him contributing to open-source projects or exploring new technologies.",
+    "skills": [
+      { "name": "React", "category": "Frontend", "level": "expert" },
+      { "name": "Node.js", "category": "Backend", "level": "expert" },
+      { "name": "TypeScript", "category": "Languages", "level": "expert" },
+      { "name": "AWS", "category": "Cloud", "level": "intermediate" },
+      { "name": "Docker", "category": "DevOps", "level": "intermediate" }
+    ],
+    "tools": [
+      { "name": "VS Code", "category": "Editors", "icon": "vscode" },
+      { "name": "Git", "category": "Version Control", "icon": "git" },
+      { "name": "Figma", "category": "Design", "icon": "figma" },
+      { "name": "PostgreSQL", "category": "Databases", "icon": "postgresql" }
+    ],
+    "social_links": {
+      "github": "https://github.com/johndoe",
+      "linkedin": "https://linkedin.com/in/johndoe",
+      "twitter": "https://twitter.com/johndoe",
+      "website": "https://johndoe.dev"
+    },
+    "contact_email": "john@kesatiran.com",
+    "resume_url": "/media/resumes/john-doe-resume.pdf",
+    "member_since": "2022-01-15",
+    "availability_status": "available",
+    "career_highlights": [
+      {
+        "year": "2023",
+        "title": "Led E-commerce Platform Migration",
+        "description": "Successfully migrated a legacy e-commerce platform to modern React/Node.js stack, improving performance by 300%"
+      },
+      {
+        "year": "2022",
+        "title": "Open Source Contributor",
+        "description": "Contributed to multiple popular open-source projects including React Router and Express.js"
+      }
+    ],
+    "testimonials": [
+      {
+        "text": "John's technical expertise and attention to detail are exceptional. He delivered our project ahead of schedule and exceeded all expectations.",
+        "author": "Sarah Johnson",
+        "role": "Product Manager",
+        "company": "TechCorp"
+      }
+    ]
+  },
+  {
+    "id": "jane-smith",
+    "name": "Jane Smith",
+    "slug": "jane-smith",
+    "photo": "/media/team/jane-smith.jpg",
+    "avatar": "/media/team/jane-smith-avatar.jpg",
+    "role": "UI/UX Designer",
+    "department": "Design",
+    "location": "New York, NY",
+    "bio_short": "Creative UI/UX designer specializing in user-centered design and brand identity. 4 years of experience crafting digital experiences.",
+    "bio_long": "Jane is a creative and detail-oriented UI/UX designer who believes great design should be both beautiful and functional. With 4 years of experience in digital design, she specializes in user research, wireframing, prototyping, and brand identity. Jane has worked with startups and established companies to create engaging user experiences that drive business results. She's passionate about accessibility and inclusive design practices.",
+    "skills": [
+      { "name": "UI Design", "category": "Design", "level": "expert" },
+      { "name": "UX Research", "category": "Research", "level": "expert" },
+      { "name": "Prototyping", "category": "Design", "level": "expert" },
+      {
+        "name": "Brand Identity",
+        "category": "Branding",
+        "level": "intermediate"
+      },
+      {
+        "name": "Frontend Development",
+        "category": "Technical",
+        "level": "beginner"
+      }
+    ],
+    "tools": [
+      { "name": "Figma", "category": "Design", "icon": "figma" },
+      { "name": "Adobe Creative Suite", "category": "Design", "icon": "adobe" },
+      { "name": "Sketch", "category": "Design", "icon": "sketch" },
+      { "name": "Principle", "category": "Prototyping", "icon": "principle" }
+    ],
+    "social_links": {
+      "dribbble": "https://dribbble.com/janesmith",
+      "behance": "https://behance.net/janesmith",
+      "linkedin": "https://linkedin.com/in/janesmith",
+      "instagram": "https://instagram.com/janesmith_design"
+    },
+    "contact_email": "jane@kesatiran.com",
+    "resume_url": "/media/resumes/jane-smith-resume.pdf",
+    "member_since": "2022-03-01",
+    "availability_status": "busy",
+    "career_highlights": [
+      {
+        "year": "2023",
+        "title": "Design System Architecture",
+        "description": "Created comprehensive design system for a fintech startup, reducing design-to-development time by 50%"
+      },
+      {
+        "year": "2022",
+        "title": "Award-Winning Mobile App",
+        "description": "Designed mobile banking app that won UX Design Award for accessibility and user experience"
+      }
+    ],
+    "testimonials": [
+      {
+        "text": "Jane's design thinking and user empathy resulted in a 40% increase in user engagement for our platform.",
+        "author": "Mike Chen",
+        "role": "CEO",
+        "company": "StartupXYZ"
+      }
+    ]
+  },
+  {
+    "id": "alex-rodriguez",
+    "name": "Alex Rodriguez",
+    "slug": "alex-rodriguez",
+    "photo": "/media/team/alex-rodriguez.jpg",
+    "avatar": "/media/team/alex-rodriguez-avatar.jpg",
+    "role": "DevOps Engineer",
+    "department": "Infrastructure",
+    "location": "Austin, TX",
+    "bio_short": "DevOps engineer passionate about automation, scalability, and cloud infrastructure. 6 years of experience with AWS and Kubernetes.",
+    "bio_long": "Alex is a highly skilled DevOps engineer who thrives on solving complex infrastructure challenges. With 6 years of experience in cloud computing and automation, Alex specializes in AWS, Kubernetes, and CI/CD pipeline optimization. They have helped numerous companies scale their infrastructure while maintaining reliability and security. Alex is also passionate about mentoring junior developers and promoting DevOps best practices.",
+    "skills": [
+      { "name": "AWS", "category": "Cloud", "level": "expert" },
+      { "name": "Kubernetes", "category": "Orchestration", "level": "expert" },
+      { "name": "Docker", "category": "Containerization", "level": "expert" },
+      { "name": "Terraform", "category": "Infrastructure", "level": "expert" },
+      { "name": "Python", "category": "Scripting", "level": "intermediate" }
+    ],
+    "tools": [
+      { "name": "AWS Console", "category": "Cloud", "icon": "aws" },
+      { "name": "Terraform", "category": "IaC", "icon": "terraform" },
+      { "name": "Jenkins", "category": "CI/CD", "icon": "jenkins" },
+      { "name": "Grafana", "category": "Monitoring", "icon": "grafana" }
+    ],
+    "social_links": {
+      "github": "https://github.com/alexrodriguez",
+      "linkedin": "https://linkedin.com/in/alexrodriguez",
+      "twitter": "https://twitter.com/alexdevops"
+    },
+    "contact_email": "alex@kesatiran.com",
+    "resume_url": "/media/resumes/alex-rodriguez-resume.pdf",
+    "member_since": "2021-08-15",
+    "availability_status": "available",
+    "career_highlights": [
+      {
+        "year": "2023",
+        "title": "Multi-Cloud Architecture",
+        "description": "Designed and implemented multi-cloud strategy reducing infrastructure costs by 35% while improving reliability"
+      },
+      {
+        "year": "2021",
+        "title": "Zero-Downtime Migration",
+        "description": "Led migration of legacy monolith to microservices architecture with zero downtime for 1M+ users"
+      }
+    ],
+    "testimonials": [
+      {
+        "text": "Alex's expertise in cloud architecture and automation saved us countless hours and significantly improved our deployment process.",
+        "author": "Lisa Wang",
+        "role": "CTO",
+        "company": "CloudFirst Inc"
+      }
+    ]
+  }
+]

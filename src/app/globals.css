@@ -1,26 +1,351 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 
+/* Design Tokens */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Fluid spacing scale */
+  --space-1: clamp(0.25rem, 0.2rem + 0.2vw, 0.35rem);
+  --space-2: clamp(0.5rem, 0.45rem + 0.3vw, 0.75rem);
+  --space-3: clamp(0.75rem, 0.6rem + 0.5vw, 1rem);
+  --space-4: clamp(1rem, 0.9rem + 0.6vw, 1.35rem);
+  --space-5: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+  --space-6: clamp(2rem, 1.8rem + 1vw, 3rem);
+
+  /* Modern surface styles */
+  --glass-bg: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
+  --glass-border: 1px solid rgba(255, 255, 255, 0.15);
+  --glass-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.35),
+    0 2px 6px -2px rgba(0, 0, 0, 0.4);
+  --glass-backdrop: blur(14px) saturate(140%);
+
+  /* Brand playful gradients */
+  --grad-accent: linear-gradient(120deg, #6366f1, #8b5cf6, #ec4899, #f59e0b);
+  --grad-accent-soft: linear-gradient(
+    135deg,
+    #6366f122,
+    #8b5cf611,
+    #ec489911,
+    #f59e0b11
+  );
+  --grad-sheen: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0)
+  );
+
+  /* Accent ring */
+  --focus-ring: 0 0 0 2px color-mix(in srgb, var(--background) 55%, transparent),
+    0 0 0 4px var(--accent);
+
+  /* Typography tweaks */
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+  --font-serif: "Merriweather", Georgia, serif;
+
+  /* Formal Theme - Light */
+  --formal-bg-light: #ffffff;
+  --formal-card-light: #f7f8fa;
+  --formal-text-light: #0f1724;
+  --formal-accent-light: #0b5fff;
+  --formal-muted-light: #64748b;
+
+  /* Formal Theme - Dark */
+  --formal-bg-dark: #0b1220;
+  --formal-card-dark: #0f1724;
+  --formal-text-dark: #e6eef8;
+  --formal-accent-dark: #4f8dfe;
+  --formal-muted-dark: #94a3b8;
+
+  /* Aesthetic Theme - Light */
+  --aesthetic-bg-light: #fff8f2;
+  --aesthetic-card-light: #fff1e6;
+  --aesthetic-text-light: #3e2f2f;
+  --aesthetic-accent-light: #b87333;
+  --aesthetic-muted-light: #8b7355;
+
+  /* Aesthetic Theme - Dark */
+  --aesthetic-bg-dark: #221913;
+  --aesthetic-card-dark: #2b1f1a;
+  --aesthetic-text-dark: #f6ede7;
+  --aesthetic-accent-dark: #d9a066;
+  --aesthetic-muted-dark: #c8b99c;
+
+  /* Gaming Theme */
+  --gaming-bg: #050507;
+  --gaming-card: #0d0b10;
+  --gaming-text: #edebff;
+  --gaming-accent: #7c3aed;
+  --gaming-muted: #a78bfa;
+
+  /* Default to Formal Light */
+  --bg: var(--formal-bg-light);
+  --card: var(--formal-card-light);
+  --text: var(--formal-text-light);
+  --accent: var(--formal-accent-light);
+  --muted: var(--formal-muted-light);
+
+  /* Legacy variables for compatibility */
+  --background: var(--bg);
+  --foreground: var(--text);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Theme Classes */
+[data-theme="formal-light"] {
+  --bg: var(--formal-bg-light);
+  --card: var(--formal-card-light);
+  --text: var(--formal-text-light);
+  --accent: var(--formal-accent-light);
+  --muted: var(--formal-muted-light);
+  --background: var(--formal-bg-light);
+  --foreground: var(--formal-text-light);
+}
+
+[data-theme="formal-dark"] {
+  --bg: var(--formal-bg-dark);
+  --card: var(--formal-card-dark);
+  --text: var(--formal-text-dark);
+  --accent: var(--formal-accent-dark);
+  --muted: var(--formal-muted-dark);
+  --background: var(--formal-bg-dark);
+  --foreground: var(--formal-text-dark);
+}
+
+[data-theme="aesthetic-light"] {
+  --bg: var(--aesthetic-bg-light);
+  --card: var(--aesthetic-card-light);
+  --text: var(--aesthetic-text-light);
+  --accent: var(--aesthetic-accent-light);
+  --muted: var(--aesthetic-muted-light);
+  --background: var(--aesthetic-bg-light);
+  --foreground: var(--aesthetic-text-light);
+}
+
+[data-theme="aesthetic-dark"] {
+  --bg: var(--aesthetic-bg-dark);
+  --card: var(--aesthetic-card-dark);
+  --text: var(--aesthetic-text-dark);
+  --accent: var(--aesthetic-accent-dark);
+  --muted: var(--aesthetic-muted-dark);
+  --background: var(--aesthetic-bg-dark);
+  --foreground: var(--aesthetic-text-dark);
+}
+
+[data-theme="gaming"] {
+  --bg: var(--gaming-bg);
+  --card: var(--gaming-card);
+  --text: var(--gaming-text);
+  --accent: var(--gaming-accent);
+  --muted: var(--gaming-muted);
+  --background: var(--gaming-bg);
+  --foreground: var(--gaming-text);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--formal-bg-dark);
+    --foreground: var(--formal-text-dark);
   }
 }
 
 body {
-  background: var(--background);
+  background: radial-gradient(
+      circle at 20% 20%,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      color-mix(in srgb, var(--muted) 18%, transparent),
+      transparent 70%
+    ),
+    var(--background);
+  background-attachment: fixed;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.4s ease, color 0.3s ease;
+}
+
+/* RGB Strip Animation for Gaming Theme */
+@keyframes rgb-strip {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+[data-theme="gaming"] .rgb-strip {
+  background: linear-gradient(
+    -45deg,
+    #00ffff,
+    #ff00ff,
+    #00ff00,
+    #7c3aed,
+    #00ffff
+  );
+  background-size: 400% 400%;
+  animation: rgb-strip 3s ease infinite;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px);
+}
+
+/* Playful shimmer hover */
+.shine-hover {
+  position: relative;
+  overflow: hidden;
+}
+.shine-hover:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--grad-sheen);
+  opacity: 0;
+  transform: translateX(-40%) skewX(-20deg);
+}
+.shine-hover:hover:before {
+  opacity: 1;
+  transform: translateX(120%) skewX(-20deg);
+  transition: transform 0.9s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Glass utility */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* Card hover depth */
+.card-hover {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
+}
+.card-hover:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 28px -8px rgba(0, 0, 0, 0.45);
+}
+
+/* Gradient text new */
+.gradient-title {
+  background: var(--grad-accent);
+  background-size: 180% 180%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 8s ease infinite;
+}
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Soft border */
+.soft-border {
+  border: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
+}
+
+/* Tech marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.marquee-paused:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Focus ring */
+.focus-ring:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Reduced motion considerations */
+@media (prefers-reduced-motion: reduce) {
+  .gradient-title {
+    animation: none;
+  }
+  .marquee-track {
+    animation-duration: 0.001s;
+  }
+  .card-hover,
+  .hover-lift {
+    transition: none;
+  }
+}
+
+/* Typography */
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent), var(--muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Utility Classes */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
 }

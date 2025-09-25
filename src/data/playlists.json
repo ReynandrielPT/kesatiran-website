@@ -1,0 +1,90 @@
+[
+  {
+    "id": "ambient-collection",
+    "title": "Ambient Collection",
+    "description": "Curated ambient sounds for focus and relaxation",
+    "cover": "/media/audio/ambient-collection-cover.jpg",
+    "tracks": [
+      {
+        "id": "forest-rain",
+        "title": "Forest Rain",
+        "artist": "Kesatiran Audio",
+        "file": "/media/audio/forest-rain.mp3",
+        "cover": "/media/audio/forest-rain-cover.jpg",
+        "duration": "8:30"
+      },
+      {
+        "id": "ocean-waves",
+        "title": "Ocean Waves",
+        "artist": "Kesatiran Audio",
+        "file": "/media/audio/ocean-waves.mp3",
+        "cover": "/media/audio/ocean-waves-cover.jpg",
+        "duration": "10:15"
+      },
+      {
+        "id": "mountain-wind",
+        "title": "Mountain Wind",
+        "artist": "Kesatiran Audio",
+        "file": "/media/audio/mountain-wind.mp3",
+        "cover": "/media/audio/mountain-wind-cover.jpg",
+        "duration": "6:45"
+      }
+    ]
+  },
+  {
+    "id": "coding-sessions",
+    "title": "Coding Sessions",
+    "description": "Lo-fi beats and instrumental tracks for productive coding",
+    "cover": "/media/audio/coding-sessions-cover.jpg",
+    "tracks": [
+      {
+        "id": "midnight-code",
+        "title": "Midnight Code",
+        "artist": "Kesatiran Beats",
+        "file": "/media/audio/midnight-code.mp3",
+        "cover": "/media/audio/midnight-code-cover.jpg",
+        "duration": "4:20"
+      },
+      {
+        "id": "debug-dreams",
+        "title": "Debug Dreams",
+        "artist": "Kesatiran Beats",
+        "file": "/media/audio/debug-dreams.mp3",
+        "cover": "/media/audio/debug-dreams-cover.jpg",
+        "duration": "5:10"
+      },
+      {
+        "id": "algorithm-flow",
+        "title": "Algorithm Flow",
+        "artist": "Kesatiran Beats",
+        "file": "/media/audio/algorithm-flow.mp3",
+        "cover": "/media/audio/algorithm-flow-cover.jpg",
+        "duration": "3:55"
+      }
+    ]
+  },
+  {
+    "id": "focus-zone",
+    "title": "Focus Zone",
+    "description": "Minimal electronic sounds for deep concentration",
+    "cover": "/media/audio/focus-zone-cover.jpg",
+    "tracks": [
+      {
+        "id": "deep-focus",
+        "title": "Deep Focus",
+        "artist": "Kesatiran Electronic",
+        "file": "/media/audio/deep-focus.mp3",
+        "cover": "/media/audio/deep-focus-cover.jpg",
+        "duration": "7:30"
+      },
+      {
+        "id": "neural-network",
+        "title": "Neural Network",
+        "artist": "Kesatiran Electronic",
+        "file": "/media/audio/neural-network.mp3",
+        "cover": "/media/audio/neural-network-cover.jpg",
+        "duration": "6:15"
+      }
+    ]
+  }
+]

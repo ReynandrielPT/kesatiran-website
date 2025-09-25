@@ -1,0 +1,254 @@
+
+Implementation Plan — Styling & Page Feature Details
+(Use this as a prompt for UI/Frontend work — Next.js + R- Top section (Profile header)
+  - Hero banner with background pattern/gradient matching selected theme
+  - Large circular avatar (150px desktop, 120px mobile) with subtle border ring
+  - Personal information panel:
+    - Full name with custom typography treatment
+    - Current role/title and department
+    - Location and timezone (if applicable)
+    - "Years with team" or "Member since" badge
+    - Contact methods: email, social links with hover animations
+    - "Download Resume/CV" button (if available)
+- Story / About section
+  - Rich markdown/MDX content area supporting:
+    - Headings with theme-appropriate styling
+    - Embedded images with caption support
+    - Blockquotes with accent border
+    - Code snippets with syntax highlighting (if developer)
+    - Personal timeline/milestones
+  - Typography: readable line height 1.7, max-width 720px, justified margins
+- Professional Details
+  - Skills & Expertise:
+    - Categorized skill chips (Technical, Creative, Leadership, etc.)
+    - Proficiency indicators (beginner, intermediate, expert)
+    - Interactive hover states showing related projects
+  - Tools & Technologies:
+    - Icon grid with tool names and experience level
+    - Category filtering (Design Tools, Programming Languages, etc.)
+  - Career Highlights:
+    - Timeline layout of key achievements
+    - Expandable cards with project details
+    - Client testimonials or quotes (if applicable)
+- Related Works & Contributions
+  - Tabbed section showing different types of work:
+    - Projects: cards with thumbnail, title, role, and brief description
+    - Blog Posts/Articles: list with publication date and excerpt
+    - Speaking/Events: conferences, workshops, or presentations
+  - Each work item links to full details in main Works section
+  - Filter by collaboration type (solo, team lead, contributor)
+- Collaboration & Contact
+  - "Work with [Name]" section with:
+    - Preferred collaboration methods
+    - Availability status (available, busy, on leave)
+    - Best times to contact across timezones
+    - Project rate information (if freelancer/consultant)
+  - Quick contact form specifically for this member
+  - Calendar integration for scheduling meetings (if applicable)
+- Team Connections
+  - "Other team members [Name] works closely with" grid
+  - Shared projects and collaborations
+  - Cross-references to other member profilesnd-only)
+
+OVERVIEW
+- Purpose: Single-site portfolio for a personal "team circle" (members, profiles, works, audio, images, video, game list).
+- Themes: 3 theme families
+  1. Formal (light & dark)
+  2. Aesthetic / Cafe (light & dark)
+  3. Gaming (purple/black) — includes animated RGB strip decoration
+- Build: Frontend-only. Static content via JSON/MDX, media in /public/media.
+- Deliverable: Clear styling spec + page feature list so it can be used as a prompt for designers/developers.
+
+GLOBAL STYLING TOKENS
+- Spacing scale: 4,8,12,16,24,32,48,64 (use rem or px consistent across site)
+- Border radius: small 6px, medium 12px, large 24px
+- Elevation (shadows): subtle card shadow, medium modal shadow, pronounced floating element shadow
+- Breakpoints: mobile <640px, tablet 641–1024px, desktop >1024px
+- Typography:
+  - Primary: modern sans-serif (e.g., Inter / Poppins) for UI
+  - Accent / headers: optional serif for Aesthetic theme (e.g., Merriweather)
+  - Scale: h1 36–48px, h2 28–34px, h3 20–24px, body 16px, small 14px
+- Motion: short easing (200–350ms) for micro-interactions, 600ms for larger transitions (carousel, modals)
+- Accessibility: min contrast ratio 4.5:1 for body text, focus ring 3px visible color
+
+THEME COLOR TOKENS (variables)
+- Formal:
+  - light: --bg: #FFFFFF, --card: #F7F8FA, --text: #0F1724, --accent: #0B5FFF
+  - dark: --bg: #0B1220, --card: #0F1724, --text: #E6EEF8, --accent: #4F8DFE
+- Aesthetic (Cafe):
+  - light: --bg: #FFF8F2, --card: #FFF1E6, --text: #3E2F2F, --accent: #B87333
+  - dark: --bg: #221913, --card: #2B1F1A, --text: #F6EDE7, --accent: #D9A066
+- Gaming:
+  - base: --bg: #050507, --card: #0D0B10, --text: #EDEBFF, --accent: #7C3AED
+  - RGB strip uses animated gradient across neon colors (cyan, magenta, green, purple)
+- Notes: All theme colors exposed as CSS variables, used by Tailwind custom properties.
+
+GLOBAL COMPONENTS — STYLE GUIDELINES
+1. Navbar
+   - Layout: left logo, center nav links (or left if mobile), right theme selector + hamburger
+   - Height: 64px desktop, 56px tablet, sticky top
+   - Behavior: backdrop blur and slight shadow on scroll; active link underline accent color
+   - Mobile: slide-in panel with full-height menu
+
+2. Footer
+   - Compact, two columns on desktop (links + contact), stacked on mobile
+   - Social icons circular buttons, subtle hover scale
+
+3. Cards (Member / Work / Video)
+   - Padding: 16–20px; border-radius medium; hover: lift + soft shadow and slight translateY(-6px)
+   - Image: aspect ratio 4:3 or 16:9; object-fit cover; rounded corners matching card
+
+4. Buttons
+   - Primary: filled accent with subtle shadow, rounded-pill or medium radius
+   - Secondary: outline with border color = muted accent; ghost button for text-only actions
+   - Disabled: 50% opacity, cursor not-allowed
+
+4. Avatars / Profile photos
+   - Circular 96px desktop, 72px tablet, 56px mobile; border ring matching theme accent (2–3px)
+
+5. Forms / Inputs
+   - Rounded inputs, 48px height, label above or floating, clear focus ring (3px)
+   - Validation: subtle red text and red border on error
+
+INTERACTIONS & MOTION
+- Hover: 1.03 scale, translateY(-3px), shadow increase
+- Focus: visible ring using theme accent or neutral high-contrast color
+- Entrances: fade + upward slide for sections; lazy-load media with fade-in
+- Carousels: snap-to-center, drag-to-swipe on touch, left/right arrow controls, small page indicator
+
+PAGE-BY-PAGE DETAILS (STYLING + FEATURES)
+
+HOME (one long scroll)
+- Hero
+  - Layout: left column text + CTA buttons, right column portrait or graphic
+  - Short tagline, name/team title, 2 CTAs (Profile, Works)
+  - Styling: large display text, subtle gradient accent underline for name (changes by theme)
+- Member grid
+  - 3–4 column responsive grid; each MemberCard includes avatar, name, role, 1-line bio, social icons
+  - Hover: expand to show quick contact buttons
+  - Each card links to individual member profile page (/profile/[member-id])
+- Highlighted Works carousel (horizontal)
+  - Slide cards with thumbnail, title, short description, CTA “View”
+  - Controls: auto-play optional, pause on hover / interaction
+  - Styling: use box-glow on gaming theme for thumbnails
+- Games preview strip
+  - Horizontal list of small game cards: cover, title, platform tags
+  - Clicking shows modal with details or external link
+- Footer
+  - Compact contact info, social links, minimal sitemap
+
+TEAM MEMBERS (overview page at /team)
+- Page header with title "Our Team" and optional subtitle
+- Enhanced member grid (3–4 columns on desktop, 2 on tablet, 1 on mobile)
+  - Each TeamMemberCard includes:
+    - Large circular avatar (120px) with hover scale animation
+    - Full name and role/title
+    - 2-3 line bio preview with "Read more" link
+    - Skills/specialties tags (max 3 visible)
+    - Social media icons (GitHub, LinkedIn, Twitter, etc.)
+    - "View Profile" button that links to individual profile page
+  - Grid animations: stagger entrance animation on page load
+  - Filter/sort options: by role, skills, or alphabetical
+- Team statistics section (optional):
+  - Total projects completed, years of combined experience, etc.
+  - Small cards with numbers and icons
+- Call-to-action: "Want to work with us?" section with contact button
+
+PROFILE (individual member page at /profile/[member-id])
+- Breadcrumb navigation: Home > Team > [Member Name]
+- Top section (Profile header)
+  - Large circular avatar left, personal data right (name, role, location, contact icons)
+  - Background: subtle patterned texture for Aesthetic theme, simple gradient for Gaming, clean solid for Formal
+- Story / About
+  - Markdown/MDX content area with headings, images, blockquotes
+  - Typographic rhythm: line height 1.6, max-width ~720px
+- Skills & Tools
+  - Small chips / pills with icons
+- Related Works gallery
+  - Horizontal gallery (carousel) or masonry grid for images/videos
+- CTA block
+  - “Hire / Contact” or “Download resume” button (if applicable)
+
+WORKS
+- Page header with tabbed nav: Audio | Image | Visual
+- Audio section
+  - Layout: album/playlist carousel; cards show cover art, title, artist, track count
+  - Persistent docked AudioPlayer at bottom-right or full-width bottom (sticky)
+  - AudioPlayer features: play/pause, track scrub, time elapsed / duration, next/prev, shuffle, repeat, volume, queue display
+  - Styling: minimal control chrome, album art round thumbnail, keyboard shortcuts (space, arrow keys)
+- Image section
+  - Horizontal galleries separated by project
+  - ImageCard: caption overlay on hover, lazy load high-res
+  - Lightbox modal: navigable with left/right, supports pinch on touch
+- Visual (Video) section
+  - Grid of video cards; each card has play overlay, duration badge, tags
+  - Modal player uses HTML5 video or embed iframe; player area wide with dark overlay and centered controls
+  - Thumbnail hover: subtle frame animation (scale + shadow)
+
+GAME
+- Game listing: grid or horizontal tiles depending on count
+- Each tile: cover image, short description, tags (genre/platform), social / twitch / yt links
+- Optional: small embedded demo or trailer modal
+- When Gaming theme active: page gets RGBStrip decoration at top or border glow on tiles
+
+NAVIGATION & PERSISTENT UI
+- Navbar + Theme Selector persists across pages
+- Active nav link highlighted with emphasis on Team/Profile section
+- Progress indicator optionally shown while scrolling through Home
+- Breadcrumbs on Profile pages: Home > Team > [Member Name]
+- Member profile navigation:
+  - Previous/Next member buttons for easy browsing
+  - "Back to Team" floating action button
+  - Internal page navigation for long profiles (sticky sidebar with sections)
+
+MEDIA HANDLING & PERFORMANCE
+- Use `next/image` for responsive srcsets and lazy loading
+- Serve audio via `/public/media/audio` or CDN; prefer compressed formats (mp3, opus)
+- Video thumbnails pre-generated; stream videos with adaptive sizes (if hosted externally)
+- Defer heavy components (AudioPlayer, VideoModal) via dynamic import to reduce initial bundle
+
+AUDIO PLAYER — STYLING & UX
+- Docked sticky player on small screens, bottom-left or bottom-center
+- Visual: compact bar with thumbnail, track title, play controls, progress bar
+- Expanded view: large album art, queue list, extra controls (shuffle/repeat)
+- Keyboard support: Space toggles play/pause; left/right seek 5–10s
+- Persist playback state in localStorage (track index + time)
+
+CAROUSELS & GALLERIES (DETAILS)
+- Behavior: free-scroll on touch, snap to slide on release
+- Accessibility: aria-live for track change announcements; focus trap in modal
+- Controls: visible arrows on hover, always-visible small indicators on mobile
+- Slide size: responsive — 1.25–1.5 cards visible on desktop, single card on mobile
+
+LIGHTBOX / MODAL
+- Fullscreen overlay with center content, ESC to close, click outside to close
+- Animations: fade-in overlay + scale-in content
+- Lazy-load media only when modal opens
+- Show metadata area below media (title, description, tags, actions)
+
+FORMS / CONTACT (if plain frontend)
+- Simple contact form can POST to Formspree or use mailto as fallback
+- Inputs: name, email, subject, message; validation client-side
+- On success: show toast confirmation (slide down/up) and clear form
+
+ACCESSIBILITY MUST-HAVES
+- Semantic markup and landmarks
+- Focus states for interactive elements
+- Skip-to-content link for screen readers
+- Sufficient color contrast in all themes
+- Keyboard navigation for all modals, carousels, audio controls
+
+DELIVERABLE FORMAT FOR THE PROMPT
+- Provide the above text (copy as prompt) + example JSON snippets:
+  - members.json: id, name, slug, photo, avatar, role, department, location, bio_short, bio_long, skills, tools, social_links, contact_email, resume_url, member_since, availability_status, career_highlights, testimonials
+  - works.json: id, type, title, thumb, media, description, tags, contributors (member IDs), collaboration_type
+  - playlist.json: id, title, artist, file, cover, duration
+  - team-stats.json: total_members, combined_experience, projects_completed, clients_served
+- Member profile route structure: /team (overview), /profile/[member-slug] (individual)
+- Mention theme names and color variables explicitly so implementer can map tokens
+
+FINAL NOTES
+- Keep the prompt focused on UI styling rules and interactive features — avoid backend implementation.
+- Mention that all media will be static and stored under /public/media.
+- Indicate preference for Tailwind + CSS variables or plain CSS-in-JS if desired.
+
