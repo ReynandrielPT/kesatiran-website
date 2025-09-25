@@ -114,7 +114,7 @@ export default function TeamPage() {
       {/* Warm Intro */}
       <motion.section
         ref={warmIntroRef}
-        className="pt-20 px-6 mx-auto max-w-6xl"
+        className="pt-50 px-6 mx-auto max-w-6xl"
         initial={{ opacity: 0, y: 50 }}
         animate={warmIntroInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5 }}
