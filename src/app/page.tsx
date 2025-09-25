@@ -15,6 +15,7 @@ import {
   Sparkles,
   Clock,
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Home() {
   // Curate a lighter, more casual surface slice
@@ -36,21 +37,45 @@ export default function Home() {
       <section className="pt-24 px-6 mx-auto max-w-6xl">
         <div className="grid lg:grid-cols-[1.1fr_.9fr] gap-14 items-center">
           <div className="space-y-8">
-            <div className="flex items-center gap-2 text-sm font-medium text-accent uppercase tracking-wider">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-2 text-sm font-medium text-accent uppercase tracking-wider"
+            >
               <Sparkles size={16} /> Just a small friend circle
-            </div>
-            <h1 className="text-4xl md:text-6xl font-semibold leading-tight tracking-tighter">
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-6xl font-semibold leading-tight tracking-tighter"
+            >
               We make tiny things
               <span className="block text-muted-foreground">
                 that make us smile
               </span>
-            </h1>
-            <p className="text-base md:text-lg max-w-prose text-muted-foreground">
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="text-base md:text-lg max-w-prose text-muted-foreground"
+            >
               No pitch deck. No roadmap. Just a rotating pile of hobby projects,
               mini games, sketches & experiments while we study. Everything here
               is unfinished in a cozy way.
-            </p>
-            <div className="flex flex-wrap gap-3 pt-2">
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              viewport={{ once: true }}
+              className="flex flex-wrap gap-3 pt-2"
+            >
               <Link href="/team">
                 <Button variant="solid" size="md">
                   Meet the Circle
@@ -66,8 +91,14 @@ export default function Home() {
                   Games
                 </Button>
               </Link>
-            </div>
-            <div className="relative mt-4 pt-4">
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              viewport={{ once: true }}
+              className="relative mt-4 pt-4"
+            >
               <div className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg bg-secondary text-muted-foreground w-fit">
                 <Clock size={12} /> Currently{" "}
                 <span className="inline-flex overflow-hidden relative w-40 h-4">
@@ -80,42 +111,37 @@ export default function Home() {
                   </span>
                 </span>
               </div>
+            </motion.div>
+          </div>
+          {/* Single Circular Image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            viewport={{ once: true }}
+            className="flex justify-center items-center"
+          >
+            <div className="relative size-80 rounded-full overflow-hidden border-4 border-accent/40 shadow-lg">
+              <Image
+                src={members[0].avatar || members[0].photo}
+                alt={members[0].name}
+                fill
+                sizes="320px"
+                className="object-cover"
+              />
             </div>
-          </div>
-          {/* Avatar Collage */}
-          <div className="grid grid-cols-3 gap-4 relative">
-            {circle.map((m, i) => (
-              <Link
-                key={m.id}
-                href={`/profile/${m.slug}`}
-                className="group aspect-square rounded-lg overflow-hidden relative border border-border hover:border-accent/40 transition-all duration-300"
-              >
-                <Image
-                  src={m.avatar || m.photo}
-                  alt={m.name}
-                  fill
-                  sizes="120px"
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 flex items-end p-2.5 transition-opacity">
-                  <span className="text-xs font-medium text-white/90 truncate">
-                    {m.name.split(" ")[0]}
-                  </span>
-                </div>
-              </Link>
-            ))}
-            <Link
-              href="/team"
-              className="aspect-square rounded-lg flex items-center justify-center text-xs font-medium bg-secondary hover:bg-tertiary transition-colors border border-border"
-            >
-              + more
-            </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Recently made stuff */}
-      <section className="mx-auto max-w-6xl px-6 space-y-12">
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="mx-auto max-w-6xl px-6 space-y-12"
+      >
         <div className="space-y-2">
           <h2 className="text-2xl font-semibold flex items-center gap-3">
             <Briefcase size={22} /> Recent Little Projects
@@ -125,43 +151,57 @@ export default function Home() {
           </p>
         </div>
         <div className="grid sm:grid-cols-3 gap-6">
-          {recentProjects.map((p) => (
-            <Link key={p.id} href="/works" className="group">
-              <Card className="p-4 flex flex-col gap-4 h-full bg-secondary border border-border hover:border-accent/40 transition-all duration-300">
-                <div className="aspect-video relative rounded-md overflow-hidden">
-                  <Image
-                    src={p.thumb}
-                    alt={p.title}
-                    fill
-                    sizes="(max-width:768px) 100vw, 240px"
-                    className="object-cover group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-base font-semibold line-clamp-2 group-hover:text-accent transition-colors">
-                    {p.title}
-                  </h3>
-                  <div className="flex flex-wrap gap-1.5">
-                    {p.tags.slice(0, 2).map((t) => (
-                      <Badge key={t} size="sm" variant="secondary">
-                        {t}
-                      </Badge>
-                    ))}
-                    {p.tags.length > 2 && (
-                      <Badge size="sm" variant="outline">
-                        +{p.tags.length - 2}
-                      </Badge>
-                    )}
+          {recentProjects.map((p, i) => (
+            <motion.div
+              key={p.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              viewport={{ once: true }}
+            >
+              <Link href="/works" className="group">
+                <Card className="p-4 flex flex-col gap-4 h-full bg-secondary border border-border hover:border-accent/40 transition-all duration-300">
+                  <div className="aspect-video relative rounded-md overflow-hidden">
+                    <Image
+                      src={p.thumb}
+                      alt={p.title}
+                      fill
+                      sizes="(max-width:768px) 100vw, 240px"
+                      className="object-cover group-hover:scale-105 transition-transform"
+                    />
                   </div>
-                </div>
-              </Card>
-            </Link>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-base font-semibold line-clamp-2 group-hover:text-accent transition-colors">
+                      {p.title}
+                    </h3>
+                    <div className="flex flex-wrap gap-1.5">
+                      {p.tags.slice(0, 2).map((t) => (
+                        <Badge key={t} size="sm" variant="secondary">
+                          {t}
+                        </Badge>
+                      ))}
+                      {p.tags.length > 2 && (
+                        <Badge size="sm" variant="outline">
+                          +{p.tags.length - 2}
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              </Link>
+            </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* Games (small) */}
-      <section className="mx-auto max-w-6xl px-6 space-y-10">
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="mx-auto max-w-6xl px-6 space-y-10"
+      >
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-semibold flex items-center gap-3">
@@ -179,43 +219,57 @@ export default function Home() {
           </Link>
         </div>
         <div className="grid sm:grid-cols-2 gap-6">
-          {recentGames.map((g) => (
-            <Link key={g.id} href="/games" className="group">
-              <Card className="p-4 flex flex-col gap-4 h-full bg-secondary border border-border hover:border-accent/40 transition-all duration-300">
-                <div className="aspect-video relative rounded-md overflow-hidden">
-                  <Image
-                    src={g.cover}
-                    alt={g.title}
-                    fill
-                    sizes="(max-width:768px) 100vw, 320px"
-                    className="object-cover group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-base font-semibold line-clamp-2 group-hover:text-accent transition-colors">
-                    {g.title}
-                  </h3>
-                  <div className="flex flex-wrap gap-1.5">
-                    {g.tags.slice(0, 2).map((t) => (
-                      <Badge key={t} size="sm" variant="secondary">
-                        {t}
-                      </Badge>
-                    ))}
-                    {g.tags.length > 2 && (
-                      <Badge size="sm" variant="outline">
-                        +{g.tags.length - 2}
-                      </Badge>
-                    )}
+          {recentGames.map((g, i) => (
+            <motion.div
+              key={g.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              viewport={{ once: true }}
+            >
+              <Link href="/games" className="group">
+                <Card className="p-4 flex flex-col gap-4 h-full bg-secondary border border-border hover:border-accent/40 transition-all duration-300">
+                  <div className="aspect-video relative rounded-md overflow-hidden">
+                    <Image
+                      src={g.cover}
+                      alt={g.title}
+                      fill
+                      sizes="(max-width:768px) 100vw, 320px"
+                      className="object-cover group-hover:scale-105 transition-transform"
+                    />
                   </div>
-                </div>
-              </Card>
-            </Link>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-base font-semibold line-clamp-2 group-hover:text-accent transition-colors">
+                      {g.title}
+                    </h3>
+                    <div className="flex flex-wrap gap-1.5">
+                      {g.tags.slice(0, 2).map((t) => (
+                        <Badge key={t} size="sm" variant="secondary">
+                          {t}
+                        </Badge>
+                      ))}
+                      {g.tags.length > 2 && (
+                        <Badge size="sm" variant="outline">
+                          +{g.tags.length - 2}
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              </Link>
+            </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* Team Section */}
-      <section className="mx-auto max-w-6xl px-6 space-y-10">
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="mx-auto max-w-6xl px-6 space-y-10"
+      >
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-semibold flex items-center gap-3">
@@ -233,31 +287,39 @@ export default function Home() {
           </Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {members.slice(0, 4).map((member) => (
-            <Link
-              href={`/profile/${member.slug}`}
+          {members.slice(0, 4).map((member, i) => (
+            <motion.div
               key={member.id}
-              className="group"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              viewport={{ once: true }}
             >
-              <div className="bg-secondary rounded-lg p-4 text-center border border-border hover:border-accent/40 transition-all duration-300">
-                <Image
-                  src={member.avatar || member.photo}
-                  alt={member.name}
-                  width={80}
-                  height={80}
-                  className="rounded-full mx-auto mb-4 border-2 border-border group-hover:border-accent/60 transition-colors"
-                />
-                <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors">
-                  {member.name}
-                </h3>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {member.role.split(",")[0]}
-                </p>
-              </div>
-            </Link>
+              <Link
+                href={`/profile/${member.slug}`}
+                key={member.id}
+                className="group"
+              >
+                <div className="bg-secondary rounded-lg p-4 text-center border border-border hover:border-accent/40 transition-all duration-300">
+                  <Image
+                    src={member.avatar || member.photo}
+                    alt={member.name}
+                    width={80}
+                    height={80}
+                    className="rounded-full mx-auto mb-4 border-2 border-border group-hover:border-accent/60 transition-colors"
+                  />
+                  <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors">
+                    {member.name}
+                  </h3>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {member.role.split(",")[0]}
+                  </p>
+                </div>
+              </Link>
+            </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }
