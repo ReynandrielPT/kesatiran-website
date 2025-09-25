@@ -342,7 +342,7 @@ export default function GamesPage() {
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 filter === genre
                   ? "bg-accent text-accent-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted-hover hover:text-foreground"
+                  : "bg-secondary text-muted-foreground hover:bg-tertiary hover:text-foreground"
               }`}
             >
               {genre === "all" ? "All Games" : genre}
@@ -358,7 +358,7 @@ export default function GamesPage() {
             <Link
               href={`/games/${game.id}`}
               key={game.id}
-              className="bg-card rounded-lg overflow-hidden shadow-sm border border-border hover:shadow-md hover:border-accent/20 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-accent"
+              className="bg-secondary rounded-lg overflow-hidden border border-border hover:border-accent/40 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-accent"
             >
               {/* Game Cover */}
               <div className="relative aspect-[3/4] overflow-hidden">
@@ -369,10 +369,10 @@ export default function GamesPage() {
                 />
 
                 {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                   <div className="text-center">
-                    <Play className="w-12 h-12 text-white mx-auto mb-2" />
-                    <p className="text-white text-sm font-medium">
+                    <Play className="w-10 h-10 text-white mx-auto mb-2" />
+                    <p className="text-white text-xs font-medium">
                       View Details
                     </p>
                   </div>
@@ -398,65 +398,35 @@ export default function GamesPage() {
 
                 {/* Platforms */}
                 <div className="flex flex-wrap gap-1 mb-3">
-                  {game.platforms.slice(0, 3).map((platform) => (
-                    <span
-                      key={platform}
-                      className="px-2 py-1 bg-accent/10 text-accent text-xs rounded"
-                    >
-                      {platform}
-                    </span>
-                  ))}
-                  {game.platforms.length > 3 && (
-                    <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded">
-                      +{game.platforms.length - 3} more
-                    </span>
-                  )}
-                </div>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1">
-                  {game.tags.slice(0, 2).map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                  {game.tags.length > 2 && (
-                    <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded">
-                      +{game.tags.length - 2}
-                    </span>
-                  )}
+                  {game.platforms.map((platform) => {
+                    const Icon =
+                      platformIcons[platform as keyof typeof platformIcons] ||
+                      Monitor;
+                    return (
+                      <div
+                        key={platform}
+                        className="flex items-center gap-1.5 px-2 py-1 bg-tertiary rounded text-xs"
+                      >
+                        <Icon className="w-3.5 h-3.5 text-muted-foreground" />
+                        <span className="text-foreground">{platform}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </Link>
           ))}
         </div>
-
-        {/* Empty State */}
-        {filteredGames.length === 0 && (
-          <div className="text-center py-12">
-            <Gamepad2 className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-foreground mb-2">
-              No games found
-            </h3>
-            <p className="text-muted-foreground">
-              Try selecting a different genre or check back later for new
-              releases.
-            </p>
-          </div>
-        )}
       </div>
 
-      {/* Legacy modal left temporarily for reference (unused once dynamic page fully replaces) */}
-      {false && (
-        <GameModal
-          game={selectedGame!}
-          isOpen={!!selectedGame}
-          onClose={() => setSelectedGame(null)}
-        />
-      )}
+      {selectedGame &&
+        false && ( // disabled modal for now
+          <GameModal
+            game={selectedGame!}
+            isOpen={!!selectedGame}
+            onClose={() => setSelectedGame(null)}
+          />
+        )}
     </div>
   );
 }

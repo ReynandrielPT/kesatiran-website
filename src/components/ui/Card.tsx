@@ -25,17 +25,15 @@ export function Card({
 
   const variantMap = {
     glass: "glass-panel",
-    solid:
-      "bg-[var(--card)] border border-[color-mix(in_srgb,var(--foreground)_12%,transparent)]",
+    solid: "bg-secondary border border-border",
     ghost: "bg-transparent",
-    outline:
-      "bg-transparent border border-[color-mix(in_srgb,var(--foreground)_18%,transparent)]",
+    outline: "bg-transparent border border-border",
   };
 
   return (
     <div
       className={cn(
-        "relative rounded-xl overflow-hidden",
+        "relative rounded-lg overflow-hidden",
         variantMap[variant],
         paddingMap[padding],
         interactive && "card-hover",

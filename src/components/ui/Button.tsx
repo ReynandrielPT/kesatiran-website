@@ -13,7 +13,7 @@ export interface ButtonProps
     | "subtle"
     | "gradient"
     | "destructive";
-  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  size?: "xs" | "sm" | "md" | "lg" | "xl" | "icon";
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
@@ -32,14 +32,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       rightIcon,
       children,
       disabled,
-      pill = true,
+      pill = false,
       fullWidth = false,
       ...props
     },
     ref
   ) => {
     const baseStyles =
-      "relative font-medium inline-flex items-center justify-center gap-2 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--accent)] disabled:opacity-55 disabled:cursor-not-allowed active:scale-[.97] transition-all duration-200";
+      "relative font-medium inline-flex items-center justify-center gap-2 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent disabled:opacity-55 disabled:cursor-not-allowed active:scale-[.97] transition-all duration-200";
 
     const sizeStyles: Record<string, string> = {
       xs: "h-7 px-3 text-[11px]",
@@ -47,17 +47,15 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       md: "h-10 px-5 text-sm",
       lg: "h-12 px-7 text-base",
       xl: "h-14 px-9 text-lg",
+      icon: "h-9 w-9 text-sm",
     };
 
     const variantStyles: Record<string, string> = {
-      solid:
-        "bg-[var(--accent)] text-white shadow-sm hover:shadow-md hover:brightness-[1.05]",
+      solid: "bg-accent text-accent-foreground shadow-sm hover:bg-accent/90",
       outline:
-        "border border-[color-mix(in_srgb,var(--accent)_60%,transparent)] text-[var(--accent)] hover:bg-[color-mix(in_srgb,var(--accent)_12%,transparent)]",
-      ghost:
-        "text-[var(--accent)] hover:bg-[color-mix(in_srgb,var(--accent)_15%,transparent)]/40",
-      subtle:
-        "bg-[color-mix(in_srgb,var(--accent)_12%,transparent)] text-[var(--accent)] hover:bg-[color-mix(in_srgb,var(--accent)_18%,transparent)]",
+        "border border-border bg-transparent hover:bg-tertiary hover:text-foreground",
+      ghost: "bg-transparent hover:bg-tertiary hover:text-foreground",
+      subtle: "bg-tertiary text-foreground hover:bg-secondary",
       gradient:
         "text-white bg-[linear-gradient(120deg,#6366f1,#8b5cf6,#ec4899,#f59e0b)] bg-[length:180%_180%] animate-[gradientShift_8s_ease_infinite] shadow-md hover:shadow-lg",
       destructive:

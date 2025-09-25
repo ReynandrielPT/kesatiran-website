@@ -4,166 +4,186 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
 
-interface MemberCardProps {
-  member: {
-    id: string;
-    name: string;
-    slug: string;
-    avatar: string;
-    role: string;
-    bio_short: string;
-    social_links: Record<string, string>;
-    skills?: Array<{ name: string; category: string; level: string }>;
-  };
-  className?: string;
+interface RawMember {
+  id: string;
+  name: string;
+  slug: string;
+  avatar?: string;
+  photo?: string; // some data objects have photo as fallback
+  role: string;
+  bio_short: string;
+  social_links: Record<string, string>;
+  skills?: Array<{ name: string; category: string; level: string }>;
+  availability_status?: string;
+}
+
+interface MemberCardProps extends React.HTMLAttributes<HTMLDivElement> {
+  member: RawMember;
   showSkills?: boolean;
+  compact?: boolean; // smaller layout variant
+}
+
+// Helper: choose first letter (or 2 if short) for social chip fallback
+function platformLabel(platform: string) {
+  if (platform.length <= 3) return platform.toUpperCase();
+  return platform[0].toUpperCase();
 }
 
 export function MemberCard({
   member,
-  className,
   showSkills = false,
+  compact = false,
+  className,
+  ...rest
 }: MemberCardProps) {
+  const avatar = member.avatar || member.photo || "/media/team/placeholder.jpg";
+  const isOnline = member.availability_status === "available";
+  const SkillLimit = compact ? 2 : 3;
+
   return (
-    <div
+    <Card
       className={cn(
-        "group relative overflow-hidden rounded-xl p-6 transition-all duration-300 hover-lift",
+        "group flex flex-col h-full transition-all duration-300",
+        "bg-secondary border border-border hover:border-accent/40",
+        compact ? "p-4" : "p-6",
         className
       )}
-      style={{
-        backgroundColor: "var(--card)",
-        color: "var(--text)",
-        boxShadow: "var(--shadow)",
-      }}
+      {...rest}
     >
-      {/* Avatar */}
-      <div className="flex justify-center mb-4">
-        <div className="relative">
+      <div
+        className={cn(
+          "flex",
+          compact ? "items-center gap-4" : "flex-col items-center gap-5"
+        )}
+      >
+        {/* Avatar */}
+        <div
+          className={cn(
+            "relative rounded-lg overflow-hidden",
+            compact ? "h-14 w-14" : "h-24 w-24"
+          )}
+        >
           <Image
-            src={member.avatar}
+            src={avatar}
             alt={member.name}
-            width={96}
-            height={96}
-            className="rounded-full object-cover transition-transform duration-300 group-hover:scale-110"
-            style={{
-              boxShadow: "0 0 0 4px var(--accent)",
-            }}
+            fill
+            sizes={compact ? "56px" : "96px"}
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          {/* Online status indicator */}
-          <div
-            className="absolute bottom-2 right-2 h-6 w-6 rounded-full border-4 border-white"
-            style={{ backgroundColor: "var(--accent)" }}
-          />
+          {/* Presence dot */}
+          {isOnline && (
+            <div className="absolute bottom-1 right-1">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Heading + role (layout switches depending on compact) */}
+        <div
+          className={cn("text-center", compact && "text-left flex-1 min-w-0")}
+        >
+          <h3
+            className={cn(
+              "font-semibold tracking-tight text-foreground group-hover:text-accent",
+              compact ? "text-base" : "text-lg"
+            )}
+          >
+            {member.name}
+          </h3>
+          <p
+            className={cn(
+              "text-muted-foreground truncate max-w-[14rem] mx-auto",
+              compact ? "text-xs mt-0.5" : "text-sm mt-1",
+              compact && "mx-0"
+            )}
+          >
+            {member.role}
+          </p>
         </div>
       </div>
 
-      {/* Info */}
-      <div className="text-center">
-        <h3
-          className="text-xl font-semibold mb-1"
-          style={{ color: "var(--text)" }}
-        >
-          {member.name}
-        </h3>
-        <p
-          className="text-sm font-medium mb-3"
-          style={{ color: "var(--accent)" }}
-        >
-          {member.role}
-        </p>
-        <p
-          className="text-sm leading-relaxed mb-4"
-          style={{ color: "var(--muted)" }}
-        >
-          {member.bio_short}
-        </p>
-
-        {/* Skills (optional) */}
-        {showSkills && member.skills && (
-          <div className="mb-4">
-            <div className="flex flex-wrap gap-1 justify-center">
-              {member.skills.slice(0, 3).map((skill) => (
-                <span
-                  key={skill.name}
-                  className="px-2 py-1 text-xs rounded-full"
-                  style={{
-                    backgroundColor: "var(--accent)",
-                    color: "white",
-                  }}
-                >
-                  {skill.name}
-                </span>
-              ))}
-              {member.skills.length > 3 && (
-                <span
-                  className="px-2 py-1 text-xs rounded-full"
-                  style={{
-                    backgroundColor: "var(--muted)",
-                    color: "white",
-                  }}
-                >
-                  +{member.skills.length - 3}
-                </span>
-              )}
-            </div>
-          </div>
+      {/* Bio */}
+      <p
+        className={cn(
+          "text-muted-foreground flex-1",
+          compact ? "text-xs mt-3" : "text-sm text-center mt-4"
         )}
+      >
+        {member.bio_short}
+      </p>
 
-        {/* Social Links */}
-        <div className="flex justify-center space-x-3 mb-4">
+      {/* Skills */}
+      {showSkills && member.skills && member.skills.length > 0 && (
+        <div
+          className={cn(
+            "flex flex-wrap gap-1.5",
+            compact ? "mt-3" : "mt-5 justify-center"
+          )}
+        >
+          {member.skills.slice(0, SkillLimit).map((skill) => (
+            <Badge
+              key={skill.name}
+              variant="secondary"
+              size={compact ? "sm" : "md"}
+            >
+              {skill.name}
+            </Badge>
+          ))}
+          {member.skills.length > SkillLimit && (
+            <Badge variant="secondary" size={compact ? "sm" : "md"}>
+              +{member.skills.length - SkillLimit} more
+            </Badge>
+          )}
+        </div>
+      )}
+
+      {/* Socials + Profile Button */}
+      <div
+        className={cn(
+          "flex items-center",
+          compact ? "mt-4 gap-2" : "mt-6 flex-col gap-4"
+        )}
+      >
+        <div
+          className={cn(
+            "flex items-center gap-2",
+            compact ? "order-2 ml-auto" : "order-1"
+          )}
+        >
           {Object.entries(member.social_links)
-            .slice(0, 3)
+            .slice(0, 4)
             .map(([platform, url]) => (
-              <a
+              <Button
                 key={platform}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
-                style={{
-                  backgroundColor: "var(--bg)",
-                  color: "var(--muted)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "var(--accent)";
-                  e.currentTarget.style.color = "white";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "var(--bg)";
-                  e.currentTarget.style.color = "var(--muted)";
-                }}
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-accent"
               >
-                <span className="text-xs font-bold">
-                  {platform.charAt(0).toUpperCase()}
-                </span>
-              </a>
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                  {platformLabel(platform)}
+                </a>
+              </Button>
             ))}
         </div>
 
-        {/* View Profile Button */}
-        <Link
-          href={`/profile/${member.slug}`}
-          className="inline-block px-6 py-2 text-sm font-medium rounded-full transition-all duration-200"
-          style={{
-            backgroundColor: "var(--accent)",
-            color: "white",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "translateY(-2px)";
-            e.currentTarget.style.boxShadow = "var(--shadow-lg)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "var(--shadow)";
-          }}
+        <Button
+          variant="outline"
+          className={cn(
+            "border-border",
+            compact ? "order-1" : "order-2 w-full"
+          )}
+          size={compact ? "sm" : "md"}
         >
-          View Profile
-        </Link>
+          <Link href={`/profile/${member.slug}`}>View Profile</Link>
+        </Button>
       </div>
-
-      {/* Hover overlay effect */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl" />
-    </div>
+    </Card>
   );
 }

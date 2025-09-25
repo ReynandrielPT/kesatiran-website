@@ -33,41 +33,43 @@ export default function Home() {
   return (
     <div className="min-h-screen pb-24 space-y-24">
       {/* Hero – softer, personal */}
-      <section className="pt-16 px-6 mx-auto max-w-6xl">
-        <div className="grid lg:grid-cols-[1.1fr_.9fr] gap-14 items-start">
-          <div className="space-y-7">
-            <div className="flex items-center gap-2 text-[11px] font-medium text-[var(--accent)]">
-              <Sparkles size={14} /> just a small friend circle
+      <section className="pt-24 px-6 mx-auto max-w-6xl">
+        <div className="grid lg:grid-cols-[1.1fr_.9fr] gap-14 items-center">
+          <div className="space-y-8">
+            <div className="flex items-center gap-2 text-sm font-medium text-accent uppercase tracking-wider">
+              <Sparkles size={16} /> Just a small friend circle
             </div>
-            <h1 className="text-4xl md:text-6xl font-semibold leading-[1.05] tracking-[-1px]">
-              <span className="block">we make tiny things</span>
-              <span className="block opacity-80">that make us smile</span>
+            <h1 className="text-4xl md:text-6xl font-semibold leading-tight tracking-tighter">
+              We make tiny things
+              <span className="block text-muted-foreground">
+                that make us smile
+              </span>
             </h1>
-            <p className="text-sm md:text-base max-w-prose text-[color-mix(in_srgb,var(--foreground)_70%,transparent)]">
+            <p className="text-base md:text-lg max-w-prose text-muted-foreground">
               No pitch deck. No roadmap. Just a rotating pile of hobby projects,
               mini games, sketches & experiments while we study. Everything here
               is unfinished in a cozy way.
             </p>
-            <div className="flex flex-wrap gap-3 pt-1">
+            <div className="flex flex-wrap gap-3 pt-2">
               <Link href="/team">
-                <Button variant="gradient" size="sm" pill>
-                  meet the circle
+                <Button variant="solid" size="md">
+                  Meet the Circle
                 </Button>
               </Link>
               <Link href="/works">
-                <Button variant="outline" size="sm" pill>
-                  projects
+                <Button variant="outline" size="md">
+                  Projects
                 </Button>
               </Link>
               <Link href="/games">
-                <Button variant="ghost" size="sm" pill>
-                  games
+                <Button variant="ghost" size="md">
+                  Games
                 </Button>
               </Link>
             </div>
-            <div className="relative mt-4">
-              <div className="flex items-center gap-2 text-[11px] px-3 py-2 rounded-full bg-[color-mix(in_srgb,var(--accent)_12%,transparent)] text-[color-mix(in_srgb,var(--accent)_85%,transparent)] w-fit">
-                <Clock size={12} /> currently{" "}
+            <div className="relative mt-4 pt-4">
+              <div className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg bg-secondary text-muted-foreground w-fit">
+                <Clock size={12} /> Currently{" "}
                 <span className="inline-flex overflow-hidden relative w-40 h-4">
                   <span className="animate-[statusSlide_10s_linear_infinite] absolute inset-0 flex flex-col justify-start">
                     {statusPhrases.map((p) => (
@@ -81,22 +83,22 @@ export default function Home() {
             </div>
           </div>
           {/* Avatar Collage */}
-          <div className="grid grid-cols-3 sm:grid-cols-3 gap-4 relative">
+          <div className="grid grid-cols-3 gap-4 relative">
             {circle.map((m, i) => (
               <Link
                 key={m.id}
                 href={`/profile/${m.slug}`}
-                className="group aspect-square rounded-xl overflow-hidden relative ring-1 ring-inset ring-[color-mix(in_srgb,var(--foreground)_12%,transparent)] hover:ring-[var(--accent)]/50 transition"
+                className="group aspect-square rounded-lg overflow-hidden relative border border-border hover:border-accent/40 transition-all duration-300"
               >
                 <Image
                   src={m.avatar || m.photo}
                   alt={m.name}
                   fill
                   sizes="120px"
-                  className="object-cover group-hover:scale-105 transition duration-300"
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-end p-2 transition">
-                  <span className="text-[11px] font-medium text-white/90 truncate">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 flex items-end p-2.5 transition-opacity">
+                  <span className="text-xs font-medium text-white/90 truncate">
                     {m.name.split(" ")[0]}
                   </span>
                 </div>
@@ -104,7 +106,7 @@ export default function Home() {
             ))}
             <Link
               href="/team"
-              className="aspect-square rounded-xl flex items-center justify-center text-xs font-medium bg-[color-mix(in_srgb,var(--foreground)_6%,transparent)] hover:bg-[color-mix(in_srgb,var(--foreground)_12%,transparent)] transition ring-1 ring-inset ring-[color-mix(in_srgb,var(--foreground)_12%,transparent)]"
+              className="aspect-square rounded-lg flex items-center justify-center text-xs font-medium bg-secondary hover:bg-tertiary transition-colors border border-border"
             >
               + more
             </Link>
@@ -115,38 +117,38 @@ export default function Home() {
       {/* Recently made stuff */}
       <section className="mx-auto max-w-6xl px-6 space-y-12">
         <div className="space-y-2">
-          <h2 className="text-lg font-semibold flex items-center gap-2">
-            <Briefcase size={18} /> recent little projects
+          <h2 className="text-2xl font-semibold flex items-center gap-3">
+            <Briefcase size={22} /> Recent Little Projects
           </h2>
-          <p className="text-xs opacity-60 max-w-sm">
+          <p className="text-sm text-muted-foreground max-w-sm">
             Half-finished things we still like enough to show.
           </p>
         </div>
         <div className="grid sm:grid-cols-3 gap-6">
           {recentProjects.map((p) => (
             <Link key={p.id} href="/works" className="group">
-              <Card className="p-3 flex flex-col gap-3 h-full">
-                <div className="aspect-video relative rounded-md overflow-hidden bg-[color-mix(in_srgb,var(--foreground)_8%,transparent)]">
+              <Card className="p-4 flex flex-col gap-4 h-full bg-secondary border border-border hover:border-accent/40 transition-all duration-300">
+                <div className="aspect-video relative rounded-md overflow-hidden">
                   <Image
                     src={p.thumb}
                     alt={p.title}
                     fill
                     sizes="(max-width:768px) 100vw, 240px"
-                    className="object-cover group-hover:scale-[1.03] transition"
+                    className="object-cover group-hover:scale-105 transition-transform"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <h3 className="text-sm font-semibold line-clamp-2">
+                  <h3 className="text-base font-semibold line-clamp-2 group-hover:text-accent transition-colors">
                     {p.title}
                   </h3>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-1.5">
                     {p.tags.slice(0, 2).map((t) => (
-                      <Badge key={t} size="xs" variant="soft">
+                      <Badge key={t} size="sm" variant="secondary">
                         {t}
                       </Badge>
                     ))}
                     {p.tags.length > 2 && (
-                      <Badge size="xs" variant="outline">
+                      <Badge size="sm" variant="outline">
                         +{p.tags.length - 2}
                       </Badge>
                     )}
@@ -162,45 +164,45 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-6 space-y-10">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold flex items-center gap-2">
-              <Gamepad2 size={18} /> quick little games
+            <h2 className="text-2xl font-semibold flex items-center gap-3">
+              <Gamepad2 size={22} /> Quick Little Games
             </h2>
-            <p className="text-xs opacity-60 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               Break-time loops & tiny mechanics.
             </p>
           </div>
           <Link
             href="/games"
-            className="text-[11px] text-[var(--accent)] hover:underline flex items-center gap-1"
+            className="text-sm text-accent hover:underline flex items-center gap-1.5"
           >
-            all games <ArrowRight size={12} />
+            All Games <ArrowRight size={14} />
           </Link>
         </div>
         <div className="grid sm:grid-cols-2 gap-6">
           {recentGames.map((g) => (
             <Link key={g.id} href="/games" className="group">
-              <Card className="p-3 flex flex-col gap-3 h-full">
-                <div className="aspect-video relative rounded-md overflow-hidden bg-[color-mix(in_srgb,var(--foreground)_8%,transparent)]">
+              <Card className="p-4 flex flex-col gap-4 h-full bg-secondary border border-border hover:border-accent/40 transition-all duration-300">
+                <div className="aspect-video relative rounded-md overflow-hidden">
                   <Image
                     src={g.cover}
                     alt={g.title}
                     fill
                     sizes="(max-width:768px) 100vw, 320px"
-                    className="object-cover group-hover:scale-[1.03] transition"
+                    className="object-cover group-hover:scale-105 transition-transform"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <h3 className="text-sm font-semibold line-clamp-2">
+                  <h3 className="text-base font-semibold line-clamp-2 group-hover:text-accent transition-colors">
                     {g.title}
                   </h3>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-1.5">
                     {g.tags.slice(0, 2).map((t) => (
-                      <Badge key={t} size="xs" variant="soft">
+                      <Badge key={t} size="sm" variant="secondary">
                         {t}
                       </Badge>
                     ))}
                     {g.tags.length > 2 && (
-                      <Badge size="xs" variant="outline">
+                      <Badge size="sm" variant="outline">
                         +{g.tags.length - 2}
                       </Badge>
                     )}
@@ -212,54 +214,48 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Gentle navigation tiles */}
-      <section className="mx-auto max-w-6xl px-6">
-        <div className="grid sm:grid-cols-3 gap-5">
-          <Link href="/team" className="group">
-            <Card className="p-5 flex flex-col gap-3 h-full">
-              <div className="flex items-center gap-2 text-sm font-medium">
-                <Users size={16} /> members
-              </div>
-              <p className="text-[11px] opacity-65">friendly bios & roles</p>
-              <span className="mt-auto text-[11px] text-[var(--accent)] flex items-center gap-1">
-                open
-                <ArrowRight
-                  size={12}
-                  className="transition -translate-x-1 group-hover:translate-x-0"
-                />
-              </span>
-            </Card>
+      {/* Team Section */}
+      <section className="mx-auto max-w-6xl px-6 space-y-10">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-semibold flex items-center gap-3">
+              <Users size={22} /> The Circle
+            </h2>
+            <p className="text-sm text-muted-foreground mt-1">
+              A few of the friends behind the projects.
+            </p>
+          </div>
+          <Link
+            href="/team"
+            className="text-sm text-accent hover:underline flex items-center gap-1.5"
+          >
+            Full Team <ArrowRight size={14} />
           </Link>
-          <Link href="/works" className="group">
-            <Card className="p-5 flex flex-col gap-3 h-full">
-              <div className="flex items-center gap-2 text-sm font-medium">
-                <Briefcase size={16} /> projects
-              </div>
-              <p className="text-[11px] opacity-65">unfinished & cozy</p>
-              <span className="mt-auto text-[11px] text-[var(--accent)] flex items-center gap-1">
-                open
-                <ArrowRight
-                  size={12}
-                  className="transition -translate-x-1 group-hover:translate-x-0"
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {members.slice(0, 4).map((member) => (
+            <Link
+              href={`/profile/${member.slug}`}
+              key={member.id}
+              className="group"
+            >
+              <div className="bg-secondary rounded-lg p-4 text-center border border-border hover:border-accent/40 transition-all duration-300">
+                <Image
+                  src={member.avatar || member.photo}
+                  alt={member.name}
+                  width={80}
+                  height={80}
+                  className="rounded-full mx-auto mb-4 border-2 border-border group-hover:border-accent/60 transition-colors"
                 />
-              </span>
-            </Card>
-          </Link>
-          <Link href="/games" className="group">
-            <Card className="p-5 flex flex-col gap-3 h-full">
-              <div className="flex items-center gap-2 text-sm font-medium">
-                <Gamepad2 size={16} /> games
+                <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors">
+                  {member.name}
+                </h3>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {member.role.split(",")[0]}
+                </p>
               </div>
-              <p className="text-[11px] opacity-65">play a tiny loop</p>
-              <span className="mt-auto text-[11px] text-[var(--accent)] flex items-center gap-1">
-                open
-                <ArrowRight
-                  size={12}
-                  className="transition -translate-x-1 group-hover:translate-x-0"
-                />
-              </span>
-            </Card>
-          </Link>
+            </Link>
+          ))}
         </div>
       </section>
     </div>

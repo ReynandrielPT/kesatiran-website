@@ -37,26 +37,26 @@ export default function TeamPage() {
       {/* Warm Intro */}
       <section className="pt-20 px-6 mx-auto max-w-6xl">
         <div className="space-y-8">
-          <div className="flex items-center gap-2 text-[11px] font-medium text-[var(--accent)]">
-            <Sparkles size={14} /> our little circle
+          <div className="flex items-center gap-2 text-sm font-medium text-accent">
+            <Sparkles size={16} /> OUR LITTLE CIRCLE
           </div>
-          <div className="max-w-2xl space-y-4">
-            <h1 className="text-4xl sm:text-5xl font-semibold leading-[1.05] tracking-tight">
-              people behind the tiny things
+          <div className="max-w-3xl space-y-4">
+            <h1 className="text-4xl sm:text-5xl font-semibold leading-tight tracking-tighter">
+              People behind the tiny things
             </h1>
-            <p className="text-sm sm:text-base text-[color-mix(in_srgb,var(--foreground)_70%,transparent)]">
+            <p className="text-base sm:text-lg text-muted-foreground">
               Not a formal org chart—just friends building and doodling on the
               internet while sharing music links, snack pics and half-finished
               ideas.
             </p>
           </div>
           {/* Avatar strip */}
-          <div className="flex -space-x-4 overflow-hidden">
+          <div className="flex -space-x-4 overflow-hidden pt-4">
             {membersData.slice(0, 12).map((m: any) => (
               <Link
                 key={m.id}
                 href={`/profile/${m.slug}`}
-                className="relative inline-block h-14 w-14 rounded-full ring-2 ring-[var(--background)] hover:z-20"
+                className="relative inline-block h-14 w-14 rounded-full ring-2 ring-background hover:z-20 transition-transform hover:scale-110"
               >
                 <Image
                   src={m.avatar || m.photo}
@@ -74,26 +74,30 @@ export default function TeamPage() {
       {/* Simple tag filters */}
       <section className="px-6 mx-auto max-w-6xl space-y-6">
         <div className="flex flex-wrap gap-2 items-center">
-          <Button
-            size="xs"
-            variant={activeTag === "all" ? "gradient" : "outline"}
-            pill
+          <button
             onClick={() => setActiveTag("all")}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              activeTag === "all"
+                ? "bg-accent text-accent-foreground"
+                : "bg-secondary text-muted-foreground hover:bg-tertiary hover:text-foreground"
+            }`}
           >
-            all
-          </Button>
+            All
+          </button>
           {tags.map((t) => (
-            <Button
+            <button
               key={t}
-              size="xs"
-              variant={activeTag === t ? "solid" : "outline"}
-              pill
               onClick={() => setActiveTag(t)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors capitalize ${
+                activeTag === t
+                  ? "bg-accent text-accent-foreground"
+                  : "bg-secondary text-muted-foreground hover:bg-tertiary hover:text-foreground"
+              }`}
             >
               {t}
-            </Button>
+            </button>
           ))}
-          <div className="flex items-center gap-1 text-[11px] opacity-60 ml-2">
+          <div className="flex items-center gap-1 text-xs text-muted-foreground/60 ml-2">
             <Filter size={12} /> filter vibe
           </div>
         </div>
