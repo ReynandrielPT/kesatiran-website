@@ -1,54 +1,217 @@
 
-Implementation Plan — Styling & Page Feature Details
-(Use this as a prompt for UI/Frontend work — Next.js + R- Top section (Profile header)
-  - Hero banner with background pattern/gradient matching selected theme
-  - Large circular avatar (150px desktop, 120px mobile) with subtle border ring
-  - Personal information panel:
-    - Full name with custom typography treatment
-    - Current role/title and department
-    - Location and timezone (if applicable)
-    - "Years with team" or "Member since" badge
-    - Contact methods: email, social links with hover animations
-    - "Download Resume/CV" button (if available)
-- Story / About section
-  - Rich markdown/MDX content area supporting:
-    - Headings with theme-appropriate styling
-    - Embedded images with caption support
-    - Blockquotes with accent border
-    - Code snippets with syntax highlighting (if developer)
-    - Personal timeline/milestones
-  - Typography: readable line height 1.7, max-width 720px, justified margins
-- Professional Details
-  - Skills & Expertise:
-    - Categorized skill chips (Technical, Creative, Leadership, etc.)
-    - Proficiency indicators (beginner, intermediate, expert)
-    - Interactive hover states showing related projects
-  - Tools & Technologies:
-    - Icon grid with tool names and experience level
-    - Category filtering (Design Tools, Programming Languages, etc.)
-  - Career Highlights:
-    - Timeline layout of key achievements
-    - Expandable cards with project details
-    - Client testimonials or quotes (if applicable)
-- Related Works & Contributions
-  - Tabbed section showing different types of work:
-    - Projects: cards with thumbnail, title, role, and brief description
-    - Blog Posts/Articles: list with publication date and excerpt
-    - Speaking/Events: conferences, workshops, or presentations
-  - Each work item links to full details in main Works section
-  - Filter by collaboration type (solo, team lead, contributor)
-- Collaboration & Contact
-  - "Work with [Name]" section with:
-    - Preferred collaboration methods
-    - Availability status (available, busy, on leave)
-    - Best times to contact across timezones
-    - Project rate information (if freelancer/consultant)
-  - Quick contact form specifically for this member
-  - Calendar integration for scheduling meetings (if applicable)
-- Team Connections
-  - "Other team members [Name] works closely with" grid
-  - Shared projects and collaborations
-  - Cross-references to other member profilesnd-only)
+Implementation Plan (Updated)
+Last updated: 2025-09-25
+
+Purpose of this doc
+Give a concise, implementation-ready map of how the site is structured NOW (post casual / friend‑circle redesign) plus what is intentionally deferred. This replaces the earlier corporate/portfolio oriented plan. Anything not listed here is either intentionally removed or out of scope.
+
+--------------------------------------------------------------------------------
+1. Core Vision & Tone
+--------------------------------------------------------------------------------
+We are a small friend circle making things together. The site should feel:
+- warm, informal, lowercase, slightly playful
+- light, breathable spacing, low cognitive load
+- no corporate résumé language (no career highlights, clients served, testimonials, hire us CTA)
+- focuses on: who we are, what we’re tinkering with, creative artifacts (songs / images / motion)
+
+Eliminated concepts from old plan: career timeline, testimonials, pricing, availability status blocks, download CV, formal stats KPIs.
+
+--------------------------------------------------------------------------------
+2. Tech Stack Snapshot
+--------------------------------------------------------------------------------
+- Framework: Next.js 15 (App Router)
+- React 19 (using `use(params)` pattern for dynamic profile routes)
+- Styling: Tailwind + CSS custom properties (design tokens in `globals.css`)
+- Data: static JSON under `src/data/*` (no backend). Media under `public/media/*`.
+- Components: custom lightweight UI primitives (`Button`, `Card`, `Badge`, `Section`, `Marquee` (currently optional / might be reintroduced), plus contextual pieces like `Navbar`, `Footer` (pending), `MemberCard` (legacy style, pending refresh).
+- State: simple React state + a `ThemeContext` for theme family switching.
+
+--------------------------------------------------------------------------------
+3. Works Taxonomy (Updated)
+--------------------------------------------------------------------------------
+Underlying data still uses `type` values: `audio`, `image`, `visual`.
+UI labels now map as:
+  audio  -> "songs"   (loops, ambient, lo‑fi, anything sonic)
+  image  -> "gallery" (photography, posters, design frames, 3d stills)
+  visual -> "video"   (motion pieces, animation tests, narrated demos)
+
+Rationale: keep the existing data structure (no migration needed) but surface friendlier, art-centric labels. Future (optional) sub‑filters could derive from tags (e.g., tag: photography, render, poster).
+
+--------------------------------------------------------------------------------
+4. Current Page Inventory & Intent
+--------------------------------------------------------------------------------
+HOME (`/`)
+  - Collage / cluster vibe intro (avatars or abstract group shape)
+  - Short status / “what we’re up to” ticker
+  - Curated recent things (a few works or games) – intentionally lightweight
+  - No metrics, no corporate pitch
+
+TEAM (`/team`)
+  - Friendly intro paragraph
+  - Avatar strip / grid (playful overlap / soft depth)
+  - Lightweight member cards (name, tiny bio, a couple tags) – (Refactor pending to align with new Card styling)
+
+PROFILE (`/profile/[slug]`)
+  - Large avatar + short bio + fun facts chips
+  - Minimal related works preview (not exhaustive, just flavor)
+  - Prev / next navigation between members
+
+WORKS (`/works`)
+  - Tabs: songs | gallery | video (maps to audio/image/visual)
+  - Songs: compact horizontal track rows + sticky bottom mini player
+  - Gallery: project blocks with internal lightbox (current implementation: simple; future: unify styling & add per-media lazy blur)
+  - Video: static preview cards (future: inline modal player w/ accessible focus trap)
+
+GAMES (`/games`)
+  - Simple list/grid (future: unify card tokens + optional tag filters)
+
+FOOTER (pending)
+  - Minimal, playful: small tagline, social link pills, year, tiny “made by us” note
+
+--------------------------------------------------------------------------------
+5. Design Tokens (Live Baseline)
+--------------------------------------------------------------------------------
+Spacing scale (rem based where possible): 0.25,0.5,0.75,1,1.5,2,3,4 (maps to 4px–64px)
+Radius: xs 4px, sm 6px, md 10px, lg 16px, xl 24px, pill = full
+Shadows: `--shadow-card`, `--shadow-float` (soft layered, no harsh drop)
+Color roles (abstract): background, foreground, muted, border, card, accent, accent-foreground, danger, ring.
+Motion prefs: default transitions 160–220ms ease-out; respect `prefers-reduced-motion` (fade/translate disabled or simplified).
+Focus: 2px outline + 2px offset ring using accent (no inner glow).
+
+--------------------------------------------------------------------------------
+6. Theming Strategy
+--------------------------------------------------------------------------------
+Theme families (current placeholders — names can evolve):
+  cozy (soft warm neutrals / subtle grain)
+  midnight (dark with slight saturated accent)
+  neon (playful vibrant highlight; used sparingly to avoid gamer-overload)
+
+Implementation: `data-theme` attribute toggles CSS variables; Tailwind utilities reference them. Avoid theme-specific hard-coded hex in components.
+
+--------------------------------------------------------------------------------
+7. Component Architecture (Active)
+--------------------------------------------------------------------------------
+Primitives:
+  Button  – variant & size system
+  Card    – surface container + subtle depth
+  Badge   – inline accent label / pill
+  Section – structural wrapper with consistent vertical rhythm
+  (Marquee retained but currently unused – can be resurrected for playful loops)
+
+Work-Specific: audio row (inline progress for active track), sticky player
+Media Lightbox: simple image viewer (enhance w/ keyboard & focus mgmt roadmap below)
+
+Pending Refactors:
+  MemberCard: convert legacy markup to Card + tokens
+  Games cards: unify hover & depth + tag pill usage
+  Video cards: convert to Card + add play overlay aria-label
+
+--------------------------------------------------------------------------------
+8. Accessibility Roadmap
+--------------------------------------------------------------------------------
+Implemented:
+  - Basic aria labels on audio play/pause buttons
+  - Focus rings through global token
+
+Planned:
+  - Keyboard navigation for lightbox (Esc, ←, →, trap focus)
+  - Announce track change via aria-live region
+  - Ensure tab order clarity (avoid duplicated play buttons if redundant)
+  - Add `prefers-reduced-motion` conditionals for ticker / hover scale
+  - Contrast audit for all theme permutations
+
+Stretch:
+  - Add simple skip-to-content link in layout
+  - Provide invisible heading landmarks for screen readers (e.g., “songs section”)
+
+--------------------------------------------------------------------------------
+9. Data Model (Current + Suggested Fields)
+--------------------------------------------------------------------------------
+members.json (simplified vs old corporate spec):
+  id, slug, name, avatar, bio_short, bio_long?, fun_facts[], tags[], socials { github?, instagram?, twitter? }, related_works? [workId]
+
+works.json:
+  id, type (audio|image|visual), title, thumb, media, description, tags[], contributors[], collaboration_type (solo|team), gallery?[], duration? (audio), artist? (audio)
+
+games.json:
+  id, title, thumb?, description, tags[], link?, status? (prototype, released)
+
+playlists.json (if retained): consider merging into works audio category unless distinct playlist UX emerges.
+
+team-stats.json: legacy; now optional or removed (no corporate metrics). Keep only if lightly repurposed (e.g., total members) without business framing.
+
+--------------------------------------------------------------------------------
+10. Roadmap Snapshot
+--------------------------------------------------------------------------------
+COMPLETED (key): navbar redesign, casual home, team & profile tone shift, audio compact list + sticky player, works tab relabel, removal of formal/informatics language.
+
+ACTIVE / TODO:
+  1. Footer minimal redesign
+  2. MemberCard modernization (Card + playful tags + consistent spacing)
+  3. Unify Works gallery & video card styling (shared tokens, consistent radii & hover)
+  4. Accessibility enhancements (lightbox keyboard, aria-live, reduced motion)
+  5. Documentation / contribution notes (how to add a member/work, theme token reference)
+
+OPTIONAL FUTURE:
+  - Audio queue / next/previous real functionality
+  - Video modal player component (accessible)
+  - Tag filtering (client side) for gallery & games
+  - Persistent theme + last played track in localStorage
+
+DE-SCOPED (explicit): resumes, CV download, business metrics, testimonials, availability statuses, pricing, client logos.
+
+--------------------------------------------------------------------------------
+11. Contribution Guidelines (Lightweight)
+--------------------------------------------------------------------------------
+Adding a work:
+  - Place media under `public/media/works/...`
+  - Add entry to `works.json` (ensure unique id; keep type stable; add tags for potential future filtering)
+
+Adding a song (audio):
+  - Prefer compressed (mp3/ogg/opus). Large base64 inline data should be replaced with actual file when available.
+
+Adding a member:
+  - Add avatar image in `public/media/members/` (optimize ~ <200KB)
+  - Update `members.json` (keep only friendly tags, no corporate roles)
+
+Styling rules:
+  - Keep text lowercase except proper nouns.
+  - Avoid introducing heavy glassmorphism layering beyond subtle blur already present.
+  - Use design tokens; never hard-coded theme hex inside JSX.
+
+Testing passes:
+  - Check tab order manually.
+  - Toggle themes for contrast regression.
+  - Resize: mobile narrow to large desktop.
+
+--------------------------------------------------------------------------------
+12. Future Enhancements Outline (Acceptance Hints)
+--------------------------------------------------------------------------------
+Footer: gradient hairline top border, flex wrap of social pills, 1-line vibe sentence.
+Lightbox: add keyboard nav & aria roles; trap focus inside; ESC closes.
+Audio queue: simple array of current filtered songs; next/prev wires to skip buttons.
+Reduced motion: disable collage animation & marquee (if reintroduced) when user prefers reduced motion.
+
+--------------------------------------------------------------------------------
+13. Implementation Notes / Pitfalls
+--------------------------------------------------------------------------------
+Route params: using React 19 `use(params)` — avoid mixing with older `useRouter().query` patterns.
+Avoid giant base64 audio embed in production; replace with file for performance (current sample tracks are placeholder).
+When refactoring MemberCard, ensure no hydration mismatch by keeping conditional logic client-safe.
+If introducing dynamic imports (e.g., video modal), wrap in `dynamic(..., { ssr: false })` only if needed; prefer SSR-safe first.
+
+--------------------------------------------------------------------------------
+14. Minimal Success Criteria (Now)
+--------------------------------------------------------------------------------
+1. Pages load without TypeScript errors.
+2. Works tabs switch instantly; audio play/pause reliable; no uncaught promise rejection on autoplay attempt.
+3. Lightbox opens and closes; no scroll bleed (future: add body scroll lock).
+4. Focus outline visible on all interactive elements.
+5. No lingering corporate copy (CV, hire, clients, etc.).
+
+--------------------------------------------------------------------------------
+END OF PLAN
+--------------------------------------------------------------------------------
 
 OVERVIEW
 - Purpose: Single-site portfolio for a personal "team circle" (members, profiles, works, audio, images, video, game list).
