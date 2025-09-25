@@ -170,5 +170,65 @@
         "company": "CloudFirst Inc"
       }
     ]
+  },
+  {
+    "id": "member-4",
+    "name": "Alice Johnson",
+    "slug": "alice-johnson",
+    "photo": "/media/team/placeholder.jpg",
+    "avatar": "/media/team/placeholder-avatar.jpg",
+    "role": "Frontend Developer",
+    "department": "Engineering",
+    "bio_short": "Frontend enthusiast with a knack for responsive design and modern JavaScript frameworks.",
+    "skills": [
+      { "name": "React", "category": "Frontend", "level": "intermediate" },
+      { "name": "CSS", "category": "Frontend", "level": "expert" }
+    ]
+  },
+  {
+    "id": "member-5",
+    "name": "Bob Williams",
+    "slug": "bob-williams",
+    "photo": "/media/team/placeholder.jpg",
+    "avatar": "/media/team/placeholder-avatar.jpg",
+    "role": "Backend Developer",
+    "department": "Engineering",
+    "bio_short": "Building robust and scalable backend systems with a focus on performance and security.",
+    "skills": [
+      { "name": "Node.js", "category": "Backend", "level": "intermediate" },
+      { "name": "Databases", "category": "Backend", "level": "intermediate" }
+    ]
+  },
+  {
+    "id": "member-6",
+    "name": "Charlie Brown",
+    "slug": "charlie-brown",
+    "photo": "/media/team/placeholder.jpg",
+    "avatar": "/media/team/placeholder-avatar.jpg",
+    "role": "Product Manager",
+    "department": "Product",
+    "bio_short": "Driving product vision and strategy, ensuring alignment with user needs and business goals.",
+    "skills": [
+      { "name": "Product Strategy", "category": "Product", "level": "expert" },
+      { "name": "Agile", "category": "Methodology", "level": "expert" }
+    ]
+  },
+  {
+    "id": "member-7",
+    "name": "Diana Prince",
+    "slug": "diana-prince",
+    "photo": "/media/team/placeholder.jpg",
+    "avatar": "/media/team/placeholder-avatar.jpg",
+    "role": "QA Engineer",
+    "department": "Quality Assurance",
+    "bio_short": "Ensuring high-quality software delivery through meticulous testing and quality assurance processes.",
+    "skills": [
+      { "name": "Manual Testing", "category": "QA", "level": "expert" },
+      {
+        "name": "Automation Testing",
+        "category": "QA",
+        "level": "intermediate"
+      }
+    ]
   }
 ]
