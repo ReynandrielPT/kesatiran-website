@@ -144,9 +144,7 @@ export default function TeamPage() {
               internet while sharing music links, snack pics and half-finished
               ideas.
             </p>
-            <p className="text-sm text-muted-foreground">
-              Total members: {membersData.length}
-            </p>
+            <p className="text-sm text-muted-foreground">Total members: 7</p>
           </motion.div>
           {/* Avatar strip */}
           <motion.div
@@ -313,117 +311,6 @@ export default function TeamPage() {
           </motion.div>
         </div>
       </motion.section>
-
-      {/* Simple tag filters */}
-      <section className="px-6 mx-auto max-w-6xl space-y-6">
-        <div className="flex flex-wrap gap-2 items-center">
-          <button
-            onClick={() => setActiveTag("all")}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              activeTag === "all"
-                ? "bg-accent text-accent-foreground"
-                : "bg-secondary text-muted-foreground hover:bg-tertiary hover:text-foreground"
-            }`}
-          >
-            All
-          </button>
-          {tags.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTag(t)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors capitalize ${
-                activeTag === t
-                  ? "bg-accent text-accent-foreground"
-                  : "bg-secondary text-muted-foreground hover:bg-tertiary hover:text-foreground"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
-          <div className="flex items-center gap-1 text-xs text-muted-foreground/60 ml-2">
-            <Filter size={12} /> filter vibe
-          </div>
-        </div>
-      </section>
-
-      {/* Member Grid – lighter cards */}
-      <section className="px-6 mx-auto max-w-6xl">
-        <motion.div
-          ref={memberGridRef}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate={memberGridInView ? "show" : "hidden"}
-        >
-          {filtered.map((m: RawMember) => (
-            <motion.div key={m.id} variants={itemVariants}>
-              <Link href={`/profile/${m.slug}`} className="group">
-                <Card className="p-5 flex flex-col gap-5 h-full">
-                  <div className="flex items-center gap-4">
-                    <div className="relative h-16 w-16 rounded-xl overflow-hidden ring-1 ring-[color-mix(in_srgb,var(--foreground)_15%,transparent)] group-hover:ring-[var(--accent)]/60 transition">
-                      <Image
-                        src={m.avatar || m.photo || ""}
-                        alt={m.name}
-                        fill
-                        sizes="64px"
-                        className="object-cover group-hover:scale-[1.05] transition"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-semibold truncate">
-                        {m.name}
-                      </h3>
-                      <p className="text-[11px] opacity-60 truncate">
-                        {m.role}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-[11px] leading-relaxed line-clamp-3 opacity-70">
-                    {m.bio_short}
-                  </p>
-                  <div className="flex flex-wrap gap-1 mt-auto">
-                    {m.skills?.slice(0, 3).map((s: Skill) => (
-                      <Badge key={s.name} size="xs" variant="soft">
-                        {s.name}
-                      </Badge>
-                    ))}
-                    {m.skills && m.skills.length > 3 && (
-                      <Badge size="xs" variant="outline">
-                        +{m.skills.length - 3}
-                      </Badge>
-                    )}
-                  </div>
-                </Card>
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
-        {filtered.length === 0 && (
-          <div className="text-center py-24 text-sm opacity-60">
-            nobody under that tag right now
-          </div>
-        )}
-      </section>
-
-      {/* Friendly footer blurb inside page (main site footer can still exist) */}
-      <section className="px-6 mx-auto max-w-6xl pt-10">
-        <div className="rounded-2xl p-8 bg-[color-mix(in_srgb,var(--foreground)_4%,transparent)] ring-1 ring-[color-mix(in_srgb,var(--foreground)_10%,transparent)] flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-          <div className="flex-1 space-y-2">
-            <h2 className="text-base font-semibold flex items-center gap-2">
-              <Users size={16} /> circle energy
-            </h2>
-            <p className="text-[12px] opacity-70 leading-relaxed max-w-md">
-              we cheer for each other's half-finished stuff & random ideas.
-              profiles are just snapshots; ask us what we're poking at now.
-            </p>
-          </div>
-          <Link href="/">
-            <Button variant="outline" size="sm" pill>
-              back home
-            </Button>
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }
