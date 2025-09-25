@@ -75,19 +75,19 @@ function GameModal({ game, isOpen, onClose }: GameModalProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 bg-background/95 backdrop-blur-md z-50 flex items-center justify-center p-4"
       onClick={onClose}
     >
       <div
-        className="bg-card rounded-lg max-w-4xl max-h-[90vh] overflow-auto shadow-xl"
+        className="bg-card rounded-xl max-w-4xl max-h-[90vh] overflow-auto shadow-2xl border border-border"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 bg-card border-b border-border p-6 flex items-center justify-between">
+        <div className="sticky top-0 bg-card/95 backdrop-blur-sm border-b border-border p-6 flex items-center justify-between rounded-t-xl">
           <h2 className="text-2xl font-bold text-foreground">{game.title}</h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-muted rounded-full transition-colors"
+            className="p-2 hover:bg-secondary rounded-full transition-colors text-muted-foreground hover:text-foreground"
           >
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
@@ -110,7 +110,7 @@ function GameModal({ game, isOpen, onClose }: GameModalProps) {
                     href={game.links.trailer}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 bg-black/75 hover:bg-black/90 text-white px-6 py-3 rounded-lg transition-colors"
+                    className="flex items-center gap-2 bg-accent hover:bg-accent/80 text-accent-foreground px-6 py-3 rounded-lg transition-colors"
                   >
                     <Play className="w-5 h-5" />
                     Watch Trailer
@@ -334,15 +334,15 @@ export default function GamesPage() {
 
       {/* Filter Controls */}
       <div className="container mx-auto px-6 py-6">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-3">
           {genres.map((genre) => (
             <button
               key={genre}
               onClick={() => setFilter(genre)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border ${
                 filter === genre
-                  ? "bg-accent text-accent-foreground"
-                  : "bg-secondary text-muted-foreground hover:bg-tertiary hover:text-foreground"
+                  ? "bg-accent text-accent-foreground border-accent shadow-lg shadow-accent/20"
+                  : "bg-card/80 backdrop-blur-sm text-muted-foreground border-border hover:bg-card hover:text-foreground hover:border-accent/30 hover:shadow-md"
               }`}
             >
               {genre === "all" ? "All Games" : genre}
@@ -358,21 +358,21 @@ export default function GamesPage() {
             <Link
               href={`/games/${game.id}`}
               key={game.id}
-              className="bg-secondary rounded-lg overflow-hidden border border-border hover:border-accent/40 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-accent"
+              className="panel overflow-hidden transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-accent hover:-translate-y-1 hover:shadow-md"
             >
               {/* Game Cover */}
               <div className="relative aspect-[3/4] overflow-hidden">
                 <img
                   src={game.cover}
                   alt={game.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
 
                 {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div className="absolute inset-0 bg-background/70 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                   <div className="text-center">
-                    <Play className="w-10 h-10 text-white mx-auto mb-2" />
-                    <p className="text-white text-xs font-medium">
+                    <Play className="w-10 h-10 text-foreground mx-auto mb-2" />
+                    <p className="text-foreground text-xs font-medium">
                       View Details
                     </p>
                   </div>
@@ -380,7 +380,7 @@ export default function GamesPage() {
 
                 {/* Genre Badge */}
                 <div className="absolute top-2 left-2">
-                  <span className="px-2 py-1 bg-black/75 text-white text-xs rounded">
+                  <span className="px-2 py-1 bg-background/75 text-foreground text-xs rounded backdrop-blur-sm border border-border/50">
                     {game.genre}
                   </span>
                 </div>
@@ -397,7 +397,7 @@ export default function GamesPage() {
                 </p>
 
                 {/* Platforms */}
-                <div className="flex flex-wrap gap-1 mb-3">
+                <div className="flex flex-wrap gap-2 mb-3">
                   {game.platforms.map((platform) => {
                     const Icon =
                       platformIcons[platform as keyof typeof platformIcons] ||
@@ -405,10 +405,12 @@ export default function GamesPage() {
                     return (
                       <div
                         key={platform}
-                        className="flex items-center gap-1.5 px-2 py-1 bg-tertiary rounded text-xs"
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-secondary/80 backdrop-blur-sm rounded-full text-xs border border-border/50"
                       >
                         <Icon className="w-3.5 h-3.5 text-muted-foreground" />
-                        <span className="text-foreground">{platform}</span>
+                        <span className="text-foreground font-medium">
+                          {platform}
+                        </span>
                       </div>
                     );
                   })}

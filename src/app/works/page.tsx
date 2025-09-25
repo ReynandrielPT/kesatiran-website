@@ -161,17 +161,17 @@ export default function WorksPage() {
       </div>
 
       {/* Tabbed Navigation */}
-      <div className="border-b border-border">
+      <div className="border-b border-border bg-card/30 backdrop-blur-sm">
         <div className="container mx-auto px-6">
           <nav className="flex space-x-8" aria-label="Works sections">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                className={`py-4 px-2 border-b-2 font-medium text-sm transition-all duration-300 ${
                   activeTab === tab.id
-                    ? "border-accent text-accent"
-                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-muted"
+                    ? "border-accent text-accent bg-accent/5"
+                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-accent/50 hover:bg-accent/5"
                 }`}
               >
                 {tab.label} ({tab.count})
@@ -189,21 +189,23 @@ export default function WorksPage() {
             <p className="text-xs text-muted-foreground px-1">
               small loops & ambient bits we use while hanging out or coding.
             </p>
-            <div className="space-y-3">
+            <div className="space-y-3 enter-fade">
               {audioWorks.map((work) => {
                 const active = audioPlayer.currentTrack?.id === work.id;
                 return (
                   <div
                     key={work.id}
-                    className={`group flex items-center gap-4 rounded-lg border px-4 py-3 bg-secondary/50 backdrop-blur-sm transition hover:bg-secondary ${
-                      active ? "border-accent/60" : "border-border"
+                    className={`group panel flex items-center gap-4 px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 ${
+                      active
+                        ? "ring-1 ring-accent/30 shadow-md border-accent/50"
+                        : "hover:border-accent/30"
                     }`}
                   >
                     {/* Thumbnail & play */}
                     <button
                       onClick={() => playTrack(work)}
-                      className={`relative h-14 w-14 flex-shrink-0 rounded-md overflow-hidden ring-1 ring-border hover:ring-accent/50 transition focus:outline-none focus:ring-2 focus:ring-accent ${
-                        active ? "ring-accent/50" : ""
+                      className={`relative h-14 w-14 flex-shrink-0 rounded-lg overflow-hidden ring-1 ring-border hover:ring-accent/50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent hover:scale-105 ${
+                        active ? "ring-accent/50 scale-105" : ""
                       }`}
                       aria-label={
                         active && audioPlayer.isPlaying
@@ -216,11 +218,11 @@ export default function WorksPage() {
                         alt={work.title}
                         className="h-full w-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                      <div className="absolute inset-0 bg-background/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                         {active && audioPlayer.isPlaying ? (
-                          <Pause className="w-5 h-5 text-white" />
+                          <Pause className="w-5 h-5 text-foreground" />
                         ) : (
-                          <Play className="w-5 h-5 text-white" />
+                          <Play className="w-5 h-5 text-foreground" />
                         )}
                       </div>
                       {active && (
@@ -279,8 +281,8 @@ export default function WorksPage() {
                     {/* Play/Pause standalone for accessibility */}
                     <button
                       onClick={() => playTrack(work)}
-                      className={`p-2 rounded-full transition text-accent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent ${
-                        active ? "bg-accent/10" : ""
+                      className={`p-3 rounded-full transition-all duration-300 text-accent hover:bg-accent/15 focus:outline-none focus:ring-2 focus:ring-accent hover:scale-110 ${
+                        active ? "bg-accent/15 scale-110" : ""
                       }`}
                       aria-label={
                         active && audioPlayer.isPlaying
@@ -311,13 +313,13 @@ export default function WorksPage() {
             {imageWorks.map((work) => (
               <div
                 key={work.id}
-                className="bg-secondary rounded-lg p-6 border border-border"
+                className="panel p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="mb-6">
                   <h3 className="font-semibold text-xl text-foreground mb-2">
                     {work.title}
                   </h3>
-                  <p className="text-muted-foreground mb-4">
+                  <p className="text-muted-foreground mb-4 leading-relaxed">
                     {work.description}
                   </p>
 
@@ -325,7 +327,7 @@ export default function WorksPage() {
                     {work.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-1 bg-accent/10 text-accent text-xs rounded-full"
+                        className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full border border-accent/20"
                       >
                         {tag}
                       </span>
@@ -339,7 +341,7 @@ export default function WorksPage() {
                     work.gallery.map((imageSrc, index) => (
                       <div
                         key={index}
-                        className="relative aspect-square overflow-hidden rounded-md cursor-pointer hover:scale-105 transition-transform"
+                        className="relative aspect-square overflow-hidden rounded-lg cursor-pointer hover:scale-105 transition-all duration-300 ring-1 ring-border/50 hover:ring-accent/50 group"
                         onClick={() => openLightbox(imageSrc, work.gallery)}
                       >
                         <img
@@ -347,14 +349,14 @@ export default function WorksPage() {
                           alt={`${work.title} - ${index + 1}`}
                           className="w-full h-full object-cover"
                         />
-                        <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 hover:opacity-100">
-                          <Maximize2 className="w-8 h-8 text-white" />
+                        <div className="absolute inset-0 bg-background/0 group-hover:bg-background/20 backdrop-blur-[1px] transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                          <Maximize2 className="w-8 h-8 text-foreground" />
                         </div>
                       </div>
                     ))
                   ) : (
                     <div
-                      className="relative aspect-square overflow-hidden rounded-md cursor-pointer hover:scale-105 transition-transform"
+                      className="relative aspect-square overflow-hidden rounded-lg cursor-pointer hover:scale-105 transition-all duration-300 ring-1 ring-border/50 hover:ring-accent/50 group"
                       onClick={() => openLightbox(work.media)}
                     >
                       <img
@@ -362,8 +364,8 @@ export default function WorksPage() {
                         alt={work.title}
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 hover:opacity-100">
-                        <Maximize2 className="w-8 h-8 text-white" />
+                      <div className="absolute inset-0 bg-background/0 group-hover:bg-background/20 backdrop-blur-[1px] transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                        <Maximize2 className="w-8 h-8 text-foreground" />
                       </div>
                     </div>
                   )}
@@ -382,7 +384,7 @@ export default function WorksPage() {
             {visualWorks.map((work) => (
               <div
                 key={work.id}
-                className="bg-secondary rounded-lg p-6 border border-border hover:shadow-md transition-shadow"
+                className="panel p-6 transition-shadow hover:shadow-md"
               >
                 <div className="relative mb-6">
                   <img
@@ -390,10 +392,10 @@ export default function WorksPage() {
                     alt={work.title}
                     className="w-full aspect-video object-cover rounded-md"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
-                    <Play className="w-16 h-16 text-white" />
+                  <div className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-md rounded-lg opacity-0 hover:opacity-100 transition-all duration-300 cursor-pointer group">
+                    <Play className="w-16 h-16 text-foreground group-hover:scale-110 transition-transform" />
                   </div>
-                  <div className="absolute bottom-2 right-2 bg-black/75 text-white px-2 py-1 rounded text-sm">
+                  <div className="absolute bottom-3 right-3 bg-card/80 text-foreground px-3 py-1.5 rounded-lg text-sm backdrop-blur-sm border border-border/50 shadow-lg">
                     Video Demo
                   </div>
                 </div>
@@ -513,7 +515,7 @@ export default function WorksPage() {
       {/* Lightbox Modal */}
       {lightboxImage && (
         <div
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-background/95 backdrop-blur-md z-50 flex items-center justify-center p-4"
           onClick={closeLightbox}
         >
           <div
@@ -523,7 +525,7 @@ export default function WorksPage() {
             <img
               src={lightboxImage}
               alt="Lightbox"
-              className="max-w-full max-h-full object-contain"
+              className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
             />
 
             {/* Navigation */}
@@ -531,13 +533,13 @@ export default function WorksPage() {
               <>
                 <button
                   onClick={() => navigateLightbox("prev")}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 hover:bg-black/75 rounded-full text-white transition-colors"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full text-foreground hover:text-accent transition-all shadow-lg"
                 >
                   <SkipBack className="w-6 h-6" />
                 </button>
                 <button
                   onClick={() => navigateLightbox("next")}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 hover:bg-black/75 rounded-full text-white transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full text-foreground hover:text-accent transition-all shadow-lg"
                 >
                   <SkipForward className="w-6 h-6" />
                 </button>
@@ -547,14 +549,14 @@ export default function WorksPage() {
             {/* Close Button */}
             <button
               onClick={closeLightbox}
-              className="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/75 rounded-full text-white transition-colors"
+              className="absolute top-4 right-4 p-3 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full text-foreground hover:text-accent transition-all shadow-lg"
             >
               ×
             </button>
 
             {/* Image Counter */}
             {lightboxGallery.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 px-3 py-1 rounded-full text-white text-sm">
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-card/80 backdrop-blur-sm border border-border/50 px-3 py-1 rounded-full text-foreground text-sm shadow">
                 {lightboxIndex + 1} / {lightboxGallery.length}
               </div>
             )}

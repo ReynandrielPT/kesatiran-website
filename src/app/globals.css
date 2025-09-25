@@ -99,39 +99,42 @@
 
 /* Light Theme (neutral friendly) */
 [data-theme="light"] {
-  --background: #f2f4f8; /* slightly dimmer base to increase contrast */
-  --foreground: #111722; /* darker for readability */
-  --card: #ffffff;
-  --card-foreground: #161c26;
+  /* Maximum contrast for light mode readability */
+  --background: #eceff3; /* a touch darker/warmer than pure cool white */
+  --foreground: #0a1117; /* much darker body text for strong contrast */
+  --foreground-soft: #1a2530; /* optional mid tone */
+  --heading-color: #050a0f; /* near-black for maximum heading readability */
+  --card: #f9fafb; /* slightly off-white card */
+  --card-foreground: var(--foreground);
   --popover: #ffffff;
-  --popover-foreground: #161c26;
-  --primary: #4f55e3; /* a touch deeper than #6366f1 */
+  --popover-foreground: var(--foreground);
+  --primary: #3c45c4; /* darker primary for better contrast */
   --primary-foreground: #ffffff;
-  --secondary: #e5e9f1; /* reduce brightness */
-  --secondary-foreground: #1a2029;
-  --muted: #c9d0dc;
-  --muted-foreground: #4d5663;
-  --accent: #4f55e3;
+  --secondary: #dbe1e9; /* darker secondary surface */
+  --secondary-foreground: #0d1419; /* much darker secondary text */
+  --muted: #c3ccd6; /* lower contrast muted bg */
+  --muted-foreground: #2a3641; /* much darker muted text */
+  --accent: #3c45c4;
   --accent-foreground: #ffffff;
-  --destructive: #c62828;
+  --destructive: #ba2525;
   --destructive-foreground: #ffffff;
-  --border: #d4dae3; /* darker border */
-  --input: #c2c9d4;
-  --ring: #4f55e3;
-  --shadow-sm: 0 1px 2px rgba(20, 24, 32, 0.08),
-    0 0 0 1px rgba(20, 24, 32, 0.04);
-  --shadow-md: 0 4px 10px -2px rgba(25, 32, 45, 0.12),
-    0 2px 4px -2px rgba(25, 32, 45, 0.08);
-  --shadow-lg: 0 8px 22px -6px rgba(25, 32, 45, 0.18),
-    0 4px 10px -4px rgba(25, 32, 45, 0.12);
-  --decor-bg: linear-gradient(140deg, #ffffff 0%, #eef2f7 55%, #e1e7f0 100%);
+  --border: #c5ccd5; /* stronger border for separation */
+  --input: #bcc4ce;
+  --ring: #4650d9;
+  --shadow-sm: 0 1px 2px rgba(12, 18, 26, 0.07),
+    0 0 0 1px rgba(12, 18, 26, 0.05);
+  --shadow-md: 0 4px 10px -2px rgba(15, 22, 32, 0.12),
+    0 2px 4px -2px rgba(15, 22, 32, 0.08);
+  --shadow-lg: 0 8px 22px -6px rgba(18, 26, 38, 0.18),
+    0 4px 10px -4px rgba(18, 26, 38, 0.12);
+  --decor-bg: linear-gradient(140deg, #f5f7fa 0%, #eef2f7 55%, #e3e8ef 100%);
   --decor-overlay: radial-gradient(
-    circle at 32% 24%,
-    rgba(79, 85, 227, 0.14),
-    transparent 62%
+    circle at 30% 22%,
+    rgba(70, 80, 217, 0.12),
+    transparent 60%
   );
-  --elevation: 0 4px 22px -4px rgba(50, 60, 90, 0.15),
-    0 2px 6px -2px rgba(50, 60, 90, 0.12);
+  --elevation: 0 4px 22px -4px rgba(40, 55, 75, 0.14),
+    0 2px 6px -2px rgba(40, 55, 75, 0.12);
   --font-sans: "Inter", system-ui, sans-serif;
   --font-display: "Poppins", var(--font-sans);
   --heading-weight: 700;
@@ -140,18 +143,19 @@
 
 /* Dark Theme (refined midnight) */
 [data-theme="dark"] {
-  --background: #0b0d11;
-  --foreground: #f0f2f7;
-  --card: #14171d;
-  --card-foreground: #e6e8ee;
-  --popover: #14171d;
-  --popover-foreground: #e6e8ee;
+  --background: #0c1015;
+  --foreground: #f1f4f9;
+  --heading-color: #ffffff; /* bright white for dark mode headings */
+  --card: #181e26; /* lightened from #14171d */
+  --card-foreground: #e9ecf2;
+  --popover: #181e26;
+  --popover-foreground: #e9ecf2;
   --primary: #6366f1;
   --primary-foreground: #ffffff;
-  --secondary: #1e2229;
-  --secondary-foreground: #e6e8ee;
-  --muted: #2a3038;
-  --muted-foreground: #8c95a5;
+  --secondary: #202730; /* lightened from #1e2229 */
+  --secondary-foreground: #e9ecf2;
+  --muted: #313843; /* lightened */
+  --muted-foreground: #94a0b1;
   --accent: #818cf8;
   --accent-foreground: #101319;
   --destructive: #ef4444;
@@ -177,18 +181,19 @@
 /* Aesthetic (light) – soft cafe */
 [data-theme="aesthetic"] {
   --background: #faf7f4;
-  --foreground: #26211b;
+  --foreground: #1a140f; /* much darker for better readability */
+  --heading-color: #0f0b08; /* near-black for headings */
   --card: #ffffff;
-  --card-foreground: #2a261f;
+  --card-foreground: #1a140f;
   --popover: #ffffff;
-  --popover-foreground: #2a261f;
-  --primary: #d97757;
+  --popover-foreground: #1a140f;
+  --primary: #c4663f; /* slightly darker primary */
   --primary-foreground: #ffffff;
   --secondary: #f2ece7;
-  --secondary-foreground: #3b332b;
+  --secondary-foreground: #2a1f18; /* darker secondary text */
   --muted: #e3dbd4;
-  --muted-foreground: #725e51;
-  --accent: #d97757;
+  --muted-foreground: #4a3a2d; /* much darker muted text */
+  --accent: #c4663f;
   --accent-foreground: #ffffff;
   --destructive: #dc2626;
   --destructive-foreground: #ffffff;
@@ -211,18 +216,19 @@
 
 /* Gaming / Neon */
 [data-theme="gaming"] {
-  --background: #06060a;
-  --foreground: #f2f5ff;
-  --card: #10111a;
-  --card-foreground: #e5e7fb;
-  --popover: #10111a;
-  --popover-foreground: #e5e7fb;
+  --background: #08090f;
+  --foreground: #f3f6ff;
+  --heading-color: #ffffff; /* bright white for gaming mode headings */
+  --card: #151728; /* lightened */
+  --card-foreground: #e7e9fd;
+  --popover: #151728;
+  --popover-foreground: #e7e9fd;
   --primary: #7c3aed;
   --primary-foreground: #ffffff;
-  --secondary: #181a26;
-  --secondary-foreground: #cbd1e8;
-  --muted: #222638;
-  --muted-foreground: #96a0b9;
+  --secondary: #1c2030; /* lightened */
+  --secondary-foreground: #d2d8f0;
+  --muted: #252c3e; /* lightened */
+  --muted-foreground: #9aa6c0;
   --accent: #7c3aed;
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
@@ -284,6 +290,67 @@ body {
   background-blend-mode: normal, overlay, normal;
 }
 
+/* Entrance animation utilities */
+@keyframes enterFadeLift {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.enter-fade > * {
+  animation: enterFadeLift 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.enter-fade > *:nth-child(1) {
+  animation-delay: 0.02s;
+}
+.enter-fade > *:nth-child(2) {
+  animation-delay: 0.06s;
+}
+.enter-fade > *:nth-child(3) {
+  animation-delay: 0.1s;
+}
+.enter-fade > *:nth-child(4) {
+  animation-delay: 0.14s;
+}
+.enter-fade > *:nth-child(5) {
+  animation-delay: 0.18s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .enter-fade > * {
+    animation: none;
+  }
+}
+
+/* Density toggle (comfortable vs compact) */
+[data-density="compact"] {
+  --space-scale: 0.82;
+}
+[data-density="compact"] .panel {
+  padding: calc(1rem * var(--space-scale)) calc(1.25rem * var(--space-scale));
+}
+[data-density="compact"] .panel :where(h3, h4) {
+  margin-top: 0.25rem;
+}
+[data-density="compact"] .panel .gap-4 {
+  gap: calc(1rem * var(--space-scale));
+}
+[data-density="compact"] .panel .px-5 {
+  padding-left: calc(1.25rem * var(--space-scale));
+  padding-right: calc(1.25rem * var(--space-scale));
+}
+[data-density="compact"] .panel .py-4 {
+  padding-top: calc(1rem * var(--space-scale));
+  padding-bottom: calc(1rem * var(--space-scale));
+}
+
 /* Heading typography */
 h1,
 h2,
@@ -293,6 +360,7 @@ h4,
   font-family: var(--font-display);
   font-weight: var(--heading-weight);
   letter-spacing: -0.02em;
+  color: var(--heading-color, var(--foreground));
 }
 
 a {
@@ -480,6 +548,55 @@ a:hover {
 }
 
 /* Utility Classes */
+/* Panel (themed surface) */
+.panel {
+  background-color: var(--card);
+  color: var(--card-foreground, var(--foreground));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg, 0.75rem);
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+.panel:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Opacity helper variants for card & background */
+.bg-card\/60 {
+  background-color: color-mix(in srgb, var(--card) 60%, transparent);
+}
+.bg-card\/70 {
+  background-color: color-mix(in srgb, var(--card) 70%, transparent);
+}
+.bg-card\/80 {
+  background-color: color-mix(in srgb, var(--card) 80%, transparent);
+}
+.bg-card\/90 {
+  background-color: color-mix(in srgb, var(--card) 90%, transparent);
+}
+.bg-background\/60 {
+  background-color: color-mix(in srgb, var(--background) 60%, transparent);
+}
+.bg-background\/70 {
+  background-color: color-mix(in srgb, var(--background) 70%, transparent);
+}
+.bg-background\/80 {
+  background-color: color-mix(in srgb, var(--background) 80%, transparent);
+}
+.bg-background\/90 {
+  background-color: color-mix(in srgb, var(--background) 90%, transparent);
+}
+
+.text-accent-foreground {
+  color: var(--accent-foreground);
+}
+/* Optional contrast boost utility (apply to a wrapping element in light mode) */
+.contrast-boost[data-theme="light"],
+[data-theme="light"] .contrast-boost {
+  --foreground: #070b10;
+  --heading-color: #03070c;
+}
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-box-orient: vertical;
