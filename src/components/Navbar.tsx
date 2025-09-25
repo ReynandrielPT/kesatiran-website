@@ -6,6 +6,7 @@ import { Menu, X, Home, Users, Briefcase, Gamepad2 } from "lucide-react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 import ThemeSwitcher from "./ThemeSwitcher";
 
 const navigation = [
@@ -26,9 +27,28 @@ export function Navbar() {
     return pathname.startsWith(href);
   };
 
+  useEffect(() => {
+    const navbar = document.getElementById("navbar-header");
+    if (!navbar) return;
+
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add("backdrop-blur-md", "bg-background/60");
+      } else {
+        navbar.classList.remove("backdrop-blur-md", "bg-background/60");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="mx-auto max-w-7xl px-5 flex items-center h-16 gap-6">
+    <header
+      className="fixed top-0 z-50 w-full transition-all duration-300 ease-in-out bg-transparent"
+      id="navbar-header"
+    >
+      <nav className="mx-auto max-w-6xl px-6 flex items-center h-16 gap-6">
         {/* Brand / Logo mark */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <div className="size-8 rounded-md bg-accent flex items-center justify-center text-accent-foreground font-bold text-sm shadow-md group-hover:rotate-6 transition-transform">
@@ -39,7 +59,7 @@ export function Navbar() {
           </span>
         </Link>
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-1 flex-grow justify-center">
           {navigation.map((item) => {
             const active = isActive(item.href);
             return (
