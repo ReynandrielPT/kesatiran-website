@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <div className="min-h-screen pb-24 space-y-24">
       {/* Hero – softer, personal */}
-      <section className="pt-24 px-6 mx-auto max-w-6xl">
+      <section className="pt-45 mb-8 px-6 py-6 mx-auto max-w-6xl">
         <div className="grid lg:grid-cols-[1.1fr_.9fr] gap-14 items-center">
           <div className="space-y-8">
             <motion.div

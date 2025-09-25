@@ -143,7 +143,7 @@
 
 /* Dark Theme (refined midnight) */
 [data-theme="dark"] {
-  --background: #0c1015;
+  --background: #080a0d; /* Darkened from #0c1015 */
   --foreground: #f1f4f9;
   --heading-color: #ffffff; /* bright white for dark mode headings */
   --card: #181e26; /* lightened from #14171d */
