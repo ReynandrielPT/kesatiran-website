@@ -11,7 +11,24 @@ import {
   X,
 } from "lucide-react";
 import gamesData from "@/data/games.json";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+
+interface GamePlayer {
+  memberId: string;
+  nickname: string;
+  rank?: string;
+  role?: string;
+  settings?: Record<string, string | number>;
+}
+
+interface GameMontage {
+  id: string;
+  title: string;
+  thumb: string;
+  video: string; // can be embed URL or local mp4
+  createdAt: string;
+}
 
 interface Game {
   id: string;
@@ -23,15 +40,10 @@ interface Game {
   genre: string;
   releaseDate: string;
   developer: string;
-  links: {
-    steam?: string;
-    playstore?: string;
-    appstore?: string;
-    gog?: string;
-    trailer?: string;
-    website?: string;
-  };
+  links: Record<string, string | undefined>;
   screenshots: string[];
+  players?: GamePlayer[];
+  montages?: GameMontage[];
 }
 
 interface GameModalProps {
@@ -287,7 +299,7 @@ function GameModal({ game, isOpen, onClose }: GameModalProps) {
 }
 
 export default function GamesPage() {
-  const [selectedGame, setSelectedGame] = useState<Game | null>(null);
+  const [selectedGame, setSelectedGame] = useState<Game | null>(null); // legacy modal (may be removed)
   const [filter, setFilter] = useState<"all" | string>("all");
 
   const games = gamesData as Game[];
@@ -307,10 +319,12 @@ export default function GamesPage() {
       {/* Page Header */}
       <div className="border-b border-border">
         <div className="container mx-auto px-6 py-8">
-          <h1 className="text-4xl font-bold text-foreground mb-4">Our Games</h1>
-          <p className="text-muted-foreground text-lg max-w-2xl">
-            Discover our collection of games spanning various genres, from indie
-            puzzlers to immersive RPGs.
+          <h1 className="text-4xl font-bold text-foreground mb-4 lowercase">
+            games we play together
+          </h1>
+          <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
+            just the stuff we squad up on. click a game to see who plays, ranks,
+            settings (sens, dpi, layout) and a couple clips.
           </p>
         </div>
       </div>
@@ -341,10 +355,10 @@ export default function GamesPage() {
       <div className="container mx-auto px-6 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredGames.map((game) => (
-            <div
+            <Link
+              href={`/games/${game.id}`}
               key={game.id}
-              className="bg-card rounded-lg overflow-hidden shadow-sm border border-border hover:shadow-md hover:border-accent/20 transition-all duration-300 cursor-pointer group"
-              onClick={() => setSelectedGame(game)}
+              className="bg-card rounded-lg overflow-hidden shadow-sm border border-border hover:shadow-md hover:border-accent/20 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-accent"
             >
               {/* Game Cover */}
               <div className="relative aspect-[3/4] overflow-hidden">
@@ -416,7 +430,7 @@ export default function GamesPage() {
                   )}
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
@@ -435,12 +449,14 @@ export default function GamesPage() {
         )}
       </div>
 
-      {/* Game Modal */}
-      <GameModal
-        game={selectedGame!}
-        isOpen={!!selectedGame}
-        onClose={() => setSelectedGame(null)}
-      />
+      {/* Legacy modal left temporarily for reference (unused once dynamic page fully replaces) */}
+      {false && (
+        <GameModal
+          game={selectedGame!}
+          isOpen={!!selectedGame}
+          onClose={() => setSelectedGame(null)}
+        />
+      )}
     </div>
   );
 }

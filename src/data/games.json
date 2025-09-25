@@ -1,86 +1,130 @@
 [
   {
-    "id": "cyber-odyssey",
-    "title": "Cyber Odyssey",
-    "cover": "/media/games/cyber-odyssey-cover.jpg",
-    "description": "A futuristic RPG set in a cyberpunk world where you play as a hacker fighting corporate oppression.",
-    "tags": ["RPG", "Cyberpunk", "Single-player"],
-    "platforms": ["PC", "Steam"],
-    "genre": "RPG",
-    "releaseDate": "2023-11-15",
-    "developer": "Kesatiran Games",
+    "id": "valorant",
+    "title": "Valorant",
+    "cover": "/media/games/valorant-cover.jpg",
+    "description": "Tactical 5v5 FPS we jump into for ranked anxiety, aim drills and clutch screams.",
+    "tags": ["FPS", "Tactical", "Competitive"],
+    "platforms": ["PC"],
+    "genre": "FPS",
+    "releaseDate": "2020-06-02",
+    "developer": "Riot Games",
     "links": {
-      "steam": "https://store.steampowered.com/app/cyberoddyssey",
-      "trailer": "https://youtube.com/watch?v=cyberoddyssey",
-      "website": "https://cyberoddyssey.kesatiran.com"
+      "website": "https://playvalorant.com"
     },
-    "screenshots": [
-      "/media/games/cyber-odyssey-1.jpg",
-      "/media/games/cyber-odyssey-2.jpg",
-      "/media/games/cyber-odyssey-3.jpg"
+    "screenshots": ["/media/games/valorant-1.jpg"],
+    "players": [
+      {
+        "memberId": "john-doe",
+        "nickname": "doe",
+        "rank": "Platinum 2",
+        "role": "initiator / flex",
+        "settings": {
+          "dpi": 800,
+          "sensitivity": 0.45,
+          "scopedSensitivity": 1,
+          "resolution": "1920x1080",
+          "crosshair": "0;P;o;0;f;0;0t;5;0l;5;0v;4;0o;0;0a;1;0f;0;1b;0"
+        }
+      },
+      {
+        "memberId": "jane-smith",
+        "nickname": "jana",
+        "rank": "Gold 3",
+        "role": "sentinel",
+        "settings": {
+          "dpi": 1000,
+          "sensitivity": 0.38,
+          "scopedSensitivity": 1,
+          "resolution": "2560x1440"
+        }
+      }
+    ],
+    "montages": [
+      {
+        "id": "valo-ace-clip",
+        "title": "ace on haven",
+        "thumb": "/media/games/valorant-montage-1.jpg",
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "createdAt": "2025-08-12"
+      }
     ]
   },
   {
-    "id": "puzzle-realms",
-    "title": "Puzzle Realms",
-    "cover": "/media/games/puzzle-realms-cover.jpg",
-    "description": "A mind-bending puzzle game that combines logic with beautiful hand-drawn art and ambient soundscapes.",
-    "tags": ["Puzzle", "Indie", "Relaxing"],
-    "platforms": ["PC", "Mobile", "Switch"],
-    "genre": "Puzzle",
-    "releaseDate": "2023-08-22",
-    "developer": "Kesatiran Indie",
+    "id": "mobile-legends",
+    "title": "Mobile Legends",
+    "cover": "/media/games/mobile-legends-cover.jpg",
+    "description": "Fast mobile MOBA we spam when away from the pc.",
+    "tags": ["MOBA", "Mobile", "Casual"],
+    "platforms": ["Mobile"],
+    "genre": "MOBA",
+    "releaseDate": "2016-07-11",
+    "developer": "Moonton",
     "links": {
-      "playstore": "https://play.google.com/store/apps/details?id=puzzlerealms",
-      "appstore": "https://apps.apple.com/app/puzzle-realms",
-      "steam": "https://store.steampowered.com/app/puzzlerealms"
+      "website": "https://m.mobilelegends.com"
     },
-    "screenshots": [
-      "/media/games/puzzle-realms-1.jpg",
-      "/media/games/puzzle-realms-2.jpg",
-      "/media/games/puzzle-realms-3.jpg",
-      "/media/games/puzzle-realms-4.jpg"
-    ]
+    "screenshots": ["/media/games/ml-1.jpg"],
+    "players": [
+      {
+        "memberId": "jane-smith",
+        "nickname": "jana",
+        "rank": "Mythic",
+        "role": "mid mage",
+        "settings": {
+          "controlLayout": "custom-1",
+          "graphics": "high",
+          "frameRate": "60"
+        }
+      },
+      {
+        "memberId": "alex-rodriguez",
+        "nickname": "alex",
+        "rank": "Legend",
+        "role": "jungle",
+        "settings": {
+          "controlLayout": "default",
+          "graphics": "medium",
+          "frameRate": "60"
+        }
+      }
+    ],
+    "montages": []
   },
   {
-    "id": "space-trader",
-    "title": "Space Trader",
-    "cover": "/media/games/space-trader-cover.jpg",
-    "description": "Build your galactic trading empire in this strategic simulation game with procedurally generated universes.",
-    "tags": ["Strategy", "Simulation", "Space"],
-    "platforms": ["PC", "Mac"],
-    "genre": "Strategy",
-    "releaseDate": "2024-01-10",
-    "developer": "Kesatiran Strategy",
+    "id": "delta-force",
+    "title": "Delta Force",
+    "cover": "/media/games/delta-force-cover.jpg",
+    "description": "Old-school tactical nostalgia sessions.",
+    "tags": ["FPS", "Tactical", "Retro"],
+    "platforms": ["PC"],
+    "genre": "FPS",
+    "releaseDate": "1998-06-18",
+    "developer": "NovaLogic",
     "links": {
-      "steam": "https://store.steampowered.com/app/spacetrader",
-      "gog": "https://gog.com/game/space_trader",
-      "trailer": "https://youtube.com/watch?v=spacetrader"
+      "website": "https://en.wikipedia.org/wiki/Delta_Force_(video_game)"
     },
-    "screenshots": [
-      "/media/games/space-trader-1.jpg",
-      "/media/games/space-trader-2.jpg"
-    ]
-  },
-  {
-    "id": "neon-runner",
-    "title": "Neon Runner",
-    "cover": "/media/games/neon-runner-cover.jpg",
-    "description": "Fast-paced endless runner with synthwave aesthetics and reactive music that adapts to your performance.",
-    "tags": ["Action", "Endless", "Synthwave"],
-    "platforms": ["Mobile", "PC"],
-    "genre": "Action",
-    "releaseDate": "2023-06-05",
-    "developer": "Kesatiran Mobile",
-    "links": {
-      "playstore": "https://play.google.com/store/apps/details?id=neonrunner",
-      "appstore": "https://apps.apple.com/app/neon-runner",
-      "trailer": "https://youtube.com/watch?v=neonrunner"
-    },
-    "screenshots": [
-      "/media/games/neon-runner-1.jpg",
-      "/media/games/neon-runner-2.jpg",
-      "/media/games/neon-runner-3.jpg"
+    "screenshots": ["/media/games/delta-force-1.jpg"],
+    "players": [
+      {
+        "memberId": "alex-rodriguez",
+        "nickname": "alex",
+        "rank": "veteran",
+        "role": "scout",
+        "settings": {
+          "dpi": 400,
+          "sensitivity": 1.2,
+          "resolution": "1280x960"
+        }
+      }
+    ],
+    "montages": [
+      {
+        "id": "df-snipes",
+        "title": "sniper moments",
+        "thumb": "/media/games/delta-force-montage-1.jpg",
+        "video": "/media/games/montages/delta-snipes.mp4",
+        "createdAt": "2025-07-02"
+      }
     ]
   }
 ]
