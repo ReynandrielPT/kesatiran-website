@@ -697,3 +697,15 @@ a:hover {
   padding-left: 1.5rem; /* Equivalent to Tailwind's px-6 */
   padding-right: 1.5rem; /* Equivalent to Tailwind's px-6 */
 }
+
+/* Reveal Animation */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
