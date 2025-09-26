@@ -45,16 +45,25 @@ export default function TeamPage() {
   const [animating, setAnimating] = useState<boolean>(false);
   const trackRef = useRef<HTMLDivElement | null>(null);
 
-  // Desktop carousel: show multiple cards side-by-side
-  const VISIBLE = 3; // number of cards visible at once on desktop
-  const [posIndexDesktop, setPosIndexDesktop] = useState<number>(VISIBLE);
-  const [enableTransitionDesktop, setEnableTransitionDesktop] =
-    useState<boolean>(true);
-  const [animatingDesktop, setAnimatingDesktop] = useState<boolean>(false);
+  // Desktop spotlight carousel: revolving center-focused display
   const desktopViewportRef = useRef<HTMLDivElement | null>(null);
   const desktopTrackRef = useRef<HTMLDivElement | null>(null);
-  const [desktopStride, setDesktopStride] = useState<number>(0); // pixels per step
-  const [baseOffset, setBaseOffset] = useState<number>(0); // pixels to center active card
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [currentSpotlight, setCurrentSpotlight] = useState<number>(0); // logical index 0..total-1
+  const autoAdvanceRef = useRef<NodeJS.Timeout | null>(null);
+  const [slideInterval] = useState<number>(4000); // 4 seconds per slide
+  // position within extendedMembers (with clones): 0..total+1, where 1..total are real
+  const [deskPos, setDeskPos] = useState<number>(1);
+  const [deskTransition, setDeskTransition] = useState<boolean>(true);
+  const [deskAnimating, setDeskAnimating] = useState<boolean>(false);
+  const [deskStride, setDeskStride] = useState<number>(0);
+  const [deskBase, setDeskBase] = useState<number>(0);
+  const [deskOffset, setDeskOffset] = useState<number>(0);
+  const queuedStepsRef = useRef<number>(0);
+  const queuedDirRef = useRef<1 | -1 | 0>(0);
+  const [overrideTransform, setOverrideTransform] = useState<string | null>(
+    null
+  );
 
   const tags = useMemo(() => {
     const base = new Set<string>();
@@ -78,22 +87,21 @@ export default function TeamPage() {
   });
 
   const total = filtered.length;
+
+  // Extended member list for seamless revolving (add clones at ends)
+  const extendedMembers = useMemo(() => {
+    if (total <= 1) return filtered;
+    // Add one member at each end for smooth transitions
+    const prev = filtered[total - 1];
+    const next = filtered[0];
+    return [prev, ...filtered, next];
+  }, [filtered, total]);
+
   const extended = useMemo(() => {
     if (total > 1) {
       const first = filtered[0];
       const last = filtered[total - 1];
       return [last, ...filtered, first];
-    }
-    return filtered;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [total, activeTag]);
-
-  // Extended list for desktop (clone VISIBLE items at both ends for seamless wrap)
-  const extendedDesktop = useMemo(() => {
-    if (total > 0) {
-      const leftClones = filtered.slice(-VISIBLE);
-      const rightClones = filtered.slice(0, VISIBLE);
-      return [...leftClones, ...filtered, ...rightClones];
     }
     return filtered;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,32 +116,113 @@ export default function TeamPage() {
     return () => cancelAnimationFrame(id);
   }, [activeTag, total]);
 
-  // Reset desktop position when list changes
+  // Reset spotlight and deskPos when list changes
   useEffect(() => {
-    setEnableTransitionDesktop(false);
-    setPosIndexDesktop(total > 0 ? VISIBLE : 0);
-    const id = requestAnimationFrame(() => setEnableTransitionDesktop(true));
+    setCurrentSpotlight(0);
+    setDeskTransition(false);
+    setDeskPos(total > 0 ? 1 : 0);
+    const id = requestAnimationFrame(() => setDeskTransition(true));
     return () => cancelAnimationFrame(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTag, total]);
 
-  // Keep currentIndex (for indicators/desktop) in sync with posIndex on mobile
+  // Auto-advance spotlight
+  useEffect(() => {
+    if (isHovered || total <= 1) {
+      if (autoAdvanceRef.current) {
+        clearInterval(autoAdvanceRef.current);
+        autoAdvanceRef.current = null;
+      }
+      return;
+    }
+
+    autoAdvanceRef.current = setInterval(() => {
+      // advance via deskPos to keep clones logic consistent
+      setDeskPos((p) => p + 1);
+    }, slideInterval);
+
+    return () => {
+      if (autoAdvanceRef.current) {
+        clearInterval(autoAdvanceRef.current);
+        autoAdvanceRef.current = null;
+      }
+    };
+  }, [isHovered, total, slideInterval]);
+
+  // Keep logical spotlight index in sync with deskPos (convert from extended index)
+  useEffect(() => {
+    if (total <= 0) return;
+    const logical = (((deskPos - 1) % total) + total) % total; // 1->0, 2->1, ..., total->total-1
+    setCurrentSpotlight(logical);
+  }, [deskPos, total]);
+
+  // Measure stride and base offset to center the active card
+  useEffect(() => {
+    const track = desktopTrackRef.current;
+    const viewport = desktopViewportRef.current;
+    if (!track || !viewport) return;
+
+    const measure = () => {
+      const children = Array.from(track.children) as HTMLElement[];
+      const trackRect = track.getBoundingClientRect();
+      const viewportRect = viewport.getBoundingClientRect();
+      // choose two adjacent real items: index 1 and 2 (skip left clone at 0)
+      if (children.length >= 3) {
+        const a = children[1].getBoundingClientRect();
+        const b = children[2].getBoundingClientRect();
+        const strideRaw = Math.abs(b.left - a.left);
+        const stride = strideRaw > 0 ? strideRaw : a.width;
+        // compute base relative to track left so that selected card centers in viewport
+        const base =
+          viewportRect.left +
+          viewportRect.width / 2 -
+          a.width / 2 -
+          trackRect.left;
+        const offset = a.left - trackRect.left;
+        setDeskStride(Math.round(stride));
+        setDeskBase(Math.round(base));
+        setDeskOffset(Math.round(offset));
+      } else if (children.length >= 1) {
+        const a = children[0].getBoundingClientRect();
+        const base =
+          viewportRect.left +
+          viewportRect.width / 2 -
+          a.width / 2 -
+          trackRect.left;
+        const offset = a.left - trackRect.left;
+        setDeskStride(Math.round(a.width));
+        setDeskBase(Math.round(base));
+        setDeskOffset(Math.round(offset));
+      }
+    };
+
+    measure();
+    const ro = new ResizeObserver(() => measure());
+    ro.observe(track);
+    ro.observe(viewport);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [extendedMembers.length]);
+
+  // Keep currentIndex (for indicators/mobile) in sync with posIndex on mobile
   useEffect(() => {
     if (total <= 1) return;
     const normalized = (((posIndex - 1) % total) + total) % total;
     setCurrentIndex(normalized);
   }, [posIndex, total]);
 
-  // Keyboard navigation: drive both desktop and mobile tracks
+  // Keyboard navigation: mobile carousel + desktop spotlight
   useEffect(() => {
     if (total <= 1) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") {
         next();
-        nextDesktop();
+        nextSpotlight();
       } else if (e.key === "ArrowLeft") {
         prev();
-        prevDesktop();
+        prevSpotlight();
       }
     };
     window.addEventListener("keydown", onKey);
@@ -154,53 +243,70 @@ export default function TeamPage() {
     setPosIndex((p) => p - 1);
   };
 
-  // Desktop carousel actions
-  const nextDesktop = () => {
-    if (animatingDesktop || total <= 0) return;
-    setAnimatingDesktop(true);
-    setEnableTransitionDesktop(true);
-    setPosIndexDesktop((p) => p + 1);
+  // Desktop spotlight actions
+  const nextSpotlight = () => {
+    if (deskAnimating || total <= 1) return;
+    setDeskAnimating(true);
+    setDeskTransition(true);
+    setDeskPos((p) => p + 1);
   };
-  const prevDesktop = () => {
-    if (animatingDesktop || total <= 0) return;
-    setAnimatingDesktop(true);
-    setEnableTransitionDesktop(true);
-    setPosIndexDesktop((p) => p - 1);
+  const prevSpotlight = () => {
+    if (deskAnimating || total <= 1) return;
+    setDeskAnimating(true);
+    setDeskTransition(true);
+    setDeskPos((p) => p - 1);
   };
 
-  // Measure desktop stride (distance between two adjacent cards, incl. gap)
-  useEffect(() => {
-    const track = desktopTrackRef.current;
-    const viewport = desktopViewportRef.current;
-    if (!track || !viewport) return;
-
-    const measure = () => {
-      const children = Array.from(track.children) as HTMLElement[];
-      if (children.length >= 2) {
-        const a = children[0].getBoundingClientRect();
-        const b = children[1].getBoundingClientRect();
-        const stride = Math.abs(b.left - a.left);
-        setDesktopStride(stride > 0 ? stride : a.width);
-        const vw = viewport.getBoundingClientRect().width;
-        setBaseOffset(vw / 2 - a.width / 2);
-      } else if (children.length === 1) {
-        const a = children[0].getBoundingClientRect();
-        setDesktopStride(a.width);
-        const vw = viewport.getBoundingClientRect().width;
-        setBaseOffset(vw / 2 - a.width / 2);
+  // Jump to a specific spotlight index using the shortest cyclic path
+  const goToSpotlight = (targetIndex: number) => {
+    if (deskAnimating || total <= 1) return;
+    const desiredPos = targetIndex + 1; // 1..total
+    const currentPos =
+      deskPos === 0 ? total : deskPos === total + 1 ? 1 : deskPos; // normalize to 1..total
+    if (desiredPos === currentPos) return;
+    const forward = (desiredPos - currentPos + total) % total; // steps to the right
+    const backward = (currentPos - desiredPos + total) % total; // steps to the left
+    setDeskAnimating(true);
+    setDeskTransition(true);
+    if (forward <= backward) {
+      // forward move
+      const maxPos = total + 1; // right clone index
+      const tentative = currentPos + forward;
+      if (tentative <= total) {
+        // within real range
+        setDeskPos(tentative);
+      } else if (tentative === maxPos) {
+        // lands exactly on right clone; onTransitionEnd will snap to 1
+        queuedStepsRef.current = 0;
+        queuedDirRef.current = 0;
+        setDeskPos(maxPos);
+      } else {
+        // overshoots beyond right clone: go to clone first, then continue remaining
+        const stepsToClone = maxPos - currentPos; // >=1
+        const remain = forward - stepsToClone;
+        queuedStepsRef.current = remain;
+        queuedDirRef.current = 1;
+        setDeskPos(maxPos);
       }
-    };
-
-    measure();
-    const ro = new ResizeObserver(() => measure());
-    ro.observe(track);
-    ro.observe(viewport);
-    window.addEventListener("resize", measure);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", measure);
-    };
-  }, [extendedDesktop.length]);
+    } else {
+      // backward move
+      const minPos = 0; // left clone index
+      const tentative = currentPos - backward;
+      if (tentative >= 1) {
+        setDeskPos(tentative);
+      } else if (tentative === minPos) {
+        queuedStepsRef.current = 0;
+        queuedDirRef.current = 0;
+        setDeskPos(minPos);
+      } else {
+        const stepsToClone = currentPos - 0; // distance to left clone: currentPos - 0
+        const remain = backward - stepsToClone;
+        queuedStepsRef.current = remain;
+        queuedDirRef.current = -1;
+        setDeskPos(minPos);
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen pb-24 space-y-20">
@@ -294,27 +400,25 @@ export default function TeamPage() {
           </RevealOnScroll>
         ) : (
           <div className="relative">
-            {/* Desktop Slide Carousel (big cards, by button) */}
+            {/* Desktop Spotlight Carousel (revolving center focus) */}
             <div className="hidden lg:block">
               <div
                 ref={desktopViewportRef}
                 className="relative overflow-hidden py-8"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
               >
-                {/* Left fade overlay */}
-                <div className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-                {/* Right fade overlay */}
-                <div className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-
+                {/* Navigation arrows */}
                 {total > 1 && (
                   <>
                     <button
-                      onClick={prevDesktop}
+                      onClick={prevSpotlight}
                       className="absolute left-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-20"
                     >
                       <ChevronLeft className="w-6 h-6" />
                     </button>
                     <button
-                      onClick={nextDesktop}
+                      onClick={nextSpotlight}
                       className="absolute right-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-20"
                     >
                       <ChevronRight className="w-6 h-6" />
@@ -324,49 +428,147 @@ export default function TeamPage() {
 
                 <div
                   ref={desktopTrackRef}
-                  className="flex items-stretch gap-2 px-1"
+                  className="flex items-stretch justify-center gap-8 px-8"
                   style={{
-                    transform: `translateX(${
-                      baseOffset - posIndexDesktop * desktopStride
-                    }px)`,
-                    transition: enableTransitionDesktop
-                      ? "transform 420ms cubic-bezier(0.22, 1, 0.36, 1)"
+                    transform:
+                      overrideTransform ??
+                      `translateX(${Math.round(
+                        deskBase -
+                          (deskOffset +
+                            (total > 1 ? deskStride * (deskPos - 1) : 0))
+                      )}px)`,
+                    transition: deskTransition
+                      ? "transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1)"
                       : "none",
+                    willChange: "transform",
                   }}
                   onTransitionEnd={() => {
-                    if (total <= 0) return;
-                    const rightEdge = total + VISIBLE;
-                    if (posIndexDesktop >= rightEdge) {
-                      // moved into right clones -> snap back to first real frame
-                      setEnableTransitionDesktop(false);
-                      setPosIndexDesktop(VISIBLE);
-                      requestAnimationFrame(() =>
-                        setEnableTransitionDesktop(true)
-                      );
-                    } else if (posIndexDesktop < VISIBLE) {
-                      // moved into left clones -> snap to last real frame start
-                      setEnableTransitionDesktop(false);
-                      setPosIndexDesktop(total + VISIBLE - 1);
-                      requestAnimationFrame(() =>
-                        setEnableTransitionDesktop(true)
-                      );
+                    if (total <= 1) return;
+                    // Seamless snap when crossing clones, and continue queued steps if any
+                    if (deskPos === total + 1) {
+                      // moved onto the right clone => snap to real first (index 1)
+                      // freeze current transform to avoid visible jump
+                      const t = desktopTrackRef.current?.style.transform;
+                      if (t) setOverrideTransform(t);
+                      setDeskTransition(false);
+                      setDeskPos(1);
+                      requestAnimationFrame(() => {
+                        // Clear freeze with transitions still off so no visual jump
+                        setOverrideTransform(null);
+                        requestAnimationFrame(() => {
+                          // Now re-enable and optionally continue queued steps
+                          setDeskTransition(true);
+                          const remain = queuedStepsRef.current;
+                          const dir = queuedDirRef.current;
+                          if (remain > 0 && dir === 1) {
+                            queuedStepsRef.current = 0;
+                            queuedDirRef.current = 0;
+                            setDeskPos((p) => p + remain);
+                          } else {
+                            // release lock if nothing queued
+                            setTimeout(() => setDeskAnimating(false), 10);
+                          }
+                        });
+                      });
+                      return;
+                    } else if (deskPos === 0) {
+                      // moved onto the left clone => snap to real last (index total)
+                      const t = desktopTrackRef.current?.style.transform;
+                      if (t) setOverrideTransform(t);
+                      setDeskTransition(false);
+                      setDeskPos(total);
+                      requestAnimationFrame(() => {
+                        setOverrideTransform(null);
+                        requestAnimationFrame(() => {
+                          setDeskTransition(true);
+                          const remain = queuedStepsRef.current;
+                          const dir = queuedDirRef.current;
+                          if (remain > 0 && dir === -1) {
+                            queuedStepsRef.current = 0;
+                            queuedDirRef.current = 0;
+                            setDeskPos((p) => p - remain);
+                          } else {
+                            setTimeout(() => setDeskAnimating(false), 10);
+                          }
+                        });
+                      });
+                      return;
                     }
-                    setTimeout(() => setAnimatingDesktop(false), 10);
+                    // If no snap and no queued continuation, end animation
+                    if (queuedStepsRef.current === 0) {
+                      setTimeout(() => setDeskAnimating(false), 10);
+                    }
                   }}
                 >
-                  {extendedDesktop.map((m, i) => (
-                    <div key={`${m.id}-${i}`} className="flex-shrink-0">
-                      <Link href={`/profile/${m.slug}`} className="group block">
-                        <MemberCard
-                          member={m}
-                          compact={false}
-                          showSkills
-                          className="w-[20rem] h-[26rem] hover:scale-[1.02] transition-transform duration-300"
-                        />
-                      </Link>
-                    </div>
-                  ))}
+                  {extendedMembers.map((member, index) => {
+                    // Calculate position relative to spotlight
+                    const actualIndex = total <= 1 ? 0 : index - 1; // adjust for clone at start
+                    const isCenter = actualIndex === currentSpotlight;
+                    const isAdjacent =
+                      Math.abs(actualIndex - currentSpotlight) === 1 ||
+                      (currentSpotlight === 0 && actualIndex === total - 1) ||
+                      (currentSpotlight === total - 1 && actualIndex === 0);
+
+                    return (
+                      <div
+                        key={`${member.id}-${index}`}
+                        className="flex-shrink-0 w-[20rem] transition-all duration-700"
+                        style={{
+                          opacity: isCenter ? 1 : isAdjacent ? 0.4 : 0.1,
+                        }}
+                      >
+                        <div
+                          className="transition-transform duration-700"
+                          style={{
+                            transform: `scale(${isCenter ? 1.1 : 0.85})`,
+                            filter: isCenter ? "none" : "grayscale(30%)",
+                            transformOrigin: "center",
+                          }}
+                        >
+                          <Link
+                            href={`/profile/${member.slug}`}
+                            className="group block"
+                          >
+                            <MemberCard
+                              member={member}
+                              compact={false}
+                              showSkills={isCenter}
+                              className={`w-[20rem] h-[26rem] transition-all duration-500 ${
+                                isCenter
+                                  ? "hover:scale-[1.05] shadow-2xl"
+                                  : "hover:scale-[0.9] hover:opacity-60"
+                              }`}
+                            />
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
+
+                {/* Spotlight indicators */}
+                {total > 1 && (
+                  <div className="flex justify-center mt-6 gap-2">
+                    {filtered.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => goToSpotlight(index)}
+                        className={`w-2 h-2 rounded-full transition-all ${
+                          index === currentSpotlight
+                            ? "bg-accent w-8"
+                            : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* Auto-advance indicator */}
+                {isHovered && total > 1 && (
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-card/80 backdrop-blur-sm rounded-full px-3 py-1 text-xs text-muted-foreground z-20">
+                    Spotlight paused • Move cursor away to resume
+                  </div>
+                )}
               </div>
             </div>
 
