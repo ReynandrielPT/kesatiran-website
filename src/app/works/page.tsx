@@ -12,6 +12,7 @@ import {
   Music,
   Image,
   Video,
+  Sparkles,
 } from "lucide-react";
 import worksData from "@/data/works.json";
 import { Button } from "@/components/ui/Button";
@@ -164,14 +165,19 @@ export default function WorksPage() {
   };
 
   return (
-    <div className="pt-40 min-h-screen bg-background">
+    <div className="pt-40 min-h-screen">
       {/* Page Header */}
       <RevealOnScroll delay={100}>
         <div className="border-b border-border">
           <div className="container mx-auto app-container py-8">
-            <h1 className="text-4xl font-bold text-foreground mb-4 lowercase tracking-tight">
-              our art projects
-            </h1>
+            <div className="flex items-center gap-2 text-sm font-medium text-accent uppercase tracking-wider mb-4">
+              <Sparkles size={16} /> SOME FUN PROJECTS
+            </div>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4">
+              <h1 className="text-4xl font-bold text-foreground lowercase tracking-tight">
+                our art projects
+              </h1>
+            </div>
             <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
               a mix of songs we made for fun (or focus), photographs & renders
               we liked enough to keep, posters & random design experiments, plus
@@ -183,7 +189,6 @@ export default function WorksPage() {
 
       {/* Tabbed Navigation */}
       <RevealOnScroll delay={200}>
-        {/* The `border-b` and `border-border` classes have been removed from this div */}
         <div className="bg-card/30 backdrop-blur-sm">
           <div className="container mx-auto app-container">
             <nav className="flex space-x-8" aria-label="Works sections">
@@ -250,10 +255,11 @@ export default function WorksPage() {
                             <Play className="w-5 h-5 text-foreground" />
                           )}
                         </div>
+                        {/* THEME FIX: Replaced hardcoded white with theme-aware colors */}
                         {active && (
-                          <div className="absolute bottom-1 left-1 right-1 h-1 bg-white/30 rounded overflow-hidden">
+                          <div className="absolute bottom-1 left-1 right-1 h-1 bg-foreground/20 rounded overflow-hidden">
                             <div
-                              className="h-full bg-white/90"
+                              className="h-full bg-foreground"
                               style={{
                                 width: `${
                                   (audioPlayer.currentTime /
