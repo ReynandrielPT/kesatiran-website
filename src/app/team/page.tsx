@@ -285,7 +285,7 @@ export default function TeamPage() {
       </RevealOnScroll>
 
       {/* Member Carousel Gallery */}
-      <section className="px-6 mx-auto max-w-7xl">
+      <section className="px-6 mx-auto max-w-6xl">
         {filtered.length === 0 ? (
           <RevealOnScroll delay={0}>
             <div className="text-center py-24 text-sm opacity-60">
@@ -300,17 +300,22 @@ export default function TeamPage() {
                 ref={desktopViewportRef}
                 className="relative overflow-hidden py-8"
               >
+                {/* Left fade overlay */}
+                <div className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+                {/* Right fade overlay */}
+                <div className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+
                 {total > 1 && (
                   <>
                     <button
                       onClick={prevDesktop}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-10"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-20"
                     >
                       <ChevronLeft className="w-6 h-6" />
                     </button>
                     <button
                       onClick={nextDesktop}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-10"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-20"
                     >
                       <ChevronRight className="w-6 h-6" />
                     </button>
@@ -393,6 +398,11 @@ export default function TeamPage() {
                   touchStartTime.current = null;
                 }}
               >
+                {/* Left fade overlay */}
+                <div className="absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+                {/* Right fade overlay */}
+                <div className="absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+
                 <div
                   ref={trackRef}
                   className="flex py-4"
@@ -485,13 +495,13 @@ export default function TeamPage() {
                   <>
                     <button
                       onClick={prev}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-10"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-20"
                     >
                       <ChevronLeft className="w-6 h-6" />
                     </button>
                     <button
                       onClick={next}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-10"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-20"
                     >
                       <ChevronRight className="w-6 h-6" />
                     </button>
