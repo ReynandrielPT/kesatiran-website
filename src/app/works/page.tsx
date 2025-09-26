@@ -9,6 +9,9 @@ import {
   Volume2,
   Maximize2,
   ExternalLink,
+  Music,
+  Image,
+  Video,
 } from "lucide-react";
 import worksData from "@/data/works.json";
 import { Button } from "@/components/ui/Button";
@@ -59,9 +62,24 @@ export default function WorksPage() {
   const visualWorks = works.filter((work) => work.type === "visual");
 
   const tabs = [
-    { id: "audio" as const, label: "songs", count: audioWorks.length },
-    { id: "image" as const, label: "gallery", count: imageWorks.length },
-    { id: "visual" as const, label: "video", count: visualWorks.length },
+    {
+      id: "audio" as const,
+      label: "songs",
+      count: audioWorks.length,
+      icon: Music,
+    },
+    {
+      id: "image" as const,
+      label: "gallery",
+      count: imageWorks.length,
+      icon: Image,
+    },
+    {
+      id: "visual" as const,
+      label: "video",
+      count: visualWorks.length,
+      icon: Video,
+    },
   ];
 
   // Audio player functions
@@ -165,7 +183,8 @@ export default function WorksPage() {
 
       {/* Tabbed Navigation */}
       <RevealOnScroll delay={200}>
-        <div className="border-b border-border bg-card/30 backdrop-blur-sm">
+        {/* The `border-b` and `border-border` classes have been removed from this div */}
+        <div className="bg-card/30 backdrop-blur-sm">
           <div className="container mx-auto app-container">
             <nav className="flex space-x-8" aria-label="Works sections">
               {tabs.map((tab) => (
@@ -178,7 +197,10 @@ export default function WorksPage() {
                       : "border-transparent text-muted-foreground hover:text-foreground hover:border-accent/50 hover:bg-accent/5"
                   }`}
                 >
-                  {tab.label} ({tab.count})
+                  <span className="flex items-center gap-2 capitalize">
+                    <tab.icon className="h-4 w-4" />
+                    {tab.label} ({tab.count})
+                  </span>
                 </button>
               ))}
             </nav>
@@ -187,20 +209,11 @@ export default function WorksPage() {
       </RevealOnScroll>
 
       {/* Content Sections */}
-      {/*
-       *
-       * THE CORRECT FIX IS HERE: `key={activeTab}` on the RevealOnScroll component.
-       * This forces the entire animation component to re-mount on tab change.
-       *
-       */}
       <RevealOnScroll key={activeTab} delay={300}>
         <div className="container mx-auto app-container py-8">
           {/* Audio Section */}
           {activeTab === "audio" && (
             <div className="space-y-4">
-              <p className="text-xs text-muted-foreground px-1">
-                small loops & ambient bits we use while hanging out or coding.
-              </p>
               <div className="space-y-3 enter-fade">
                 {audioWorks.map((work) => {
                   const active = audioPlayer.currentTrack?.id === work.id;
@@ -318,10 +331,6 @@ export default function WorksPage() {
           {/* Image Section */}
           {activeTab === "image" && (
             <div className="space-y-8">
-              <p className="text-xs text-muted-foreground px-1">
-                photos, portrait series, rough design frames, 3d renders &
-                static ideas.
-              </p>
               {imageWorks.map((work) => (
                 <div
                   key={work.id}
@@ -390,9 +399,6 @@ export default function WorksPage() {
           {/* Visual Section */}
           {activeTab === "visual" && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <p className="text-xs text-muted-foreground col-span-full px-1 -mt-2">
-                motion pieces, prototypes & little narrated demo clips.
-              </p>
               {visualWorks.map((work) => (
                 <div
                   key={work.id}
