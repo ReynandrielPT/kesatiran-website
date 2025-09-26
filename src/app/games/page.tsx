@@ -317,11 +317,12 @@ export default function GamesPage() {
     filter === "all" ? games : games.filter((game) => game.genre === filter);
 
   return (
-    <div className="min-h-screen bg-background pt-40">
+    <div className="min-h-screen pt-40">
       {" "}
+      {/* Removed bg-background as it's handled by layout.tsx, adjusted pt for navbar */}
       <div className="border-b border-border">
         <div className="app-container mx-auto py-8">
-          <RevealOnScroll delay={0.1}>
+          <RevealOnScroll delay={0}>
             <div className="flex items-center gap-2 text-sm font-medium text-accent uppercase tracking-wider mb-4">
               <Sparkles size={16} /> SOMETIMES WE ALSO PLAY GAMES
             </div>
@@ -338,7 +339,7 @@ export default function GamesPage() {
         </div>
       </div>
       {/* Gaming Theme Decoration */}
-      <div className="h-1 rgb-strip opacity-50" />
+      <div className="h-0.5 rgb-strip opacity-50" />
       {/* Filter Controls */}
       <RevealOnScroll delay={0.2}>
         <div className="app-container mx-auto py-6">
