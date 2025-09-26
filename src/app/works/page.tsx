@@ -9,10 +9,15 @@ import {
   Volume2,
   Maximize2,
   ExternalLink,
+  Music,
+  Image,
+  Video,
+  Sparkles,
 } from "lucide-react";
 import worksData from "@/data/works.json";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
+import RevealOnScroll from "@/components/RevealOnScroll";
 
 interface Work {
   id: string;
@@ -58,9 +63,24 @@ export default function WorksPage() {
   const visualWorks = works.filter((work) => work.type === "visual");
 
   const tabs = [
-    { id: "audio" as const, label: "songs", count: audioWorks.length },
-    { id: "image" as const, label: "gallery", count: imageWorks.length },
-    { id: "visual" as const, label: "video", count: visualWorks.length },
+    {
+      id: "audio" as const,
+      label: "songs",
+      count: audioWorks.length,
+      icon: Music,
+    },
+    {
+      id: "image" as const,
+      label: "gallery",
+      count: imageWorks.length,
+      icon: Image,
+    },
+    {
+      id: "visual" as const,
+      label: "video",
+      count: visualWorks.length,
+      icon: Video,
+    },
   ];
 
   // Audio player functions
@@ -135,7 +155,7 @@ export default function WorksPage() {
   const navigateLightbox = (direction: "prev" | "next") => {
     if (lightboxGallery.length === 0) return;
 
-    let newIndex =
+    const newIndex =
       direction === "next"
         ? (lightboxIndex + 1) % lightboxGallery.length
         : (lightboxIndex - 1 + lightboxGallery.length) % lightboxGallery.length;
@@ -145,300 +165,305 @@ export default function WorksPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="pt-40 min-h-screen">
       {/* Page Header */}
-      <div className="border-b border-border">
-        <div className="container mx-auto px-6 py-8">
-          <h1 className="text-4xl font-bold text-foreground mb-4 lowercase tracking-tight">
-            our art projects
-          </h1>
-          <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
-            a mix of songs we made for fun (or focus), photographs & renders we
-            liked enough to keep, posters & random design experiments, plus
-            little motion / video things. just stuff we enjoyed creating.
-          </p>
+      <RevealOnScroll delay={100}>
+        <div className="border-b border-border">
+          <div className="container mx-auto app-container py-8">
+            <div className="flex items-center gap-2 text-sm font-medium text-accent uppercase tracking-wider mb-4">
+              <Sparkles size={16} /> SOME FUN PROJECTS
+            </div>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4">
+              <h1 className="text-4xl font-bold text-foreground lowercase tracking-tight">
+                our art projects
+              </h1>
+            </div>
+            <p className="text-muted-foreground text-lg max-w-2xl leading-relaxed">
+              a mix of songs we made for fun (or focus), photographs & renders
+              we liked enough to keep, posters & random design experiments, plus
+              little motion / video things. just stuff we enjoyed creating.
+            </p>
+          </div>
         </div>
-      </div>
+      </RevealOnScroll>
 
       {/* Tabbed Navigation */}
-      <div className="border-b border-border bg-card/30 backdrop-blur-sm">
-        <div className="container mx-auto px-6">
-          <nav className="flex space-x-8" aria-label="Works sections">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`py-4 px-2 border-b-2 font-medium text-sm transition-all duration-300 ${
-                  activeTab === tab.id
-                    ? "border-accent text-accent bg-accent/5"
-                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-accent/50 hover:bg-accent/5"
-                }`}
-              >
-                {tab.label} ({tab.count})
-              </button>
-            ))}
-          </nav>
+      <RevealOnScroll delay={200}>
+        <div className="bg-card/30 backdrop-blur-sm">
+          <div className="container mx-auto app-container">
+            <nav className="flex space-x-8" aria-label="Works sections">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`py-4 px-2 border-b-2 font-medium text-sm transition-all duration-300 ${
+                    activeTab === tab.id
+                      ? "border-accent text-accent bg-accent/5"
+                      : "border-transparent text-muted-foreground hover:text-foreground hover:border-accent/50 hover:bg-accent/5"
+                  }`}
+                >
+                  <span className="flex items-center gap-2 capitalize">
+                    <tab.icon className="h-4 w-4" />
+                    {tab.label} ({tab.count})
+                  </span>
+                </button>
+              ))}
+            </nav>
+          </div>
         </div>
-      </div>
+      </RevealOnScroll>
 
       {/* Content Sections */}
-      <div className="container mx-auto px-6 py-8">
-        {/* Audio Section */}
-        {activeTab === "audio" && (
-          <div className="space-y-4">
-            <p className="text-xs text-muted-foreground px-1">
-              small loops & ambient bits we use while hanging out or coding.
-            </p>
-            <div className="space-y-3 enter-fade">
-              {audioWorks.map((work) => {
-                const active = audioPlayer.currentTrack?.id === work.id;
-                return (
-                  <div
-                    key={work.id}
-                    className={`group panel flex items-center gap-4 px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 ${
-                      active
-                        ? "ring-1 ring-accent/30 shadow-md border-accent/50"
-                        : "hover:border-accent/30"
-                    }`}
-                  >
-                    {/* Thumbnail & play */}
-                    <button
-                      onClick={() => playTrack(work)}
-                      className={`relative h-14 w-14 flex-shrink-0 rounded-lg overflow-hidden ring-1 ring-border hover:ring-accent/50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent hover:scale-105 ${
-                        active ? "ring-accent/50 scale-105" : ""
+      <RevealOnScroll key={activeTab} delay={300}>
+        <div className="container mx-auto app-container py-8">
+          {/* Audio Section */}
+          {activeTab === "audio" && (
+            <div className="space-y-4">
+              <div className="space-y-3 enter-fade">
+                {audioWorks.map((work) => {
+                  const active = audioPlayer.currentTrack?.id === work.id;
+                  return (
+                    <div
+                      key={work.id}
+                      className={`group panel flex items-center gap-4 px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 ${
+                        active
+                          ? "ring-1 ring-accent/30 shadow-md border-accent/50"
+                          : "hover:border-accent/30"
                       }`}
-                      aria-label={
-                        active && audioPlayer.isPlaying
-                          ? `Pause ${work.title}`
-                          : `Play ${work.title}`
-                      }
                     >
-                      <img
-                        src={work.thumb}
-                        alt={work.title}
-                        className="h-full w-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-background/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
-                        {active && audioPlayer.isPlaying ? (
-                          <Pause className="w-5 h-5 text-foreground" />
-                        ) : (
-                          <Play className="w-5 h-5 text-foreground" />
-                        )}
-                      </div>
-                      {active && (
-                        <div className="absolute bottom-1 left-1 right-1 h-1 bg-white/30 rounded overflow-hidden">
-                          <div
-                            className="h-full bg-white/90"
-                            style={{
-                              width: `${
-                                (audioPlayer.currentTime /
-                                  (audioPlayer.duration || 1)) *
-                                100
-                              }%`,
-                            }}
-                          />
-                        </div>
-                      )}
-                    </button>
-
-                    {/* Meta */}
-                    <div className="flex-1 min-w-0 space-y-1">
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-sm font-medium truncate max-w-[220px]">
-                          {work.title}
-                        </h3>
-                        {work.duration && (
-                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-accent/10 text-accent tabular-nums">
-                            {work.duration}
-                          </span>
-                        )}
-                      </div>
-                      {work.artist && (
-                        <p className="text-[11px] text-muted-foreground truncate max-w-[240px]">
-                          {work.artist}
-                        </p>
-                      )}
-                      <p className="text-[11px] text-muted-foreground/80 line-clamp-2 pr-4">
-                        {work.description}
-                      </p>
-                      <div className="flex flex-wrap gap-1 pt-1">
-                        {work.tags.slice(0, 3).map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-1.5 py-0.5 bg-accent/10 text-accent text-[10px] rounded-full"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                        {work.tags.length > 3 && (
-                          <span className="px-1.5 py-0.5 bg-border text-[10px] rounded-full">
-                            +{work.tags.length - 3}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Play/Pause standalone for accessibility */}
-                    <button
-                      onClick={() => playTrack(work)}
-                      className={`p-3 rounded-full transition-all duration-300 text-accent hover:bg-accent/15 focus:outline-none focus:ring-2 focus:ring-accent hover:scale-110 ${
-                        active ? "bg-accent/15 scale-110" : ""
-                      }`}
-                      aria-label={
-                        active && audioPlayer.isPlaying
-                          ? `Pause ${work.title}`
-                          : `Play ${work.title}`
-                      }
-                    >
-                      {active && audioPlayer.isPlaying ? (
-                        <Pause className="w-4 h-4" />
-                      ) : (
-                        <Play className="w-4 h-4" />
-                      )}
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* Image Section */}
-        {activeTab === "image" && (
-          <div className="space-y-8">
-            <p className="text-xs text-muted-foreground px-1">
-              photos, portrait series, rough design frames, 3d renders & static
-              ideas.
-            </p>
-            {imageWorks.map((work) => (
-              <div
-                key={work.id}
-                className="panel p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
-              >
-                <div className="mb-6">
-                  <h3 className="font-semibold text-xl text-foreground mb-2">
-                    {work.title}
-                  </h3>
-                  <p className="text-muted-foreground mb-4 leading-relaxed">
-                    {work.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {work.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full border border-accent/20"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Image Gallery */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {work.gallery ? (
-                    work.gallery.map((imageSrc, index) => (
-                      <div
-                        key={index}
-                        className="relative aspect-square overflow-hidden rounded-lg cursor-pointer hover:scale-105 transition-all duration-300 ring-1 ring-border/50 hover:ring-accent/50 group"
-                        onClick={() => openLightbox(imageSrc, work.gallery)}
+                      {/* Thumbnail & play */}
+                      <button
+                        onClick={() => playTrack(work)}
+                        className={`relative h-14 w-14 flex-shrink-0 rounded-lg overflow-hidden ring-1 ring-border hover:ring-accent/50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent hover:scale-105 ${
+                          active ? "ring-accent/50 scale-105" : ""
+                        }`}
+                        aria-label={
+                          active && audioPlayer.isPlaying
+                            ? `Pause ${work.title}`
+                            : `Play ${work.title}`
+                        }
                       >
                         <img
-                          src={imageSrc}
-                          alt={`${work.title} - ${index + 1}`}
+                          src={work.thumb}
+                          alt={work.title}
+                          className="h-full w-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-background/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                          {active && audioPlayer.isPlaying ? (
+                            <Pause className="w-5 h-5 text-foreground" />
+                          ) : (
+                            <Play className="w-5 h-5 text-foreground" />
+                          )}
+                        </div>
+                        {/* THEME FIX: Replaced hardcoded white with theme-aware colors */}
+                        {active && (
+                          <div className="absolute bottom-1 left-1 right-1 h-1 bg-foreground/20 rounded overflow-hidden">
+                            <div
+                              className="h-full bg-foreground"
+                              style={{
+                                width: `${
+                                  (audioPlayer.currentTime /
+                                    (audioPlayer.duration || 1)) *
+                                  100
+                                }%`,
+                              }}
+                            />
+                          </div>
+                        )}
+                      </button>
+
+                      {/* Meta */}
+                      <div className="flex-1 min-w-0 space-y-1">
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-sm font-medium truncate max-w-[220px]">
+                            {work.title}
+                          </h3>
+                          {work.duration && (
+                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-accent/10 text-accent tabular-nums">
+                              {work.duration}
+                            </span>
+                          )}
+                        </div>
+                        {work.artist && (
+                          <p className="text-[11px] text-muted-foreground truncate max-w-[240px]">
+                            {work.artist}
+                          </p>
+                        )}
+                        <p className="text-[11px] text-muted-foreground/80 line-clamp-2 pr-4">
+                          {work.description}
+                        </p>
+                        <div className="flex flex-wrap gap-1 pt-1">
+                          {work.tags.slice(0, 3).map((tag) => (
+                            <span
+                              key={tag}
+                              className="px-1.5 py-0.5 bg-accent/10 text-accent text-[10px] rounded-full"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                          {work.tags.length > 3 && (
+                            <span className="px-1.5 py-0.5 bg-border text-[10px] rounded-full">
+                              +{work.tags.length - 3}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Play/Pause standalone for accessibility */}
+                      <button
+                        onClick={() => playTrack(work)}
+                        className={`p-3 rounded-full transition-all duration-300 text-accent hover:bg-accent/15 focus:outline-none focus:ring-2 focus:ring-accent hover:scale-110 ${
+                          active ? "bg-accent/15 scale-110" : ""
+                        }`}
+                        aria-label={
+                          active && audioPlayer.isPlaying
+                            ? `Pause ${work.title}`
+                            : `Play ${work.title}`
+                        }
+                      >
+                        {active && audioPlayer.isPlaying ? (
+                          <Pause className="w-4 h-4" />
+                        ) : (
+                          <Play className="w-4 h-4" />
+                        )}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Image Section */}
+          {activeTab === "image" && (
+            <div className="space-y-8">
+              {imageWorks.map((work) => (
+                <div
+                  key={work.id}
+                  className="panel p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+                >
+                  <div className="mb-6">
+                    <h3 className="font-semibold text-xl text-foreground mb-2">
+                      {work.title}
+                    </h3>
+                    <p className="text-muted-foreground mb-4 leading-relaxed">
+                      {work.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {work.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full border border-accent/20"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Image Gallery */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {work.gallery ? (
+                      work.gallery.map((imageSrc, index) => (
+                        <div
+                          key={index}
+                          className="relative aspect-square overflow-hidden rounded-lg cursor-pointer hover:scale-105 transition-all duration-300 ring-1 ring-border/50 hover:ring-accent/50 group"
+                          onClick={() => openLightbox(imageSrc, work.gallery)}
+                        >
+                          <img
+                            src={imageSrc}
+                            alt={`${work.title} - ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-background/0 group-hover:bg-background/20 backdrop-blur-[1px] transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <Maximize2 className="w-8 h-8 text-foreground" />
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div
+                        className="relative aspect-square overflow-hidden rounded-lg cursor-pointer hover:scale-105 transition-all duration-300 ring-1 ring-border/50 hover:ring-accent/50 group"
+                        onClick={() => openLightbox(work.media)}
+                      >
+                        <img
+                          src={work.media}
+                          alt={work.title}
                           className="w-full h-full object-cover"
                         />
                         <div className="absolute inset-0 bg-background/0 group-hover:bg-background/20 backdrop-blur-[1px] transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
                           <Maximize2 className="w-8 h-8 text-foreground" />
                         </div>
                       </div>
-                    ))
-                  ) : (
-                    <div
-                      className="relative aspect-square overflow-hidden rounded-lg cursor-pointer hover:scale-105 transition-all duration-300 ring-1 ring-border/50 hover:ring-accent/50 group"
-                      onClick={() => openLightbox(work.media)}
-                    >
-                      <img
-                        src={work.media}
-                        alt={work.title}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-background/0 group-hover:bg-background/20 backdrop-blur-[1px] transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                        <Maximize2 className="w-8 h-8 text-foreground" />
-                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Visual Section */}
+          {activeTab === "visual" && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {visualWorks.map((work) => (
+                <div
+                  key={work.id}
+                  className="panel p-6 transition-shadow hover:shadow-md"
+                >
+                  <div className="relative mb-6">
+                    <img
+                      src={work.thumb}
+                      alt={work.title}
+                      className="w-full aspect-video object-cover rounded-md"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-md rounded-lg opacity-0 hover:opacity-100 transition-all duration-300 cursor-pointer group">
+                      <Play className="w-16 h-16 text-foreground group-hover:scale-110 transition-transform" />
                     </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Visual Section */}
-        {activeTab === "visual" && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <p className="text-xs text-muted-foreground col-span-full px-1 -mt-2">
-              motion pieces, prototypes & little narrated demo clips.
-            </p>
-            {visualWorks.map((work) => (
-              <div
-                key={work.id}
-                className="panel p-6 transition-shadow hover:shadow-md"
-              >
-                <div className="relative mb-6">
-                  <img
-                    src={work.thumb}
-                    alt={work.title}
-                    className="w-full aspect-video object-cover rounded-md"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-md rounded-lg opacity-0 hover:opacity-100 transition-all duration-300 cursor-pointer group">
-                    <Play className="w-16 h-16 text-foreground group-hover:scale-110 transition-transform" />
+                    <div className="absolute bottom-3 right-3 bg-card/80 text-foreground px-3 py-1.5 rounded-lg text-sm backdrop-blur-sm border border-border/50 shadow-lg">
+                      Video Demo
+                    </div>
                   </div>
-                  <div className="absolute bottom-3 right-3 bg-card/80 text-foreground px-3 py-1.5 rounded-lg text-sm backdrop-blur-sm border border-border/50 shadow-lg">
-                    Video Demo
-                  </div>
-                </div>
 
-                <h3 className="font-semibold text-xl text-foreground mb-2">
-                  {work.title}
-                </h3>
-                <p className="text-muted-foreground mb-4 line-clamp-3">
-                  {work.description}
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-wrap gap-2">
-                    {work.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-1 bg-accent/10 text-accent text-xs rounded-full"
+                  <h3 className="font-semibold text-xl text-foreground mb-2">
+                    {work.title}
+                  </h3>
+                  <p className="text-muted-foreground mb-4 line-clamp-3">
+                    {work.description}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap gap-2">
+                      {work.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2 py-1 bg-accent/10 text-accent text-xs rounded-full"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <Button variant="ghost" size="sm">
+                      <a
+                        href={work.media}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center"
                       >
-                        {tag}
-                      </span>
-                    ))}
+                        Watch <ExternalLink className="w-4 h-4 ml-2" />
+                      </a>
+                    </Button>
                   </div>
-                  <Button variant="ghost" size="sm">
-                    <a
-                      href={work.media}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center"
-                    >
-                      Watch <ExternalLink className="w-4 h-4 ml-2" />
-                    </a>
-                  </Button>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </RevealOnScroll>
 
       {/* Audio Player Bar */}
       {audioPlayer.currentTrack && (
         <div className="fixed bottom-0 left-0 right-0 z-50">
           <div className="bg-secondary/80 backdrop-blur-lg border-t border-border p-4">
-            <div className="container mx-auto px-6 flex items-center gap-4">
+            <div className="container mx-auto app-container flex items-center gap-4">
               <img
                 src={audioPlayer.currentTrack.thumb}
                 alt={audioPlayer.currentTrack.title}
