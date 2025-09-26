@@ -326,7 +326,7 @@ export default function GamesPage() {
             <div className="flex items-center gap-2 text-sm font-medium text-accent uppercase tracking-wider mb-4">
               <Sparkles size={16} /> SOMETIMES WE ALSO PLAY GAMES
             </div>
-            <h1 className="text-4xl font-bold text-foreground mb-4 lowercase">
+            <h1 className="text-4xl font-bold text-heading mb-4 lowercase">
               games we play together
             </h1>
           </RevealOnScroll>

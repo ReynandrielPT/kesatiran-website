@@ -50,7 +50,7 @@ export function Footer() {
             <div className="flex-1 space-y-4">
               <Link
                 href="/"
-                className="text-2xl font-semibold tracking-tight lowercase hover:text-accent transition-colors"
+                className="text-2xl font-semibold tracking-tight lowercase text-heading hover:text-accent transition-colors"
               >
                 kesatiran
               </Link>

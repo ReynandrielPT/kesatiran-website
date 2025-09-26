@@ -174,7 +174,7 @@ export default function WorksPage() {
               <Sparkles size={16} /> SOME FUN PROJECTS
             </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4">
-              <h1 className="text-4xl font-bold text-foreground lowercase tracking-tight">
+              <h1 className="text-4xl font-bold text-heading lowercase tracking-tight">
                 our art projects
               </h1>
             </div>

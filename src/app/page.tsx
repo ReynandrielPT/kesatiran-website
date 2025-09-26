@@ -51,7 +51,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-6xl font-semibold leading-tight tracking-tighter"
+              className="text-4xl md:text-6xl font-semibold leading-tight tracking-tighter text-heading"
             >
               We make tiny things
               <span className="block text-muted-foreground">
@@ -77,7 +77,7 @@ export default function Home() {
               className="flex flex-wrap gap-3 pt-2"
             >
               <Link href="/team">
-                <Button variant="solid" size="md">
+                <Button variant="gradient" size="md">
                   Meet the Circle
                 </Button>
               </Link>

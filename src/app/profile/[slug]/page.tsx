@@ -58,8 +58,11 @@ export default function ProfilePage({ params }: ProfilePageProps) {
   const firstName = member.name.split(" ")[0];
   const funFacts: string[] = [];
   if (member.location) funFacts.push(member.location);
+  const joinedYear = member.member_since
+    ? new Date(member.member_since).getFullYear()
+    : null;
+  if (joinedYear) funFacts.push(`joined ${joinedYear}`);
   funFacts.push(
-    `joined ${new Date(member.member_since).getFullYear()}`,
     member.availability_status === "available" ? "free to jam" : "heads down"
   );
   if (member.skills && member.skills.length) {
@@ -95,7 +98,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
           </div>
           <div className="flex-1 space-y-6">
             <div className="space-y-2">
-              <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-heading">
                 {member.name.toLowerCase()}
               </h1>
               <p className="text-sm font-medium text-[var(--accent)]">
@@ -117,7 +120,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                 <a href={`mailto:${member.contact_email}`}>say hi</a>
               </Button>
               <div className="flex gap-2">
-                {Object.entries(member.social_links)
+                {Object.entries(member.social_links ?? {})
                   .slice(0, 4)
                   .map(([platform, url]) => {
                     if (!url) return null;

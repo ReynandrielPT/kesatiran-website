@@ -54,7 +54,7 @@ export function Navbar() {
           <div className="size-8 rounded-md bg-accent flex items-center justify-center text-accent-foreground font-bold text-sm shadow-md group-hover:rotate-6 transition-transform">
             K
           </div>
-          <span className="text-lg font-semibold tracking-tight text-foreground">
+          <span className="text-lg font-semibold tracking-tight text-heading">
             Kesatiran
           </span>
         </Link>

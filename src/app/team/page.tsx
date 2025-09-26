@@ -58,7 +58,7 @@ export default function TeamPage() {
           </RevealOnScroll>
           <div className="max-w-3xl space-y-4">
             <RevealOnScroll delay={0.1}>
-              <h1 className="text-4xl sm:text-5xl font-semibold leading-tight tracking-tighter">
+              <h1 className="text-4xl sm:text-5xl font-semibold leading-tight tracking-tighter text-heading">
                 People behind the tiny things
               </h1>
             </RevealOnScroll>
