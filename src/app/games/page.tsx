@@ -360,69 +360,65 @@ export default function GamesPage() {
           </div>
         </div>
       </RevealOnScroll>
-      {/* Games Grid */}
+      {/* Games Grid - Compact Cards */}
       <div className="app-container mx-auto pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
           {filteredGames.map((game, index) => (
             <RevealOnScroll key={game.id} delay={index * 0.1}>
-              <Link
-                href={`/games/${game.id}`}
-                className="panel overflow-hidden transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-accent hover:-translate-y-1 hover:shadow-md"
-              >
-                {/* Game Cover */}
-                <div className="relative aspect-[3/4] overflow-hidden">
-                  <img
-                    src={game.cover}
-                    alt={game.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
+              <Link href={`/games/${game.id}`} className="group">
+                <div className="bg-secondary rounded-lg p-3 text-center border border-border hover:border-accent/40 transition-all duration-300 hover:-translate-y-1">
+                  {/* Game Cover - Bigger relative to card size */}
+                  <div className="relative aspect-square rounded-md overflow-hidden mb-3">
+                    <img
+                      src={game.cover}
+                      alt={game.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
 
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-background/70 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="text-center">
-                      <Play className="w-10 h-10 text-foreground mx-auto mb-2" />
-                      <p className="text-foreground text-xs font-medium">
-                        View Details
-                      </p>
+                    {/* Genre Badge */}
+                    <div className="absolute top-2 left-2">
+                      <span className="px-2 py-1 bg-background/90 text-foreground text-xs rounded backdrop-blur-sm border border-border/50">
+                        {game.genre}
+                      </span>
+                    </div>
+
+                    {/* Hover Play Icon */}
+                    <div className="absolute inset-0 bg-background/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <Play className="w-6 h-6 text-foreground" />
                     </div>
                   </div>
 
-                  {/* Genre Badge */}
-                  <div className="absolute top-2 left-2">
-                    <span className="px-2 py-1 bg-background/75 text-foreground text-xs rounded backdrop-blur-sm border border-border/50">
-                      {game.genre}
-                    </span>
-                  </div>
-                </div>
+                  {/* Game Info - Compact */}
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-1">
+                      {game.title}
+                    </h3>
 
-                {/* Game Info */}
-                <div className="p-4">
-                  <h3 className="font-semibold text-lg text-foreground mb-2 group-hover:text-accent transition-colors">
-                    {game.title}
-                  </h3>
-
-                  <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
-                    {game.description}
-                  </p>
-
-                  {/* Platforms */}
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {game.platforms.map((platform) => {
-                      const Icon =
-                        platformIcons[platform as keyof typeof platformIcons] ||
-                        Monitor;
-                      return (
-                        <div
-                          key={platform}
-                          className="flex items-center gap-1.5 px-3 py-1.5 bg-secondary/80 backdrop-blur-sm rounded-full text-xs border border-border/50"
-                        >
-                          <Icon className="w-3.5 h-3.5 text-muted-foreground" />
-                          <span className="text-foreground font-medium">
-                            {platform}
-                          </span>
-                        </div>
-                      );
-                    })}
+                    {/* Main platform */}
+                    <div className="flex justify-center items-center gap-1">
+                      {game.platforms.slice(0, 1).map((platform) => {
+                        const Icon =
+                          platformIcons[
+                            platform as keyof typeof platformIcons
+                          ] || Monitor;
+                        return (
+                          <div
+                            key={platform}
+                            className="flex items-center gap-1 px-2 py-1 bg-muted/50 rounded-full text-xs"
+                          >
+                            <Icon className="w-3 h-3 text-muted-foreground" />
+                            <span className="text-foreground font-medium">
+                              {platform}
+                            </span>
+                          </div>
+                        );
+                      })}
+                      {game.platforms.length > 1 && (
+                        <span className="text-xs text-muted-foreground">
+                          +{game.platforms.length - 1}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </Link>

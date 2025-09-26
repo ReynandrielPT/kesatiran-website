@@ -218,7 +218,7 @@ export default function Home() {
             All Games <ArrowRight size={14} />
           </Link>
         </div>
-        <div className="grid sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {recentGames.map((g, i) => (
             <motion.div
               key={g.id}
@@ -228,34 +228,32 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <Link href="/games" className="group">
-                <Card className="p-4 flex flex-col gap-4 h-full bg-secondary border border-border hover:border-accent/40 transition-all duration-300">
-                  <div className="aspect-video relative rounded-md overflow-hidden">
+                <div className="bg-secondary rounded-lg p-3 text-center border border-border hover:border-accent/40 transition-all duration-300">
+                  <div className="relative aspect-square rounded-md overflow-hidden mb-3">
                     <Image
                       src={g.cover}
                       alt={g.title}
                       fill
-                      sizes="(max-width:768px) 100vw, 320px"
+                      sizes="(max-width:768px) 50vw, 200px"
                       className="object-cover group-hover:scale-105 transition-transform"
                     />
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-base font-semibold line-clamp-2 group-hover:text-accent transition-colors">
-                      {g.title}
-                    </h3>
-                    <div className="flex flex-wrap gap-1.5">
-                      {g.tags.slice(0, 2).map((t) => (
-                        <Badge key={t} size="sm" variant="secondary">
-                          {t}
-                        </Badge>
-                      ))}
-                      {g.tags.length > 2 && (
-                        <Badge size="sm" variant="outline">
-                          +{g.tags.length - 2}
-                        </Badge>
-                      )}
-                    </div>
+                  <h3 className="text-sm font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-1">
+                    {g.title}
+                  </h3>
+                  <div className="flex flex-wrap gap-1 justify-center mt-2">
+                    {g.tags.slice(0, 1).map((t) => (
+                      <Badge key={t} size="xs" variant="secondary">
+                        {t}
+                      </Badge>
+                    ))}
+                    {g.tags.length > 1 && (
+                      <Badge size="xs" variant="outline">
+                        +{g.tags.length - 1}
+                      </Badge>
+                    )}
                   </div>
-                </Card>
+                </div>
               </Link>
             </motion.div>
           ))}
@@ -286,38 +284,104 @@ export default function Home() {
             Full Team <ArrowRight size={14} />
           </Link>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {members.slice(0, 4).map((member, i) => (
-            <motion.div
-              key={member.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Link
-                href={`/profile/${member.slug}`}
-                key={member.id}
-                className="group"
-              >
-                <div className="bg-secondary rounded-lg p-4 text-center border border-border hover:border-accent/40 transition-all duration-300">
-                  <Image
-                    src={member.avatar || member.photo}
-                    alt={member.name}
-                    width={80}
-                    height={80}
-                    className="rounded-full mx-auto mb-4 border-2 border-border group-hover:border-accent/60 transition-colors"
-                  />
-                  <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors">
-                    {member.name}
-                  </h3>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {member.role.split(",")[0]}
-                  </p>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+        <div className="relative overflow-hidden">
+          {/* Desktop Gallery View */}
+          <div className="hidden lg:flex gap-6 justify-center items-center py-8">
+            {members.slice(0, 7).map((member, i) => {
+              const centerIndex = Math.floor(7 / 2); // Index 3 is center
+              const distanceFromCenter = Math.abs(i - centerIndex);
+              const isCenter = i === centerIndex;
+              const scale = isCenter ? 1 : 0.8 - distanceFromCenter * 0.1;
+              const opacity = isCenter ? 1 : 0.6 - distanceFromCenter * 0.15;
+
+              return (
+                <motion.div
+                  key={member.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: i * 0.05 }}
+                  viewport={{ once: true }}
+                  className="flex-shrink-0"
+                  style={{
+                    transform: `scale(${scale})`,
+                    opacity: opacity,
+                    transition: "all 0.3s ease",
+                  }}
+                >
+                  <Link
+                    href={`/profile/${member.slug}`}
+                    className="group block"
+                  >
+                    <Card className="p-6 flex flex-col gap-4 w-48 h-64 bg-secondary border border-border hover:border-accent/40 transition-all duration-300 hover:scale-105">
+                      <div className="relative aspect-square rounded-xl overflow-hidden">
+                        <Image
+                          src={member.avatar || member.photo}
+                          alt={member.name}
+                          fill
+                          sizes="160px"
+                          className="object-cover group-hover:scale-105 transition-transform"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-2 text-center">
+                        <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-1">
+                          {member.name}
+                        </h3>
+                        <p className="text-xs text-muted-foreground line-clamp-2">
+                          {member.role.split(",")[0]}
+                        </p>
+                        <div className="flex flex-wrap gap-1 justify-center">
+                          <Badge size="xs" variant="secondary">
+                            {member.role.split(",")[0].toLowerCase()}
+                          </Badge>
+                        </div>
+                      </div>
+                    </Card>
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Mobile/Tablet Horizontal Scroll */}
+          <div className="lg:hidden overflow-x-auto scrollbar-hide py-4">
+            <div className="flex gap-4 px-4" style={{ width: "max-content" }}>
+              {members.slice(0, 7).map((member, i) => (
+                <motion.div
+                  key={member.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: i * 0.05 }}
+                  viewport={{ once: true }}
+                  className="flex-shrink-0"
+                >
+                  <Link
+                    href={`/profile/${member.slug}`}
+                    className="group block"
+                  >
+                    <Card className="p-4 flex flex-col gap-3 w-40 h-56 bg-secondary border border-border hover:border-accent/40 transition-all duration-300">
+                      <div className="relative aspect-square rounded-lg overflow-hidden">
+                        <Image
+                          src={member.avatar || member.photo}
+                          alt={member.name}
+                          fill
+                          sizes="120px"
+                          className="object-cover group-hover:scale-105 transition-transform"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-2 text-center">
+                        <h3 className="text-sm font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-1">
+                          {member.name}
+                        </h3>
+                        <p className="text-xs text-muted-foreground line-clamp-2">
+                          {member.role.split(",")[0]}
+                        </p>
+                      </div>
+                    </Card>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </div>
       </motion.section>
     </div>

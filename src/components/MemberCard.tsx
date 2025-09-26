@@ -42,7 +42,7 @@ export function MemberCard({
   className,
   ...rest
 }: MemberCardProps) {
-  const avatar = member.avatar || member.photo || "/media/team/placeholder.jpg";
+  const avatar = member.avatar || member.photo || "/vercel.svg";
   const isOnline = member.availability_status === "available";
   const SkillLimit = compact ? 2 : 3;
 

@@ -1,20 +1,32 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { Users, Sparkles } from "lucide-react";
+import { Users, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import membersData from "@/data/members.json";
-import { RawMember } from "@/components/MemberCard";
+import { RawMember, MemberCard } from "@/components/MemberCard";
 import RevealOnScroll from "@/components/RevealOnScroll";
+import type { ComponentProps } from "react";
 
 interface Skill {
   name: string;
   category: string;
   level: string;
+}
+
+type ImgProps = ComponentProps<typeof Image> & { src: string };
+function FallbackImage({ src, alt, ...rest }: ImgProps) {
+  const [s, setS] = useState<string>(src || "/vercel.svg");
+  useEffect(() => {
+    setS(src || "/vercel.svg");
+  }, [src]);
+  return (
+    <Image {...rest} alt={alt} src={s} onError={() => setS("/vercel.svg")} />
+  );
 }
 
 // FIX 2: Explicitly type the imported JSON data.
@@ -24,6 +36,25 @@ const members: RawMember[] = membersData;
 export default function TeamPage() {
   // Casual tag filter: use role words + departments reduced to a simple set
   const [activeTag, setActiveTag] = useState<string>("all");
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const touchStartX = useRef<number | null>(null);
+  const touchStartTime = useRef<number | null>(null);
+  // Mobile carousel state for smooth infinite loop (1 card per view)
+  const [posIndex, setPosIndex] = useState<number>(1); // position within extended slides (with clones)
+  const [enableTransition, setEnableTransition] = useState<boolean>(true);
+  const [animating, setAnimating] = useState<boolean>(false);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+
+  // Desktop carousel: show multiple cards side-by-side
+  const VISIBLE = 3; // number of cards visible at once on desktop
+  const [posIndexDesktop, setPosIndexDesktop] = useState<number>(VISIBLE);
+  const [enableTransitionDesktop, setEnableTransitionDesktop] =
+    useState<boolean>(true);
+  const [animatingDesktop, setAnimatingDesktop] = useState<boolean>(false);
+  const desktopViewportRef = useRef<HTMLDivElement | null>(null);
+  const desktopTrackRef = useRef<HTMLDivElement | null>(null);
+  const [desktopStride, setDesktopStride] = useState<number>(0); // pixels per step
+  const [baseOffset, setBaseOffset] = useState<number>(0); // pixels to center active card
 
   const tags = useMemo(() => {
     const base = new Set<string>();
@@ -45,6 +76,131 @@ export default function TeamPage() {
     const haystack = [m.department, m.role].join(" ").toLowerCase();
     return haystack.includes(activeTag);
   });
+
+  const total = filtered.length;
+  const extended = useMemo(() => {
+    if (total > 1) {
+      const first = filtered[0];
+      const last = filtered[total - 1];
+      return [last, ...filtered, first];
+    }
+    return filtered;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [total, activeTag]);
+
+  // Extended list for desktop (clone VISIBLE items at both ends for seamless wrap)
+  const extendedDesktop = useMemo(() => {
+    if (total > 0) {
+      const leftClones = filtered.slice(-VISIBLE);
+      const rightClones = filtered.slice(0, VISIBLE);
+      return [...leftClones, ...filtered, ...rightClones];
+    }
+    return filtered;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [total, activeTag]);
+
+  // Reset carousel position when the active filter changes or the list size changes
+  useEffect(() => {
+    setCurrentIndex(0);
+    setEnableTransition(false);
+    setPosIndex(total > 1 ? 1 : 0);
+    const id = requestAnimationFrame(() => setEnableTransition(true));
+    return () => cancelAnimationFrame(id);
+  }, [activeTag, total]);
+
+  // Reset desktop position when list changes
+  useEffect(() => {
+    setEnableTransitionDesktop(false);
+    setPosIndexDesktop(total > 0 ? VISIBLE : 0);
+    const id = requestAnimationFrame(() => setEnableTransitionDesktop(true));
+    return () => cancelAnimationFrame(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTag, total]);
+
+  // Keep currentIndex (for indicators/desktop) in sync with posIndex on mobile
+  useEffect(() => {
+    if (total <= 1) return;
+    const normalized = (((posIndex - 1) % total) + total) % total;
+    setCurrentIndex(normalized);
+  }, [posIndex, total]);
+
+  // Keyboard navigation: drive both desktop and mobile tracks
+  useEffect(() => {
+    if (total <= 1) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") {
+        next();
+        nextDesktop();
+      } else if (e.key === "ArrowLeft") {
+        prev();
+        prevDesktop();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [total]);
+
+  // Mobile carousel actions
+  const next = () => {
+    if (animating || total <= 1) return;
+    setAnimating(true);
+    setEnableTransition(true);
+    setPosIndex((p) => p + 1);
+  };
+  const prev = () => {
+    if (animating || total <= 1) return;
+    setAnimating(true);
+    setEnableTransition(true);
+    setPosIndex((p) => p - 1);
+  };
+
+  // Desktop carousel actions
+  const nextDesktop = () => {
+    if (animatingDesktop || total <= 0) return;
+    setAnimatingDesktop(true);
+    setEnableTransitionDesktop(true);
+    setPosIndexDesktop((p) => p + 1);
+  };
+  const prevDesktop = () => {
+    if (animatingDesktop || total <= 0) return;
+    setAnimatingDesktop(true);
+    setEnableTransitionDesktop(true);
+    setPosIndexDesktop((p) => p - 1);
+  };
+
+  // Measure desktop stride (distance between two adjacent cards, incl. gap)
+  useEffect(() => {
+    const track = desktopTrackRef.current;
+    const viewport = desktopViewportRef.current;
+    if (!track || !viewport) return;
+
+    const measure = () => {
+      const children = Array.from(track.children) as HTMLElement[];
+      if (children.length >= 2) {
+        const a = children[0].getBoundingClientRect();
+        const b = children[1].getBoundingClientRect();
+        const stride = Math.abs(b.left - a.left);
+        setDesktopStride(stride > 0 ? stride : a.width);
+        const vw = viewport.getBoundingClientRect().width;
+        setBaseOffset(vw / 2 - a.width / 2);
+      } else if (children.length === 1) {
+        const a = children[0].getBoundingClientRect();
+        setDesktopStride(a.width);
+        const vw = viewport.getBoundingClientRect().width;
+        setBaseOffset(vw / 2 - a.width / 2);
+      }
+    };
+
+    measure();
+    const ro = new ResizeObserver(() => measure());
+    ro.observe(track);
+    ro.observe(viewport);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [extendedDesktop.length]);
 
   return (
     <div className="min-h-screen pb-24 space-y-20">
@@ -83,8 +239,8 @@ export default function TeamPage() {
                   href={`/profile/${m.slug}`}
                   className="relative inline-block h-14 w-14 rounded-full ring-2 ring-background hover:z-20 transition-transform hover:scale-110"
                 >
-                  <Image
-                    src={m.avatar || m.photo || ""}
+                  <FallbackImage
+                    src={m.avatar || m.photo || "/vercel.svg"}
                     alt={m.name}
                     fill
                     sizes="56px"
@@ -128,59 +284,245 @@ export default function TeamPage() {
         </section>
       </RevealOnScroll>
 
-      {/* Member Grid – lighter cards */}
-      <section className="px-6 mx-auto max-w-6xl">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* FIX 6: Use the 'filtered' array, which is already correctly typed. */}
-          {filtered.map((m, index) => (
-            <RevealOnScroll key={m.id} delay={index * 0.1}>
-              <Link href={`/profile/${m.slug}`} className="group">
-                <Card className="p-5 flex flex-col gap-5 h-full">
-                  <div className="flex items-center gap-4">
-                    <div className="relative h-16 w-16 rounded-xl overflow-hidden ring-1 ring-[color-mix(in_srgb,var(--foreground)_15%,transparent)] group-hover:ring-[var(--accent)]/60 transition">
-                      <Image
-                        src={m.avatar || m.photo || ""}
-                        alt={m.name}
-                        fill
-                        sizes="64px"
-                        className="object-cover group-hover:scale-[1.05] transition"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-sm font-semibold truncate">
-                        {m.name}
-                      </h3>
-                      <p className="text-[11px] opacity-60 truncate">
-                        {m.role}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-[11px] leading-relaxed line-clamp-3 opacity-70">
-                    {m.bio_short}
-                  </p>
-                  <div className="flex flex-wrap gap-1 mt-auto">
-                    {m.skills?.slice(0, 3).map((s: Skill) => (
-                      <Badge key={s.name} size="xs" variant="soft">
-                        {s.name}
-                      </Badge>
-                    ))}
-                    {m.skills && m.skills.length > 3 && (
-                      <Badge size="xs" variant="outline">
-                        +{m.skills.length - 3}
-                      </Badge>
-                    )}
-                  </div>
-                </Card>
-              </Link>
-            </RevealOnScroll>
-          ))}
-        </div>
-        {filtered.length === 0 && (
+      {/* Member Carousel Gallery */}
+      <section className="px-6 mx-auto max-w-7xl">
+        {filtered.length === 0 ? (
           <RevealOnScroll delay={0}>
             <div className="text-center py-24 text-sm opacity-60">
               nobody under that tag right now
             </div>
           </RevealOnScroll>
+        ) : (
+          <div className="relative">
+            {/* Desktop Slide Carousel (big cards, by button) */}
+            <div className="hidden lg:block">
+              <div
+                ref={desktopViewportRef}
+                className="relative overflow-hidden py-8"
+              >
+                {total > 1 && (
+                  <>
+                    <button
+                      onClick={prevDesktop}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-10"
+                    >
+                      <ChevronLeft className="w-6 h-6" />
+                    </button>
+                    <button
+                      onClick={nextDesktop}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-10"
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                    </button>
+                  </>
+                )}
+
+                <div
+                  ref={desktopTrackRef}
+                  className="flex items-stretch gap-2 px-1"
+                  style={{
+                    transform: `translateX(${
+                      baseOffset - posIndexDesktop * desktopStride
+                    }px)`,
+                    transition: enableTransitionDesktop
+                      ? "transform 420ms cubic-bezier(0.22, 1, 0.36, 1)"
+                      : "none",
+                  }}
+                  onTransitionEnd={() => {
+                    if (total <= 0) return;
+                    const rightEdge = total + VISIBLE;
+                    if (posIndexDesktop >= rightEdge) {
+                      // moved into right clones -> snap back to first real frame
+                      setEnableTransitionDesktop(false);
+                      setPosIndexDesktop(VISIBLE);
+                      requestAnimationFrame(() =>
+                        setEnableTransitionDesktop(true)
+                      );
+                    } else if (posIndexDesktop < VISIBLE) {
+                      // moved into left clones -> snap to last real frame start
+                      setEnableTransitionDesktop(false);
+                      setPosIndexDesktop(total + VISIBLE - 1);
+                      requestAnimationFrame(() =>
+                        setEnableTransitionDesktop(true)
+                      );
+                    }
+                    setTimeout(() => setAnimatingDesktop(false), 10);
+                  }}
+                >
+                  {extendedDesktop.map((m, i) => (
+                    <div key={`${m.id}-${i}`} className="flex-shrink-0">
+                      <Link href={`/profile/${m.slug}`} className="group block">
+                        <MemberCard
+                          member={m}
+                          compact={false}
+                          showSkills
+                          className="w-[20rem] h-[26rem] hover:scale-[1.02] transition-transform duration-300"
+                        />
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile/Tablet Carousel */}
+            <div className="lg:hidden">
+              <div
+                className="relative overflow-hidden"
+                onTouchStart={(e) => {
+                  touchStartX.current = e.touches[0]?.clientX ?? null;
+                  touchStartTime.current = Date.now();
+                }}
+                onTouchEnd={(e) => {
+                  if (
+                    touchStartX.current == null ||
+                    touchStartTime.current == null
+                  )
+                    return;
+                  const endX =
+                    e.changedTouches[0]?.clientX ?? touchStartX.current;
+                  const dx = endX - touchStartX.current;
+                  const dt = Date.now() - touchStartTime.current;
+                  const threshold = 40; // px
+                  const maxTime = 600; // ms
+                  if (dt < maxTime && Math.abs(dx) > threshold) {
+                    if (dx < 0) next();
+                    else prev();
+                  }
+                  touchStartX.current = null;
+                  touchStartTime.current = null;
+                }}
+              >
+                <div
+                  ref={trackRef}
+                  className="flex py-4"
+                  style={{
+                    width: `${extended.length * 100}%`,
+                    transform: `translateX(-${
+                      (posIndex * 100) / Math.max(extended.length, 1)
+                    }%)`,
+                    transition: enableTransition
+                      ? "transform 380ms ease"
+                      : "none",
+                  }}
+                  onTransitionEnd={() => {
+                    if (total <= 1) return;
+                    // Seamless snap when crossing clones
+                    if (posIndex === extended.length - 1) {
+                      // moved onto the cloned first => snap to real first (index 1)
+                      setEnableTransition(false);
+                      setPosIndex(1);
+                      requestAnimationFrame(() => setEnableTransition(true));
+                    } else if (posIndex === 0) {
+                      // moved onto the cloned last => snap to real last (index total)
+                      setEnableTransition(false);
+                      setPosIndex(total);
+                      requestAnimationFrame(() => setEnableTransition(true));
+                    }
+                    // end animation lock a tick later to avoid rapid double taps
+                    setTimeout(() => setAnimating(false), 10);
+                  }}
+                >
+                  {extended.map((m, i) => (
+                    <div
+                      key={`${m.id}-${i}`}
+                      className="flex-shrink-0 flex justify-center px-3"
+                      style={{
+                        width: `${100 / Math.max(extended.length, 1)}%`,
+                      }}
+                    >
+                      <RevealOnScroll delay={0}>
+                        <Link
+                          href={`/profile/${m.slug}`}
+                          className="group block"
+                        >
+                          <Card className="p-6 flex flex-col gap-4 w-72 h-96 bg-secondary border border-border hover:border-accent/40 transition-all duration-300">
+                            <div className="relative aspect-video rounded-xl overflow-hidden">
+                              <FallbackImage
+                                src={m.avatar || m.photo || "/vercel.svg"}
+                                alt={m.name}
+                                fill
+                                sizes="280px"
+                                className="object-cover group-hover:scale-105 transition-transform"
+                              />
+                            </div>
+                            <div className="flex flex-col gap-3 text-center">
+                              <h3 className="text-lg font-semibold text-foreground group-hover:text-accent transition-colors">
+                                {m.name}
+                              </h3>
+                              <p className="text-sm text-muted-foreground">
+                                {m.role}
+                              </p>
+                              <p className="text-xs text-muted-foreground line-clamp-4 leading-relaxed">
+                                {m.bio_short}
+                              </p>
+                              <div className="flex flex-wrap gap-1 justify-center">
+                                {m.skills?.slice(0, 4).map((s: Skill) => (
+                                  <Badge
+                                    key={s.name}
+                                    size="xs"
+                                    variant="secondary"
+                                  >
+                                    {s.name}
+                                  </Badge>
+                                ))}
+                                {m.skills && m.skills.length > 4 && (
+                                  <Badge size="xs" variant="outline">
+                                    +{m.skills.length - 4}
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                          </Card>
+                        </Link>
+                      </RevealOnScroll>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Carousel Controls */}
+                {total > 1 && (
+                  <>
+                    <button
+                      onClick={prev}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-10"
+                    >
+                      <ChevronLeft className="w-6 h-6" />
+                    </button>
+                    <button
+                      onClick={next}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-10"
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                    </button>
+                  </>
+                )}
+
+                {/* Indicators */}
+                {total > 1 && (
+                  <div className="flex justify-center mt-6 gap-2">
+                    {filtered.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => {
+                          if (animating) return;
+                          setAnimating(true);
+                          setEnableTransition(true);
+                          // indicator maps to logical index; translate to position index
+                          setPosIndex(index + 1);
+                        }}
+                        className={`w-2 h-2 rounded-full transition-all ${
+                          index === currentIndex
+                            ? "bg-accent w-8"
+                            : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         )}
       </section>
 
@@ -194,8 +536,9 @@ export default function TeamPage() {
               </h2>
               <p className="text-[12px] opacity-70 leading-relaxed max-w-md">
                 {/* FIX 7: Escaped the apostrophe to resolve the ESLint error. */}
-                we cheer for each other's half-finished stuff & random ideas.
-                profiles are just snapshots; ask us what we're poking at now.
+                we cheer for each other&apos;s half-finished stuff & random
+                ideas. profiles are just snapshots; ask us what we&apos;re
+                poking at now.
               </p>
             </div>
           </RevealOnScroll>

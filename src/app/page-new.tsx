@@ -45,7 +45,7 @@ export default function Home() {
                 </Link>
                 <Link href="/works">
                   <Button
-                    variant="secondary"
+                    variant="outline"
                     size="lg"
                     leftIcon={<Briefcase size={20} />}
                   >
