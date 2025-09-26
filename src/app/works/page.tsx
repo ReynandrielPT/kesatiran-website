@@ -145,7 +145,7 @@ export default function WorksPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="pt-40 min-h-screen bg-background">
       {/* Page Header */}
       <div className="border-b border-border">
         <div className="container mx-auto app-container py-8">
