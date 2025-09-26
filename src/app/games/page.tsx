@@ -316,10 +316,12 @@ export default function GamesPage() {
     filter === "all" ? games : games.filter((game) => game.genre === filter);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pt-16">
+      {" "}
+      {/* Added pt-16 to account for navbar height */}
       {/* Page Header */}
       <div className="border-b border-border">
-        <div className="container mx-auto px-6 py-8">
+        <div className="app-container mx-auto py-8">
           <RevealOnScroll delay={0}>
             <h1 className="text-4xl font-bold text-foreground mb-4 lowercase">
               games we play together
@@ -333,13 +335,11 @@ export default function GamesPage() {
           </RevealOnScroll>
         </div>
       </div>
-
       {/* Gaming Theme Decoration */}
       <div className="h-1 rgb-strip opacity-50" />
-
       {/* Filter Controls */}
       <RevealOnScroll delay={0.2}>
-        <div className="container mx-auto px-6 py-6">
+        <div className="app-container mx-auto py-6">
           <div className="flex flex-wrap gap-3">
             {genres.map((genre) => (
               <button
@@ -357,9 +357,8 @@ export default function GamesPage() {
           </div>
         </div>
       </RevealOnScroll>
-
       {/* Games Grid */}
-      <div className="container mx-auto px-6 pb-12">
+      <div className="app-container mx-auto pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredGames.map((game, index) => (
             <RevealOnScroll key={game.id} delay={index * 0.1}>
@@ -428,7 +427,6 @@ export default function GamesPage() {
           ))}
         </div>
       </div>
-
       {selectedGame &&
         false && ( // disabled modal for now
           <GameModal
