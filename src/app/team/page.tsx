@@ -7,7 +7,8 @@ import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { Users, Filter, Sparkles } from "lucide-react";
+// FIX 1: Removed unused 'Filter' import
+import { Users, Sparkles } from "lucide-react";
 import membersData from "@/data/members.json";
 import { RawMember } from "@/components/MemberCard";
 
@@ -17,13 +18,18 @@ interface Skill {
   level: string;
 }
 
+// FIX 2: Explicitly type the imported JSON data.
+// This tells TypeScript to treat the data as an array of 'RawMember', resolving all type errors.
+const members: RawMember[] = membersData;
+
 export default function TeamPage() {
   // Casual tag filter: use role words + departments reduced to a simple set
   const [activeTag, setActiveTag] = useState<string>("all");
 
   const tags = useMemo(() => {
     const base = new Set<string>();
-    membersData.forEach((m: RawMember) => {
+    // FIX 3: Use the correctly typed 'members' array and remove the incorrect type annotation from the callback.
+    members.forEach((m) => {
       if (m.department) base.add(m.department.toLowerCase());
       m.role
         .split(/[,/]|and|&/i)
@@ -34,7 +40,8 @@ export default function TeamPage() {
     return Array.from(base).slice(0, 10); // keep it small
   }, []);
 
-  const filtered = membersData.filter((m: RawMember) => {
+  // FIX 4: Use the typed 'members' array and remove the redundant type annotation.
+  const filtered = members.filter((m) => {
     if (activeTag === "all") return true;
     const haystack = [m.department, m.role].join(" ").toLowerCase();
     return haystack.includes(activeTag);
@@ -154,7 +161,8 @@ export default function TeamPage() {
             animate={avatarStripInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            {membersData.slice(0, 12).map((m: RawMember) => (
+            {/* FIX 5: Use 'members' array and remove incorrect type annotation. */}
+            {members.slice(0, 12).map((m) => (
               <Link
                 key={m.id}
                 href={`/profile/${m.slug}`}
@@ -217,7 +225,8 @@ export default function TeamPage() {
           initial="hidden"
           animate={memberGridInView ? "show" : "hidden"}
         >
-          {filtered.map((m: RawMember) => (
+          {/* FIX 6: Use the 'filtered' array, which is already correctly typed. */}
+          {filtered.map((m) => (
             <motion.div key={m.id} variants={itemVariants}>
               <Link href={`/profile/${m.slug}`} className="group">
                 <Card className="p-5 flex flex-col gap-5 h-full">
@@ -293,8 +302,9 @@ export default function TeamPage() {
               <Users size={16} /> circle energy
             </h2>
             <p className="text-[12px] opacity-70 leading-relaxed max-w-md">
-              we cheer for each other's half-finished stuff & random ideas.
-              profiles are just snapshots; ask us what we're poking at now.
+              {/* FIX 7: Escaped the apostrophe to resolve the ESLint error. */}
+              we cheer for each other&apos;s half-finished stuff & random ideas.
+              profiles are just snapshots; ask us what we&apos;re poking at now.
             </p>
           </motion.div>
           <motion.div
