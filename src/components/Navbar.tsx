@@ -48,7 +48,7 @@ export function Navbar() {
       className="fixed top-0 z-50 w-full transition-all duration-300 ease-in-out bg-transparent"
       id="navbar-header"
     >
-      <nav className="mx-auto max-w-6xl px-6 flex items-center h-16 gap-6">
+      <nav className="mx-auto app-container flex items-center h-16 gap-6">
         {/* Brand / Logo mark */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <div className="size-8 rounded-md bg-accent flex items-center justify-center text-accent-foreground font-bold text-sm shadow-md group-hover:rotate-6 transition-transform">

@@ -691,3 +691,9 @@ a:hover {
 .bg-secondary\/95 {
   background-color: color-mix(in srgb, var(--secondary) 95%, transparent);
 }
+
+.app-container {
+  max-width: 1152px; /* Equivalent to Tailwind's max-w-6xl */
+  padding-left: 1.5rem; /* Equivalent to Tailwind's px-6 */
+  padding-right: 1.5rem; /* Equivalent to Tailwind's px-6 */
+}

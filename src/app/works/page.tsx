@@ -135,7 +135,7 @@ export default function WorksPage() {
   const navigateLightbox = (direction: "prev" | "next") => {
     if (lightboxGallery.length === 0) return;
 
-    let newIndex =
+    const newIndex =
       direction === "next"
         ? (lightboxIndex + 1) % lightboxGallery.length
         : (lightboxIndex - 1 + lightboxGallery.length) % lightboxGallery.length;
@@ -148,7 +148,7 @@ export default function WorksPage() {
     <div className="min-h-screen bg-background">
       {/* Page Header */}
       <div className="border-b border-border">
-        <div className="container mx-auto px-6 py-8">
+        <div className="container mx-auto app-container py-8">
           <h1 className="text-4xl font-bold text-foreground mb-4 lowercase tracking-tight">
             our art projects
           </h1>
@@ -162,7 +162,7 @@ export default function WorksPage() {
 
       {/* Tabbed Navigation */}
       <div className="border-b border-border bg-card/30 backdrop-blur-sm">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto app-container">
           <nav className="flex space-x-8" aria-label="Works sections">
             {tabs.map((tab) => (
               <button
@@ -182,7 +182,7 @@ export default function WorksPage() {
       </div>
 
       {/* Content Sections */}
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto app-container py-8">
         {/* Audio Section */}
         {activeTab === "audio" && (
           <div className="space-y-4">
@@ -438,7 +438,7 @@ export default function WorksPage() {
       {audioPlayer.currentTrack && (
         <div className="fixed bottom-0 left-0 right-0 z-50">
           <div className="bg-secondary/80 backdrop-blur-lg border-t border-border p-4">
-            <div className="container mx-auto px-6 flex items-center gap-4">
+            <div className="container mx-auto app-container flex items-center gap-4">
               <img
                 src={audioPlayer.currentTrack.thumb}
                 alt={audioPlayer.currentTrack.title}
