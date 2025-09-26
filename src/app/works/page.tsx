@@ -187,7 +187,13 @@ export default function WorksPage() {
       </RevealOnScroll>
 
       {/* Content Sections */}
-      <RevealOnScroll delay={300}>
+      {/*
+       *
+       * THE CORRECT FIX IS HERE: `key={activeTab}` on the RevealOnScroll component.
+       * This forces the entire animation component to re-mount on tab change.
+       *
+       */}
+      <RevealOnScroll key={activeTab} delay={300}>
         <div className="container mx-auto app-container py-8">
           {/* Audio Section */}
           {activeTab === "audio" && (
