@@ -1,57 +1,44 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface RevealOnScrollProps {
   children: React.ReactNode;
-  delay?: number; // Delay in milliseconds
+  delay?: number; // Delay in seconds
   className?: string;
+  variants?: {
+    hidden: { opacity: number; y?: number };
+    visible: { opacity: number; y?: number };
+  };
 }
+
+const defaultVariants = {
+  hidden: { opacity: 0, y: 75 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const RevealOnScroll: React.FC<RevealOnScrollProps> = ({
   children,
   delay = 0,
   className,
+  variants = defaultVariants,
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            setIsVisible(true);
-          }, delay);
-          observer.unobserve(entry.target); // Only animate once
-        }
-      },
-      {
-        root: null, // viewport
-        rootMargin: "0px",
-        threshold: 0.1, // Trigger when 10% of the item is visible
-      }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, [delay]);
+  const isInView = useInView(ref, { once: true, amount: 0.5 }); // Increased amount to 0.5
 
   return (
-    <div
+    <motion.div
       ref={ref}
-      className={cn("reveal-hidden", isVisible && "reveal-visible", className)}
+      variants={variants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      transition={{ duration: 0.5, delay: delay }}
+      className={cn(className)}
     >
       {children}
-    </div>
+    </motion.div>
   );
 };
 

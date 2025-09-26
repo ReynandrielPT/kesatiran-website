@@ -44,7 +44,7 @@ export function Footer() {
     <footer className="mt-20 relative">
       <div className="pointer-events-none absolute inset-0 opacity-[0.005] bg-[radial-gradient(circle_at_30%_40%,var(--accent)_0%,transparent_60%)]" />
       {/* CHANGE: Reduced the border opacity from /05 to /02 to make it fainter */}
-      <div className="border-t border-border/02 backdrop-blur-sm bg-background/70">
+      <div className="border-t border-border/02 backdrop-blur-sm bg-background/20">
         <div className="mx-auto max-w-6xl px-6 py-10 flex flex-col gap-10">
           <div className="flex flex-col md:flex-row md:items-start gap-12">
             <div className="flex-1 space-y-4">
