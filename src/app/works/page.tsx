@@ -167,7 +167,7 @@ export default function WorksPage() {
   return (
     <div className="pt-40 min-h-screen">
       {/* Page Header */}
-      <RevealOnScroll delay={100}>
+      <RevealOnScroll delay={0.1}>
         <div className="border-b border-border">
           <div className="container mx-auto app-container py-8">
             <div className="flex items-center gap-2 text-sm font-medium text-accent uppercase tracking-wider mb-4">
@@ -188,7 +188,7 @@ export default function WorksPage() {
       </RevealOnScroll>
 
       {/* Tabbed Navigation */}
-      <RevealOnScroll delay={200}>
+      <RevealOnScroll delay={0.2}>
         <div className="bg-card/30 backdrop-blur-sm">
           <div className="container mx-auto app-container">
             <nav className="flex space-x-8" aria-label="Works sections">
@@ -214,17 +214,16 @@ export default function WorksPage() {
       </RevealOnScroll>
 
       {/* Content Sections */}
-      <RevealOnScroll key={activeTab} delay={300}>
-        <div className="container mx-auto app-container py-8">
-          {/* Audio Section */}
-          {activeTab === "audio" && (
-            <div className="space-y-4">
-              <div className="space-y-3 enter-fade">
-                {audioWorks.map((work) => {
-                  const active = audioPlayer.currentTrack?.id === work.id;
-                  return (
+      <div className="container mx-auto app-container py-8">
+        {/* Audio Section */}
+        {activeTab === "audio" && (
+          <div className="space-y-4">
+            <div className="space-y-3 enter-fade">
+              {audioWorks.map((work, index) => {
+                const active = audioPlayer.currentTrack?.id === work.id;
+                return (
+                  <RevealOnScroll key={work.id} delay={index * 0.1}>
                     <div
-                      key={work.id}
                       className={`group panel flex items-center gap-4 px-5 py-4 transition-all duration-300 hover:-translate-y-0.5 ${
                         active
                           ? "ring-1 ring-accent/30 shadow-md border-accent/50"
@@ -328,20 +327,19 @@ export default function WorksPage() {
                         )}
                       </button>
                     </div>
-                  );
-                })}
-              </div>
+                  </RevealOnScroll>
+                );
+              })}
             </div>
-          )}
+          </div>
+        )}
 
-          {/* Image Section */}
-          {activeTab === "image" && (
-            <div className="space-y-8">
-              {imageWorks.map((work) => (
-                <div
-                  key={work.id}
-                  className="panel p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
-                >
+        {/* Image Section */}
+        {activeTab === "image" && (
+          <div className="space-y-8">
+            {imageWorks.map((work, index) => (
+              <RevealOnScroll key={work.id} delay={index * 0.1}>
+                <div className="panel p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
                   <div className="mb-6">
                     <h3 className="font-semibold text-xl text-foreground mb-2">
                       {work.title}
@@ -398,18 +396,17 @@ export default function WorksPage() {
                     )}
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+              </RevealOnScroll>
+            ))}
+          </div>
+        )}
 
-          {/* Visual Section */}
-          {activeTab === "visual" && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {visualWorks.map((work) => (
-                <div
-                  key={work.id}
-                  className="panel p-6 transition-shadow hover:shadow-md"
-                >
+        {/* Visual Section */}
+        {activeTab === "visual" && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {visualWorks.map((work, index) => (
+              <RevealOnScroll key={work.id} delay={index * 0.1}>
+                <div className="panel p-6 transition-shadow hover:shadow-md">
                   <div className="relative mb-6">
                     <img
                       src={work.thumb}
@@ -453,11 +450,11 @@ export default function WorksPage() {
                     </Button>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </RevealOnScroll>
+              </RevealOnScroll>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Audio Player Bar */}
       {audioPlayer.currentTrack && (

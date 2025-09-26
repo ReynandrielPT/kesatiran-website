@@ -17,7 +17,7 @@ export interface RawMember {
   photo?: string; // some data objects have photo as fallback
   role: string;
   bio_short: string;
-  social_links: Record<string, string | undefined>;
+  social_links?: Record<string, string | undefined>; // Made social_links optional
   skills?: Array<{ name: string; category: string; level: string }>;
   availability_status?: string;
   department?: string; // Added department as optional
@@ -165,20 +165,21 @@ export function MemberCard({
               compact ? "order-2 ml-auto" : "order-1"
             )}
           >
-            {Object.entries(member.social_links)
-              .slice(0, 4)
-              .map(([platform, url]) => (
-                <Button
-                  key={platform}
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-muted-foreground hover:text-accent"
-                >
-                  <a href={url} target="_blank" rel="noopener noreferrer">
-                    {url && platformLabel(platform)}
-                  </a>
-                </Button>
-              ))}
+            {member.social_links &&
+              Object.entries(member.social_links)
+                .slice(0, 4)
+                .map(([platform, url]) => (
+                  <Button
+                    key={platform}
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-muted-foreground hover:text-accent"
+                  >
+                    <a href={url} target="_blank" rel="noopener noreferrer">
+                      {url && platformLabel(platform)}
+                    </a>
+                  </Button>
+                ))}
           </div>
 
           <Button
