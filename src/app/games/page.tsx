@@ -9,6 +9,7 @@ import {
   Smartphone,
   Gamepad2,
   X,
+  Sparkles,
 } from "lucide-react";
 import gamesData from "@/data/games.json";
 import Link from "next/link";
@@ -316,13 +317,14 @@ export default function GamesPage() {
     filter === "all" ? games : games.filter((game) => game.genre === filter);
 
   return (
-    <div className="min-h-screen bg-background pt-16">
+    <div className="min-h-screen bg-background pt-40">
       {" "}
-      {/* Added pt-16 to account for navbar height */}
-      {/* Page Header */}
       <div className="border-b border-border">
         <div className="app-container mx-auto py-8">
-          <RevealOnScroll delay={0}>
+          <RevealOnScroll delay={0.1}>
+            <div className="flex items-center gap-2 text-sm font-medium text-accent uppercase tracking-wider mb-4">
+              <Sparkles size={16} /> SOMETIMES WE ALSO PLAY GAMES
+            </div>
             <h1 className="text-4xl font-bold text-foreground mb-4 lowercase">
               games we play together
             </h1>
