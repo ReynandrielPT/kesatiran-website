@@ -52,7 +52,8 @@
         "role": "Product Manager",
         "company": "TechCorp"
       }
-    ]
+    ],
+    "fav_songs": ["3z8h0TU7ztPpDkUuZdKGLQ", "40riOy7x9W7GXjyGp4pjAv"]
   },
   {
     "id": "sankya",
@@ -95,7 +96,7 @@
     "contact_email": "jane@kesatiran.com",
     "resume_url": "/media/resumes/jane-smith-resume.pdf",
     "member_since": "2022-03-01",
-    "availability_status": "busy",
+    "availability_status": "turu",
     "career_highlights": [
       {
         "year": "2023",
@@ -115,6 +116,12 @@
         "role": "CEO",
         "company": "StartupXYZ"
       }
+    ],
+    "fav_songs": [
+      "5eY7692tmgHB9dbmq6wa2M",
+      "5tlb0AxuzsMWL2GtEppXGX",
+      "60wwxj6Dd9NJlirf84wr2c",
+      "5g7bsxCqNaucnXpexUoHg8"
     ]
   },
   {
@@ -169,7 +176,8 @@
         "role": "CTO",
         "company": "CloudFirst Inc"
       }
-    ]
+    ],
+    "fav_songs": ["0VjIjW4GlUZAMYd2vXMi3b", "2xLMifQCjDGFmkHkpNLD9h"]
   },
   {
     "id": "member-4",
@@ -183,7 +191,8 @@
     "skills": [
       { "name": "React", "category": "Frontend", "level": "intermediate" },
       { "name": "CSS", "category": "Frontend", "level": "expert" }
-    ]
+    ],
+    "fav_songs": ["6WrI0LAC5M1Rw2MnX2ZvEg", "0sY6uRvQa5s8QnMIC9zS24"]
   },
   {
     "id": "member-5",
@@ -197,7 +206,8 @@
     "skills": [
       { "name": "Node.js", "category": "Backend", "level": "intermediate" },
       { "name": "Databases", "category": "Backend", "level": "intermediate" }
-    ]
+    ],
+    "fav_songs": ["5L6hL6FzD6iVsqo7KjNPUN"]
   },
   {
     "id": "member-6",
@@ -211,7 +221,8 @@
     "skills": [
       { "name": "Product Strategy", "category": "Product", "level": "expert" },
       { "name": "Agile", "category": "Methodology", "level": "expert" }
-    ]
+    ],
+    "fav_songs": ["5ChkMS8OtdzJeqyybgyCIb", "2ySlAbfrscwL6cK3222I9N"]
   },
   {
     "id": "member-7",
@@ -229,6 +240,7 @@
         "category": "QA",
         "level": "intermediate"
       }
-    ]
+    ],
+    "fav_songs": ["7qiZfU4dY1lWllzX7mP3wj", "4r6eNCsrZnQWJzzx54jtY7"]
   }
 ]
