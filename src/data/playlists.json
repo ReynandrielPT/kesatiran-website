@@ -86,5 +86,37 @@
         "duration": "6:15"
       }
     ]
+  },
+  {
+    "id": "tropical-vibes",
+    "title": "Tropical 1",
+    "description": "Tropical beats and melodies to transport you to paradise",
+    "cover": "/media/audio/tropical-1-cover.jpg",
+    "tracks": [
+      {
+        "id": "tropis-ngons",
+        "title": "Tropis Ngons",
+        "artist": "Kesatiran Beats",
+        "file": "/media/audio/Tropis ngons 1_2.mp3",
+        "cover": "/media/audio/tropical-dreams-cover.jpg",
+        "duration": "5:47"
+      },
+      {
+        "id": "island-breeze",
+        "title": "Island Breeze",
+        "artist": "Kesatiran Beats",
+        "file": "/media/audio/island-breeze.mp3",
+        "cover": "/media/audio/island-breeze-cover.jpg",
+        "duration": "5:20"
+      },
+      {
+        "id": "sunset-waves",
+        "title": "Sunset Waves",
+        "artist": "Kesatiran Beats",
+        "file": "/media/audio/sunset-waves.mp3",
+        "cover": "/media/audio/sunset-waves-cover.jpg",
+        "duration": "6:10"
+      }
+    ]
   }
 ]

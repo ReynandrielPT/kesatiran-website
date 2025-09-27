@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Play,
   Pause,
@@ -56,9 +56,24 @@ export default function WorksPage() {
   });
 
   const audioRef = useRef<HTMLAudioElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const volumeRef = useRef<HTMLDivElement>(null);
+  const [volume, setVolume] = useState(0.9);
 
   const works = worksData as Work[];
-  const audioWorks = works.filter((work) => work.type === "audio");
+  const [discoveredAudio, setDiscoveredAudio] = useState<Work[]>([]);
+  const manualAudio = works.filter((work) => work.type === "audio");
+  // prefer manual entries; drop discovered ones that point to the same media
+  const normalizeMedia = (m?: string) => (m || "").trim().toLowerCase();
+  const manualMediaSet = new Set(
+    manualAudio.map((w) => normalizeMedia(w.media))
+  );
+  const discoveredUnique = discoveredAudio.filter(
+    (w) => !manualMediaSet.has(normalizeMedia(w.media))
+  );
+  const audioWorks = [...manualAudio, ...discoveredUnique]
+    // still dedupe by id just in case
+    .filter((w, i, arr) => arr.findIndex((x) => x.id === w.id) === i);
   const imageWorks = works.filter((work) => work.type === "image");
   const visualWorks = works.filter((work) => work.type === "visual");
 
@@ -83,32 +98,120 @@ export default function WorksPage() {
     },
   ];
 
+  // Discover audio files under public/media/audio via API (no DB needed)
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/audio")
+      .then((r) =>
+        r.ok ? r.json() : Promise.reject(new Error("Failed to load /api/audio"))
+      )
+      .then((data) => {
+        if (cancelled) return;
+        const items = (data?.items || []) as Array<Partial<Work>>;
+        const mapped: Work[] = items.map((it) => ({
+          id: String(it.id),
+          type: "audio",
+          title: String(it.title ?? it.id),
+          thumb: String(it.thumb ?? ""),
+          media: String(it.media ?? ""),
+          description: "Imported from /public/media/audio",
+          tags: ["imported"],
+          contributors: [],
+          collaboration_type: "solo",
+          duration: "",
+          artist: "",
+        }));
+        setDiscoveredAudio(mapped);
+      })
+      .catch((e) => console.warn("Discover audio error:", e))
+      .finally(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   // Audio player functions
-  const playTrack = (track: Work) => {
+  const sanitizeMediaSrc = (raw: string) => {
+    if (!raw) return "";
+    // Keep slashes, encode spaces and special chars
+    try {
+      return encodeURI(raw);
+    } catch {
+      return raw;
+    }
+  };
+
+  const headCheck = async (url: string, timeoutMs = 4000) => {
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, {
+        method: "HEAD",
+        signal: controller.signal,
+      });
+      return res.ok;
+    } catch (e) {
+      console.warn("HEAD check failed:", e);
+      return false;
+    } finally {
+      clearTimeout(t);
+    }
+  };
+
+  const playTrack = async (track: Work) => {
+    console.log("playTrack called for:", track.title, "Media:", track.media);
     if (audioRef.current) {
       if (audioPlayer.currentTrack?.id === track.id) {
         if (audioPlayer.isPlaying) {
           audioRef.current.pause();
           setAudioPlayer((prev) => ({ ...prev, isPlaying: false }));
+          console.log("Paused current track");
         } else {
           audioRef.current.play().catch((error) => {
-            console.warn("Audio playback failed:", error);
+            console.error("Audio playback failed:", error);
             setAudioPlayer((prev) => ({ ...prev, isPlaying: false }));
           });
           setAudioPlayer((prev) => ({ ...prev, isPlaying: true }));
+          console.log("Resumed current track");
         }
       } else {
-        audioRef.current.src = track.media;
-        audioRef.current.play().catch((error) => {
-          console.warn("Audio playback failed:", error);
+        console.log("Loading new track:", track.media);
+        // Ensure spaces and special characters in filenames don't break playback
+        const src = sanitizeMediaSrc(track.media);
+        const reachable = await headCheck(src);
+        if (!reachable) {
+          console.error("Audio file not reachable via HEAD:", src);
+          if (process.env.NODE_ENV !== "production") {
+            console.warn(
+              "Open this in a new tab to check:",
+              window.location.origin + src
+            );
+          }
           setAudioPlayer((prev) => ({ ...prev, isPlaying: false }));
-        });
+          return;
+        }
+
+        audioRef.current.src = src;
+        // Some browsers behave better if we call load() before play
+        audioRef.current.load();
+        audioRef.current.muted = false;
+        audioRef.current.volume = 0.9;
+        try {
+          await audioRef.current.play();
+          console.log("Playback started for", src);
+        } catch (error) {
+          console.error("Audio playback failed:", error);
+          setAudioPlayer((prev) => ({ ...prev, isPlaying: false }));
+          return;
+        }
         setAudioPlayer((prev) => ({
           ...prev,
           currentTrack: track,
           isPlaying: true,
         }));
       }
+    } else {
+      console.error("Audio ref is null");
     }
   };
 
@@ -126,6 +229,74 @@ export default function WorksPage() {
     if (audioRef.current) {
       audioRef.current.currentTime = time;
     }
+  };
+
+  const seekFromClientX = (clientX: number) => {
+    const el = progressRef.current;
+    if (!el || !audioRef.current) return;
+    const rect = el.getBoundingClientRect();
+    const ratio = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
+    const dur = audioPlayer.duration || audioRef.current.duration || 0;
+    if (dur > 0) {
+      const newTime = ratio * dur;
+      audioRef.current.currentTime = newTime;
+      setAudioPlayer((prev) => ({
+        ...prev,
+        currentTime: newTime,
+        duration: dur,
+      }));
+    }
+  };
+
+  const startSeekDrag = (downEvent: any) => {
+    // Initialize with initial click
+    if (typeof downEvent.clientX === "number") {
+      seekFromClientX(downEvent.clientX);
+    }
+    const onMove = (e: any) => {
+      const clientX = e.touches ? e.touches[0]?.clientX : e.clientX;
+      if (typeof clientX === "number") seekFromClientX(clientX);
+    };
+    const onUp = () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("touchend", onUp);
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp, { once: true });
+    window.addEventListener("touchmove", onMove);
+    window.addEventListener("touchend", onUp, { once: true });
+  };
+
+  const setVolumeFromClientX = (clientX: number) => {
+    const el = volumeRef.current;
+    if (!el || !audioRef.current) return;
+    const rect = el.getBoundingClientRect();
+    const ratio = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
+    audioRef.current.volume = ratio;
+    audioRef.current.muted = false;
+    setVolume(ratio);
+  };
+
+  const startVolumeDrag = (downEvent: any) => {
+    if (typeof downEvent.clientX === "number") {
+      setVolumeFromClientX(downEvent.clientX);
+    }
+    const onMove = (e: any) => {
+      const clientX = e.touches ? e.touches[0]?.clientX : e.clientX;
+      if (typeof clientX === "number") setVolumeFromClientX(clientX);
+    };
+    const onUp = () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("touchend", onUp);
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp, { once: true });
+    window.addEventListener("touchmove", onMove);
+    window.addEventListener("touchend", onUp, { once: true });
   };
 
   const formatTime = (time: number) => {
@@ -506,12 +677,24 @@ export default function WorksPage() {
                 <span className="text-xs text-muted-foreground tabular-nums">
                   {formatTime(audioPlayer.currentTime)}
                 </span>
-                <div className="flex-1 bg-muted rounded-full h-1 cursor-pointer">
+                <div
+                  ref={progressRef}
+                  className="flex-1 bg-muted rounded-full h-1 cursor-pointer"
+                  onMouseDown={(e) => startSeekDrag(e)}
+                  onTouchStart={(e) => startSeekDrag(e)}
+                  onClick={(e) => seekFromClientX(e.clientX)}
+                  role="slider"
+                  aria-label="Seek"
+                  aria-valuemin={0}
+                  aria-valuemax={Math.max(1, Math.floor(audioPlayer.duration))}
+                  aria-valuenow={Math.floor(audioPlayer.currentTime)}
+                >
                   <div
                     className="bg-accent h-full rounded-full transition-all"
                     style={{
                       width: `${
-                        (audioPlayer.currentTime / audioPlayer.duration) *
+                        (audioPlayer.currentTime /
+                          (audioPlayer.duration || 1)) *
                           100 || 0
                       }%`,
                     }}
@@ -525,8 +708,22 @@ export default function WorksPage() {
               {/* Volume */}
               <div className="flex items-center gap-2">
                 <Volume2 className="w-4 h-4 text-muted-foreground" />
-                <div className="w-20 bg-muted rounded-full h-1">
-                  <div className="bg-accent h-full rounded-full w-3/4" />
+                <div
+                  ref={volumeRef}
+                  className="w-24 bg-muted rounded-full h-1 cursor-pointer"
+                  onMouseDown={(e) => startVolumeDrag(e)}
+                  onTouchStart={(e) => startVolumeDrag(e)}
+                  onClick={(e) => setVolumeFromClientX(e.clientX)}
+                  role="slider"
+                  aria-label="Volume"
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={Math.round(volume * 100)}
+                >
+                  <div
+                    className="bg-accent h-full rounded-full"
+                    style={{ width: `${Math.round(volume * 100)}%` }}
+                  />
                 </div>
               </div>
             </div>
@@ -589,14 +786,46 @@ export default function WorksPage() {
       {/* Hidden Audio Element */}
       <audio
         ref={audioRef}
+        preload="metadata"
+        controls={false}
+        aria-hidden="true"
         onTimeUpdate={handleTimeUpdate}
-        onLoadedMetadata={handleTimeUpdate}
+        onLoadedMetadata={() => {
+          if (audioRef.current) {
+            audioRef.current.volume = 0.7;
+          }
+          handleTimeUpdate();
+        }}
+        onLoadedData={() => {
+          console.log("Audio data loaded:", audioRef.current?.src);
+        }}
         onEnded={() =>
           setAudioPlayer((prev) => ({ ...prev, isPlaying: false }))
         }
         onError={(e) => {
-          console.warn("Audio loading error:", e);
+          const el = e.currentTarget as HTMLAudioElement;
+          const err = el?.error as MediaError | null;
+          const code = err?.code;
+          const codeMap: Record<number, string> = {
+            1: "MEDIA_ERR_ABORTED",
+            2: "MEDIA_ERR_NETWORK",
+            3: "MEDIA_ERR_DECODE",
+            4: "MEDIA_ERR_SRC_NOT_SUPPORTED",
+          };
+          console.error("Audio loading error:", {
+            src: el?.src,
+            networkState: el?.networkState,
+            readyState: el?.readyState,
+            code,
+            codeText: code ? codeMap[code] : undefined,
+          });
           setAudioPlayer((prev) => ({ ...prev, isPlaying: false }));
+        }}
+        onCanPlayThrough={() => {
+          console.log("Audio can play through:", audioRef.current?.src);
+        }}
+        onLoadStart={() => {
+          console.log("Audio load started:", audioRef.current?.src);
         }}
         className="hidden"
       />

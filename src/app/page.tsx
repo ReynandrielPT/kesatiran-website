@@ -16,12 +16,18 @@ import {
   Clock,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 export default function Home() {
   // Curate a lighter, more casual surface slice
   const recentProjects = works.slice(0, 3);
   const recentGames = games.slice(0, 2);
   const circle = members.slice(0, 9); // just a handful for the collage
+  // Home hero circle image: try a custom image in public first, fallback to first member
+  const [useMemberCircle, setUseMemberCircle] = useState(false);
+  const heroCircleSrc = useMemberCircle
+    ? members[0].avatar || members[0].photo
+    : "/media/works/circle.jpg"; // place your image here (public/media/works/circle.jpg)
   const statusPhrases = [
     "editing pixel art",
     "debugging a sound loop",
@@ -123,11 +129,12 @@ export default function Home() {
           >
             <div className="relative size-80 rounded-full overflow-hidden border-4 border-accent/40 shadow-lg">
               <Image
-                src={members[0].avatar || members[0].photo}
-                alt={members[0].name}
+                src={heroCircleSrc}
+                alt={useMemberCircle ? members[0].name : "Circle image"}
                 fill
                 sizes="320px"
                 className="object-cover"
+                onError={() => setUseMemberCircle(true)}
               />
             </div>
           </motion.div>

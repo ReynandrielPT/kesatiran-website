@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { motion } from "framer-motion";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export interface RawMember {
   id: string;
@@ -39,6 +40,7 @@ export function MemberCard({
 }: MemberCardProps) {
   const avatar = member.avatar || member.photo || "/vercel.svg";
   const isOnline = member.availability_status === "available";
+  const { theme } = useTheme();
   // skills display removed in player card
 
   return (
@@ -79,7 +81,14 @@ export function MemberCard({
           />
 
           {/* Gradient overlay bottom */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-background/90 via-background/60 to-transparent" />
+          <div
+            className={cn(
+              "pointer-events-none absolute inset-x-0 bottom-0 h-36",
+              theme === "light"
+                ? "bg-gradient-to-t from-background/95 via-background/75 to-transparent"
+                : "bg-gradient-to-t from-background/90 via-background/60 to-transparent"
+            )}
+          />
 
           {/* Name and role overlay */}
           <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
@@ -87,7 +96,10 @@ export function MemberCard({
               <div className="min-w-0">
                 <h3
                   className={cn(
-                    "font-semibold tracking-tight text-foreground",
+                    "font-semibold tracking-tight",
+                    theme === "light"
+                      ? "text-gray-900 drop-shadow-sm"
+                      : "text-foreground",
                     compact ? "text-lg" : "text-xl"
                   )}
                 >

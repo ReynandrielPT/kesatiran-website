@@ -74,6 +74,19 @@
     "artist": "Kesatiran Audio"
   },
   {
+    "id": "tropical-1",
+    "type": "audio",
+    "title": "Tropical 1",
+    "thumb": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjMUY0QjI3Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgZmlsbD0iIzNCOEY0NiIgZm9udC1zaXplPSIyMCIgZm9udC1mYW1pbHk9IkFyaWFsIj5Ucm9waWNhbCAxPC90ZXh0Pgo8L3N2Zz4=",
+    "media": "/media/audio/tropis-ngons-1-2.mp3",
+    "description": "A vibrant tropical music collection featuring upbeat rhythms and sunny melodies that capture the essence of paradise.",
+    "tags": ["Tropical", "Upbeat", "World Music", "Paradise"],
+    "contributors": ["john-doe"],
+    "collaboration_type": "solo",
+    "duration": "5:47",
+    "artist": "Kesatiran Beats"
+  },
+  {
     "id": "team-portraits",
     "type": "image",
     "title": "Team Portrait Series",
