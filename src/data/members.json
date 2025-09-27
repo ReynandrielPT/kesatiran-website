@@ -38,11 +38,6 @@
         "year": "2023",
         "title": "Led E-commerce Platform Migration",
         "description": "Successfully migrated a legacy e-commerce platform to modern React/Node.js stack, improving performance by 300%"
-      },
-      {
-        "year": "2022",
-        "title": "Open Source Contributor",
-        "description": "Contributed to multiple popular open-source projects including React Router and Express.js"
       }
     ],
     "testimonials": [
@@ -53,7 +48,13 @@
         "company": "TechCorp"
       }
     ],
-    "fav_songs": ["3z8h0TU7ztPpDkUuZdKGLQ", "40riOy7x9W7GXjyGp4pjAv"]
+    "fav_songs": [
+      "3z8h0TU7ztPpDkUuZdKGLQ",
+      "40riOy7x9W7GXjyGp4pjAv",
+      "5g7bsxCqNaucnXpexUoHg8",
+      "0wwxj6Dd9NJlirf84wr2c"
+    ],
+    "fav_media": ["tt0133093", "tt1856101"]
   },
   {
     "id": "sankya",
@@ -69,29 +70,17 @@
     "skills": [
       { "name": "UI Design", "category": "Design", "level": "expert" },
       { "name": "UX Research", "category": "Research", "level": "expert" },
-      { "name": "Prototyping", "category": "Design", "level": "expert" },
-      {
-        "name": "Brand Identity",
-        "category": "Branding",
-        "level": "intermediate"
-      },
-      {
-        "name": "Frontend Development",
-        "category": "Technical",
-        "level": "beginner"
-      }
+      { "name": "Prototyping", "category": "Design", "level": "expert" }
     ],
     "tools": [
       { "name": "Figma", "category": "Design", "icon": "figma" },
       { "name": "Adobe Creative Suite", "category": "Design", "icon": "adobe" },
-      { "name": "Sketch", "category": "Design", "icon": "sketch" },
-      { "name": "Principle", "category": "Prototyping", "icon": "principle" }
+      { "name": "Sketch", "category": "Design", "icon": "sketch" }
     ],
     "social_links": {
       "dribbble": "https://dribbble.com/janesmith",
       "behance": "https://behance.net/janesmith",
-      "linkedin": "https://linkedin.com/in/janesmith",
-      "instagram": "https://instagram.com/janesmith_design"
+      "linkedin": "https://linkedin.com/in/janesmith"
     },
     "contact_email": "jane@kesatiran.com",
     "resume_url": "/media/resumes/jane-smith-resume.pdf",
@@ -102,11 +91,6 @@
         "year": "2023",
         "title": "Design System Architecture",
         "description": "Created comprehensive design system for a fintech startup, reducing design-to-development time by 50%"
-      },
-      {
-        "year": "2022",
-        "title": "Award-Winning Mobile App",
-        "description": "Designed mobile banking app that won UX Design Award for accessibility and user experience"
       }
     ],
     "testimonials": [
@@ -120,9 +104,10 @@
     "fav_songs": [
       "5eY7692tmgHB9dbmq6wa2M",
       "5tlb0AxuzsMWL2GtEppXGX",
-      "60wwxj6Dd9NJlirf84wr2c",
-      "5g7bsxCqNaucnXpexUoHg8"
-    ]
+      "5g7bsxCqNaucnXpexUoHg8",
+      "60wwxj6Dd9NJlirf84wr2c"
+    ],
+    "fav_media": ["tt5311514", "tt3413018"]
   },
   {
     "id": "rey",
@@ -137,16 +122,11 @@
     "bio_long": "Rey is a highly skilled DevOps engineer who thrives on solving complex infrastructure challenges. With 6 years of experience in cloud computing and automation, Alex specializes in AWS, Kubernetes, and CI/CD pipeline optimization. They have helped numerous companies scale their infrastructure while maintaining reliability and security. Alex is also passionate about mentoring junior developers and promoting DevOps best practices.",
     "skills": [
       { "name": "AWS", "category": "Cloud", "level": "expert" },
-      { "name": "Kubernetes", "category": "Orchestration", "level": "expert" },
-      { "name": "Docker", "category": "Containerization", "level": "expert" },
-      { "name": "Terraform", "category": "Infrastructure", "level": "expert" },
-      { "name": "Python", "category": "Scripting", "level": "intermediate" }
+      { "name": "Kubernetes", "category": "Orchestration", "level": "expert" }
     ],
     "tools": [
       { "name": "AWS Console", "category": "Cloud", "icon": "aws" },
-      { "name": "Terraform", "category": "IaC", "icon": "terraform" },
-      { "name": "Jenkins", "category": "CI/CD", "icon": "jenkins" },
-      { "name": "Grafana", "category": "Monitoring", "icon": "grafana" }
+      { "name": "Terraform", "category": "IaC", "icon": "terraform" }
     ],
     "social_links": {
       "github": "https://github.com/ReynandrielPT",
@@ -162,11 +142,6 @@
         "year": "2023",
         "title": "Multi-Cloud Architecture",
         "description": "Designed and implemented multi-cloud strategy reducing infrastructure costs by 35% while improving reliability"
-      },
-      {
-        "year": "2021",
-        "title": "Zero-Downtime Migration",
-        "description": "Led migration of legacy monolith to microservices architecture with zero downtime for 1M+ users"
       }
     ],
     "testimonials": [
@@ -177,7 +152,8 @@
         "company": "CloudFirst Inc"
       }
     ],
-    "fav_songs": ["0VjIjW4GlUZAMYd2vXMi3b", "2xLMifQCjDGFmkHkpNLD9h"]
+    "fav_songs": ["0VjIjW4GlUZAMYd2vXMi3b", "2xLMifQCjDGFmkHkpNLD9h"],
+    "fav_media": ["tt0386676", "tt1160419"]
   },
   {
     "id": "member-4",
@@ -192,7 +168,8 @@
       { "name": "React", "category": "Frontend", "level": "intermediate" },
       { "name": "CSS", "category": "Frontend", "level": "expert" }
     ],
-    "fav_songs": ["6WrI0LAC5M1Rw2MnX2ZvEg", "0sY6uRvQa5s8QnMIC9zS24"]
+    "fav_songs": ["6WrI0LAC5M1Rw2MnX2ZvEg", "0sY6uRvQa5s8QnMIC9zS24"],
+    "fav_media": ["tt5687612", "tt6710474"]
   },
   {
     "id": "member-5",
@@ -207,7 +184,8 @@
       { "name": "Node.js", "category": "Backend", "level": "intermediate" },
       { "name": "Databases", "category": "Backend", "level": "intermediate" }
     ],
-    "fav_songs": ["5L6hL6FzD6iVsqo7KjNPUN"]
+    "fav_songs": ["5L6hL6FzD6iVsqo7KjNPUN"],
+    "fav_media": ["tt0903747", "tt0068646"]
   },
   {
     "id": "member-6",
@@ -222,7 +200,8 @@
       { "name": "Product Strategy", "category": "Product", "level": "expert" },
       { "name": "Agile", "category": "Methodology", "level": "expert" }
     ],
-    "fav_songs": ["5ChkMS8OtdzJeqyybgyCIb", "2ySlAbfrscwL6cK3222I9N"]
+    "fav_songs": ["5ChkMS8OtdzJeqyybgyCIb", "2ySlAbfrscwL6cK3222I9N"],
+    "fav_media": ["tt7660850", "tt1285016"]
   },
   {
     "id": "member-7",
@@ -241,6 +220,7 @@
         "level": "intermediate"
       }
     ],
-    "fav_songs": ["7qiZfU4dY1lWllzX7mP3wj", "4r6eNCsrZnQWJzzx54jtY7"]
+    "fav_songs": ["7qiZfU4dY1lWllzX7mP3wj", "4r6eNCsrZnQWJzzx54jtY7"],
+    "fav_media": ["tt7366338", "tt6751668"]
   }
 ]

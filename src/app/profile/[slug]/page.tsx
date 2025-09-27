@@ -15,7 +15,6 @@ import {
   ChevronLeft,
   Sparkles,
   Music,
-  // Ikon baru untuk Skills
   CodeXml,
   Server,
   Cloud,
@@ -33,9 +32,10 @@ import {
   Search,
   Star,
   Pickaxe,
+  Clapperboard,
 } from "lucide-react";
 
-import RevealOnScroll from "@/components/RevealOnScroll"; // Pastikan ini diimpor
+import RevealOnScroll from "@/components/RevealOnScroll";
 import membersData from "@/data/members.json";
 import worksData from "@/data/works.json";
 
@@ -127,7 +127,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
   }
 
   return (
-    <div className="min-h-screen pt-30 pb-24 space-y-8">
+    <div className="min-h-screen pt-30 pb-24 space-y-16">
       <RevealOnScroll delay={0.1}>
         <div className="px-6 max-w-5xl mx-auto">
           <Link
@@ -243,23 +243,19 @@ export default function ProfilePage({ params }: ProfilePageProps) {
             </div>
           )}
 
-          {/* EDITED: Fav Songs Section with RevealOnScroll */}
+          {/* EDITED: Fav Songs Section with 2x2 Grid and Staggered Animation */}
           {member.fav_songs && member.fav_songs.length > 0 && (
-            <RevealOnScroll delay={0.5}>
-              {" "}
-              {/* Tambahkan RevealOnScroll di sini */}
-              <div className="space-y-4">
-                <h3 className="text-base font-semibold flex items-center gap-2">
-                  <Music size={14} /> fav songs
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {member.fav_songs
-                    .slice(0, 4)
-                    .map((songId: string, index: number) => (
-                      // Berikan delay tambahan untuk efek berjenjang jika diinginkan
+            <div className="space-y-4">
+              <h3 className="text-base font-semibold flex items-center gap-2">
+                <Music size={14} /> fav songs
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {member.fav_songs
+                  .slice(0, 4)
+                  .map((songId: string, index: number) => (
+                    <RevealOnScroll key={songId} delay={index * 0.1}>
                       <iframe
-                        key={songId}
-                        className="rounded-lg"
+                        className="rounded-lg w-full"
                         src={`https://open.spotify.com/embed/track/${songId}?utm_source=generator&theme=0`}
                         width="100%"
                         height="80"
@@ -267,7 +263,31 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                         loading="lazy"
                       ></iframe>
-                    ))}
+                    </RevealOnScroll>
+                  ))}
+              </div>
+            </div>
+          )}
+
+          {member.fav_media && member.fav_media.length > 0 && (
+            <RevealOnScroll delay={0.2}>
+              <div className="space-y-4">
+                <h3 className="text-base font-semibold flex items-center gap-2">
+                  <Clapperboard size={14} /> fav movies & series
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {member.fav_media.slice(0, 4).map((imdbId: string) => (
+                    <div key={imdbId} className="aspect-video w-full">
+                      <iframe
+                        src={`https://multiembed.mov/?video_id=${imdbId}`}
+                        width="100%"
+                        height="100%"
+                        frameBorder="0"
+                        allowFullScreen
+                        className="rounded-lg"
+                      ></iframe>
+                    </div>
+                  ))}
                 </div>
               </div>
             </RevealOnScroll>
