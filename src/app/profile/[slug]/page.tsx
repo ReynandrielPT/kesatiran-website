@@ -35,7 +35,7 @@ import {
   Pickaxe,
 } from "lucide-react";
 
-import RevealOnScroll from "@/components/RevealOnScroll";
+import RevealOnScroll from "@/components/RevealOnScroll"; // Pastikan ini diimpor
 import membersData from "@/data/members.json";
 import worksData from "@/data/works.json";
 
@@ -45,7 +45,6 @@ interface ProfilePageProps {
   }>;
 }
 
-// Fungsi untuk mendapatkan ikon Lucide berdasarkan kategori skill
 const getSkillIcon = (skill: { category: string }) => {
   const category = skill.category.toLowerCase();
   const iconSize = 14;
@@ -128,7 +127,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-24 space-y-16">
+    <div className="min-h-screen pt-30 pb-24 space-y-8">
       <RevealOnScroll delay={0.1}>
         <div className="px-6 max-w-5xl mx-auto">
           <Link
@@ -223,7 +222,6 @@ export default function ProfilePage({ params }: ProfilePageProps) {
             </p>
           </div>
 
-          {/* EDITED: Some Skills Section with Lucide Icons */}
           {member.skills && member.skills.length > 0 && (
             <div className="space-y-4">
               <h3 className="text-base font-semibold flex items-center gap-2">
@@ -245,26 +243,34 @@ export default function ProfilePage({ params }: ProfilePageProps) {
             </div>
           )}
 
+          {/* EDITED: Fav Songs Section with RevealOnScroll */}
           {member.fav_songs && member.fav_songs.length > 0 && (
-            <div className="space-y-4">
-              <h3 className="text-base font-semibold flex items-center gap-2">
-                <Music size={14} /> fav songs
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {member.fav_songs.slice(0, 4).map((songId: string) => (
-                  <iframe
-                    key={songId}
-                    className="rounded-lg"
-                    src={`https://open.spotify.com/embed/track/${songId}?utm_source=generator&theme=0`}
-                    width="100%"
-                    height="80"
-                    frameBorder="0"
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    loading="lazy"
-                  ></iframe>
-                ))}
+            <RevealOnScroll delay={0.5}>
+              {" "}
+              {/* Tambahkan RevealOnScroll di sini */}
+              <div className="space-y-4">
+                <h3 className="text-base font-semibold flex items-center gap-2">
+                  <Music size={14} /> fav songs
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {member.fav_songs
+                    .slice(0, 4)
+                    .map((songId: string, index: number) => (
+                      // Berikan delay tambahan untuk efek berjenjang jika diinginkan
+                      <iframe
+                        key={songId}
+                        className="rounded-lg"
+                        src={`https://open.spotify.com/embed/track/${songId}?utm_source=generator&theme=0`}
+                        width="100%"
+                        height="80"
+                        frameBorder="0"
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy"
+                      ></iframe>
+                    ))}
+                </div>
               </div>
-            </div>
+            </RevealOnScroll>
           )}
 
           {memberWorks.length > 0 && (
