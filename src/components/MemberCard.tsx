@@ -6,7 +6,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
 import { motion } from "framer-motion";
 
 export interface RawMember {
@@ -29,11 +28,7 @@ interface MemberCardProps extends React.HTMLAttributes<HTMLDivElement> {
   compact?: boolean; // smaller layout variant
 }
 
-// Helper: choose first letter (or 2 if short) for social chip fallback
-function platformLabel(platform: string) {
-  if (platform.length <= 3) return platform.toUpperCase();
-  return platform[0].toUpperCase();
-}
+// removed platform label helper; no longer rendering social platform chips
 
 export function MemberCard({
   member,
@@ -44,7 +39,7 @@ export function MemberCard({
 }: MemberCardProps) {
   const avatar = member.avatar || member.photo || "/vercel.svg";
   const isOnline = member.availability_status === "available";
-  const SkillLimit = compact ? 2 : 3;
+  // skills display removed in player card
 
   return (
     <motion.div
@@ -54,144 +49,85 @@ export function MemberCard({
       viewport={{ once: true, amount: 0.3 }}
     >
       <Card
+        padding="none"
         className={cn(
-          "group flex flex-col h-full transition-all duration-300",
+          "group relative h-full w-full overflow-hidden",
           "bg-secondary border border-border hover:border-accent/40",
-          compact ? "p-4" : "p-6",
           className
         )}
         {...rest}
       >
+        {/* Full-bleed player image */}
         <div
           className={cn(
-            "flex",
-            compact ? "items-center gap-4" : "flex-col items-center gap-5"
+            "relative w-full h-full",
+            // Provide a sensible default size when parent doesn't enforce height
+            compact ? "min-h-[18rem]" : "min-h-[24rem]"
           )}
         >
-          {/* Avatar */}
-          <div
-            className={cn(
-              "relative rounded-lg overflow-hidden",
-              compact ? "h-14 w-14" : "h-24 w-24"
-            )}
-          >
-            <Image
-              src={avatar}
-              alt={member.name}
-              fill
-              sizes={compact ? "56px" : "96px"}
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-            {/* Presence dot */}
-            {isOnline && (
-              <div className="absolute bottom-1 right-1">
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
-                </span>
-              </div>
-            )}
-          </div>
+          <Image
+            src={avatar}
+            alt={member.name}
+            fill
+            sizes={
+              compact
+                ? "(max-width: 768px) 240px, 320px"
+                : "(max-width: 768px) 320px, 448px"
+            }
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            priority={false}
+          />
 
-          {/* Heading + role (layout switches depending on compact) */}
-          <div
-            className={cn("text-center", compact && "text-left flex-1 min-w-0")}
-          >
-            <h3
-              className={cn(
-                "font-semibold tracking-tight text-foreground group-hover:text-accent",
-                compact ? "text-base" : "text-lg"
+          {/* Gradient overlay bottom */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-background/90 via-background/60 to-transparent" />
+
+          {/* Name and role overlay */}
+          <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+            <div className="flex items-end justify-between gap-3">
+              <div className="min-w-0">
+                <h3
+                  className={cn(
+                    "font-semibold tracking-tight text-foreground",
+                    compact ? "text-lg" : "text-xl"
+                  )}
+                >
+                  {member.name}
+                </h3>
+              </div>
+              {isOnline && (
+                <span className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-2 py-1 text-[10px] font-medium text-accent">
+                  <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
+                  Online
+                </span>
               )}
-            >
-              {member.name}
-            </h3>
-            <p
-              className={cn(
-                "text-muted-foreground truncate max-w-[14rem] mx-auto",
-                compact ? "text-xs mt-0.5" : "text-sm mt-1",
-                compact && "mx-0"
-              )}
-            >
-              {member.role}
-            </p>
+            </div>
+
+            {/* Skills tags removed for a cleaner player card */}
           </div>
         </div>
 
-        {/* Bio */}
-        <p
-          className={cn(
-            "text-muted-foreground flex-1",
-            compact ? "text-xs mt-3" : "text-sm text-center mt-4"
-          )}
-        >
-          {member.bio_short}
-        </p>
-
-        {/* Skills */}
-        {showSkills && member.skills && member.skills.length > 0 && (
-          <div
-            className={cn(
-              "flex flex-wrap gap-1.5",
-              compact ? "mt-3" : "mt-5 justify-center"
-            )}
-          >
-            {member.skills.slice(0, SkillLimit).map((skill) => (
-              <Badge
-                key={skill.name}
-                variant="secondary"
-                size={compact ? "sm" : "md"}
-              >
-                {skill.name}
-              </Badge>
-            ))}
-            {member.skills.length > SkillLimit && (
-              <Badge variant="secondary" size={compact ? "sm" : "md"}>
-                +{member.skills.length - SkillLimit} more
-              </Badge>
-            )}
-          </div>
-        )}
-
-        {/* Socials + Profile Button */}
+        {/* Footer action (kept minimal, outside overlay) */}
         <div
-          className={cn(
-            "flex items-center",
-            compact ? "mt-4 gap-2" : "mt-6 flex-col gap-4"
-          )}
+          className={cn("absolute inset-x-0 top-0 p-3 flex justify-end")}
+          aria-hidden
         >
-          <div
-            className={cn(
-              "flex items-center gap-2",
-              compact ? "order-2 ml-auto" : "order-1"
-            )}
-          >
-            {member.social_links &&
-              Object.entries(member.social_links)
-                .slice(0, 4)
-                .map(([platform, url]) => (
-                  <Button
-                    key={platform}
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 text-muted-foreground hover:text-accent"
-                  >
-                    <a href={url} target="_blank" rel="noopener noreferrer">
-                      {url && platformLabel(platform)}
-                    </a>
-                  </Button>
-                ))}
-          </div>
+          {member.social_links && (
+            <div className="flex items-center gap-1.5">
+              {/* Reserved for future icons if needed; left blank for clean player look */}
+            </div>
+          )}
+        </div>
 
-          <Button
-            variant="outline"
-            className={cn(
-              "border-border",
-              compact ? "order-1" : "order-2 w-full"
-            )}
-            size={compact ? "sm" : "md"}
-          >
-            <Link href={`/profile/${member.slug}`}>View Profile</Link>
-          </Button>
+        <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 flex justify-end pointer-events-none">
+          <div className="pointer-events-auto">
+            <Button
+              variant="outline"
+              size={compact ? "sm" : "md"}
+              className="border-border bg-background/80 backdrop-blur-sm"
+            >
+              <Link href={`/profile/${member.slug}`}>View Profile</Link>
+            </Button>
+          </div>
         </div>
       </Card>
     </motion.div>
