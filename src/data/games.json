@@ -42,11 +42,11 @@
     ],
     "montages": [
       {
-        "id": "valo-ace-clip",
-        "title": "ace on haven",
-        "thumb": "/media/games/valorant-montage-1.jpg",
-        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-        "createdAt": "2025-08-12"
+        "id": "valo-rgx1",
+        "title": "RGX montage",
+        "thumb": "/media/games/valorant-1.jpg",
+        "video": "/media/game/valorant/montageRGX1.mp4",
+        "createdAt": "2025-09-01"
       }
     ]
   },

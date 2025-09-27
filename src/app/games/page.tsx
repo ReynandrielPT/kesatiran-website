@@ -339,7 +339,7 @@ export default function GamesPage() {
         </div>
       </div>
       {/* Gaming Theme Decoration */}
-      <div className="h-0.5 rgb-strip opacity-50" />
+      <div className="h-0.5 rgb-strip opacity-40" />
       {/* Filter Controls */}
       <RevealOnScroll delay={0.2}>
         <div className="app-container mx-auto py-6">

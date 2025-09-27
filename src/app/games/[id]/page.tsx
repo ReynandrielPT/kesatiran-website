@@ -2,6 +2,7 @@ import gamesData from "@/data/games.json";
 import members from "@/data/members.json";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import MontageGrid from "@/components/games/MontageGrid";
 
 interface GamePlayer {
   memberId: string;
@@ -49,7 +50,7 @@ export default function GameDetail({
   }, {});
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <div className="border-b border-border">
         <div className="container mx-auto px-6 py-8">
           <div className="flex items-center gap-4 mb-4">
@@ -60,7 +61,7 @@ export default function GameDetail({
               ← back
             </Link>
           </div>
-          <h1 className="text-4xl font-bold text-foreground mb-2 lowercase">
+          <h1 className="text-4xl font-bold text-heading mb-2 lowercase">
             {game.title}
           </h1>
           <p className="text-muted-foreground max-w-2xl leading-relaxed text-sm">
@@ -73,7 +74,9 @@ export default function GameDetail({
         {/* Roster */}
         {game.players && game.players.length > 0 && (
           <section>
-            <h2 className="text-xl font-semibold mb-4 lowercase">who plays</h2>
+            <h2 className="text-xl font-semibold mb-4 lowercase text-heading">
+              who plays
+            </h2>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {game.players.map((p) => {
                 const m = memberMap[p.memberId];
@@ -93,7 +96,7 @@ export default function GameDetail({
                       <div className="flex items-center gap-2 flex-wrap">
                         <Link
                           href={`/profile/${m?.slug || "#"}`}
-                          className="text-sm font-medium hover:text-accent truncate max-w-[140px]"
+                          className="text-sm font-medium hover:text-accent truncate max-w-[140px] text-heading"
                         >
                           {m?.name || p.nickname}
                         </Link>
@@ -135,14 +138,14 @@ export default function GameDetail({
         {/* Settings Table */}
         {game.players && game.players.some((p) => p.settings) && (
           <section className="space-y-4">
-            <h2 className="text-xl font-semibold lowercase">
+            <h2 className="text-xl font-semibold lowercase text-heading">
               detailed settings
             </h2>
             <div className="overflow-x-auto rounded-lg border border-border">
               <table className="w-full text-sm">
                 <thead className="bg-muted/40 text-left">
                   <tr>
-                    <th className="p-3 font-medium">player</th>
+                    <th className="p-3 font-medium text-heading">player</th>
                     {Array.from(
                       new Set(
                         game.players.flatMap((p) =>
@@ -152,7 +155,7 @@ export default function GameDetail({
                     ).map((key) => (
                       <th
                         key={key}
-                        className="p-3 font-medium whitespace-nowrap"
+                        className="p-3 font-medium whitespace-nowrap text-heading"
                       >
                         {key}
                       </th>
@@ -165,7 +168,7 @@ export default function GameDetail({
                       key={p.memberId}
                       className="border-t border-border/60 hover:bg-muted/30"
                     >
-                      <td className="p-3 font-medium text-foreground whitespace-nowrap">
+                      <td className="p-3 font-medium text-heading whitespace-nowrap">
                         {memberMap[p.memberId]?.name || p.nickname}
                       </td>
                       {Array.from(
@@ -197,41 +200,10 @@ export default function GameDetail({
         {/* Montages */}
         {game.montages && game.montages.length > 0 && (
           <section className="space-y-4">
-            <h2 className="text-xl font-semibold lowercase">
+            <h2 className="text-xl font-semibold lowercase text-heading">
               clips & montages
             </h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {game.montages.map((m) => (
-                <div
-                  key={m.id}
-                  className="group rounded-lg border border-border bg-card/70 hover:bg-card transition overflow-hidden"
-                >
-                  <div className="relative aspect-video w-full bg-black/30">
-                    {m.video.includes("youtube.com") ? (
-                      <iframe
-                        src={m.video}
-                        title={m.title}
-                        className="absolute inset-0 w-full h-full"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    ) : (
-                      <video
-                        src={m.video}
-                        controls
-                        className="absolute inset-0 w-full h-full object-cover"
-                      />
-                    )}
-                  </div>
-                  <div className="p-3 space-y-1">
-                    <p className="text-sm font-medium truncate">{m.title}</p>
-                    <p className="text-[11px] text-muted-foreground">
-                      {new Date(m.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <MontageGrid montages={game.montages} />
           </section>
         )}
       </div>
