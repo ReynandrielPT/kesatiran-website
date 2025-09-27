@@ -118,16 +118,16 @@
     ]
   },
   {
-    "id": "alex-rodriguez",
-    "name": "Alex Rodriguez",
-    "slug": "alex-rodriguez",
-    "photo": "/media/team/alex-rodriguez.jpg",
-    "avatar": "/media/team/alex-rodriguez-avatar.jpg",
-    "role": "DevOps Engineer",
-    "department": "Infrastructure",
-    "location": "Austin, TX",
+    "id": "rey",
+    "name": "ReynandrielPT",
+    "slug": "reynandrielpt",
+    "photo": "/media/team/reynandrielpt.jpg",
+    "avatar": "/media/team/reynandrielpt-avatar.jpg",
+    "role": "Yapper",
+    "department": "Informatics on Institut Teknologi Sepuluh Nopember",
+    "location": "Surabaya, Indonesia",
     "bio_short": "DevOps engineer passionate about automation, scalability, and cloud infrastructure. 6 years of experience with AWS and Kubernetes.",
-    "bio_long": "Alex is a highly skilled DevOps engineer who thrives on solving complex infrastructure challenges. With 6 years of experience in cloud computing and automation, Alex specializes in AWS, Kubernetes, and CI/CD pipeline optimization. They have helped numerous companies scale their infrastructure while maintaining reliability and security. Alex is also passionate about mentoring junior developers and promoting DevOps best practices.",
+    "bio_long": "Rey is a highly skilled DevOps engineer who thrives on solving complex infrastructure challenges. With 6 years of experience in cloud computing and automation, Alex specializes in AWS, Kubernetes, and CI/CD pipeline optimization. They have helped numerous companies scale their infrastructure while maintaining reliability and security. Alex is also passionate about mentoring junior developers and promoting DevOps best practices.",
     "skills": [
       { "name": "AWS", "category": "Cloud", "level": "expert" },
       { "name": "Kubernetes", "category": "Orchestration", "level": "expert" },
@@ -142,12 +142,12 @@
       { "name": "Grafana", "category": "Monitoring", "icon": "grafana" }
     ],
     "social_links": {
-      "github": "https://github.com/alexrodriguez",
-      "linkedin": "https://linkedin.com/in/alexrodriguez",
-      "twitter": "https://twitter.com/alexdevops"
+      "github": "https://github.com/ReynandrielPT",
+      "linkedin": "https://www.linkedin.com/in/reynandriel-pramas-thandya-94b936255/",
+      "twitter": "https://twitter.com/reynandrielpt"
     },
     "contact_email": "alex@kesatiran.com",
-    "resume_url": "/media/resumes/alex-rodriguez-resume.pdf",
+    "resume_url": "/media/resumes/reynandrielpt-resume.pdf",
     "member_since": "2021-08-15",
     "availability_status": "available",
     "career_highlights": [
