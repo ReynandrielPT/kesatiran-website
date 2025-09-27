@@ -55,11 +55,11 @@
     ]
   },
   {
-    "id": "jane-smith",
-    "name": "Jane Smith",
-    "slug": "jane-smith",
-    "photo": "/media/team/jane-smith.jpg",
-    "avatar": "/media/team/jane-smith-avatar.jpg",
+    "id": "sankya",
+    "name": "Sankya",
+    "slug": "sankya",
+    "photo": "/media/team/sankya.jpg",
+    "avatar": "/media/team/sankya.jpg",
     "role": "UI/UX Designer",
     "department": "Design",
     "location": "New York, NY",
