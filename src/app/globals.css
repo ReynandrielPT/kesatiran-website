@@ -275,8 +275,10 @@
   all: unset;
 }
 
+/* Respect explicit theme selection: only fall back to system preference
+   when no data-theme attribute is present on the root element. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  html:not([data-theme]) {
     --background: var(--bg-primary);
     --foreground: var(--fg-primary);
   }

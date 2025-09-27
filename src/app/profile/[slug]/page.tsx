@@ -150,7 +150,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                 sizes="160px"
                 className="object-cover"
               />
-              <div className="absolute bottom-2 left-2 px-2 py-1 rounded-full text-[10px] font-medium bg-[color-mix(in_srgb,var(--accent)_60%,transparent)] text-white/90 backdrop-blur">
+              <div className="absolute bottom-2 left-2 px-2 py-1 rounded-full text-[10px] font-medium bg-[color-mix(in_srgb,var(--accent)_60%,transparent)] text-accent-foreground backdrop-blur">
                 {member.availability_status === "available" ? "online" : "busy"}
               </div>
             </div>

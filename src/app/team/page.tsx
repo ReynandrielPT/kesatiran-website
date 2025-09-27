@@ -386,7 +386,7 @@ export default function TeamPage() {
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 activeTag === "all"
                   ? "bg-accent text-accent-foreground"
-                  : "bg-secondary text-muted-foreground hover:bg-tertiary hover:text-foreground"
+                  : "bg-secondary text-muted-foreground hover:bg-tertiary hover:text-heading"
               }`}
             >
               All
@@ -398,7 +398,7 @@ export default function TeamPage() {
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors capitalize ${
                   activeTag === t
                     ? "bg-accent text-accent-foreground"
-                    : "bg-secondary text-muted-foreground hover:bg-tertiary hover:text-foreground"
+                    : "bg-secondary text-muted-foreground hover:bg-tertiary hover:text-heading"
                 }`}
               >
                 {t}
@@ -412,7 +412,7 @@ export default function TeamPage() {
       <section className="px-6 mx-auto max-w-6xl">
         {filtered.length === 0 ? (
           <RevealOnScroll delay={0}>
-            <div className="text-center py-24 text-sm opacity-60">
+            <div className="text-center py-24 text-sm text-muted-foreground opacity-60">
               nobody under that tag right now
             </div>
           </RevealOnScroll>
@@ -431,13 +431,13 @@ export default function TeamPage() {
                   <>
                     <button
                       onClick={prevSpotlight}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-20"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-heading hover:text-accent transition-all shadow-lg z-20"
                     >
                       <ChevronLeft className="w-6 h-6" />
                     </button>
                     <button
                       onClick={nextSpotlight}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-20"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-heading hover:text-accent transition-all shadow-lg z-20"
                     >
                       <ChevronRight className="w-6 h-6" />
                     </button>
@@ -717,13 +717,13 @@ export default function TeamPage() {
                   <>
                     <button
                       onClick={prev}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-20"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-heading hover:text-accent transition-all shadow-lg z-20"
                     >
                       <ChevronLeft className="w-6 h-6" />
                     </button>
                     <button
                       onClick={next}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-foreground hover:text-accent transition-all shadow-lg z-20"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-card/80 hover:bg-card border border-border backdrop-blur-sm rounded-full p-3 text-heading hover:text-accent transition-all shadow-lg z-20"
                     >
                       <ChevronRight className="w-6 h-6" />
                     </button>
@@ -763,7 +763,7 @@ export default function TeamPage() {
         <div className="rounded-2xl p-8 bg-[color-mix(in_srgb,var(--foreground)_4%,transparent)] ring-1 ring-[color-mix(in_srgb,var(--foreground)_10%,transparent)] flex flex-col sm:flex-row gap-6 items-start sm:items-center">
           <RevealOnScroll delay={0}>
             <div className="flex-1 space-y-2">
-              <h2 className="text-base font-semibold flex items-center gap-2">
+              <h2 className="text-base font-semibold flex items-center gap-2 text-heading">
                 <Users size={16} /> circle energy
               </h2>
               <p className="text-[12px] opacity-70 leading-relaxed max-w-md">
