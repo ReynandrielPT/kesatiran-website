@@ -13,6 +13,7 @@ import {
   Image,
   Video,
   Sparkles,
+  X,
 } from "lucide-react";
 import worksData from "@/data/works.json";
 import { Button } from "@/components/ui/Button";
@@ -229,6 +230,23 @@ export default function WorksPage() {
     if (audioRef.current) {
       audioRef.current.currentTime = time;
     }
+  };
+
+  const closePlayer = () => {
+    if (audioRef.current) {
+      try {
+        audioRef.current.pause();
+      } catch {}
+      audioRef.current.currentTime = 0;
+      // clear src to fully stop network/decoding
+      audioRef.current.src = "";
+    }
+    setAudioPlayer({
+      currentTrack: null,
+      isPlaying: false,
+      currentTime: 0,
+      duration: 0,
+    });
   };
 
   const seekFromClientX = (clientX: number) => {
@@ -726,6 +744,16 @@ export default function WorksPage() {
                   />
                 </div>
               </div>
+
+              {/* Close player button */}
+              <button
+                onClick={closePlayer}
+                className="p-2 hover:bg-accent/10 rounded-full transition-colors"
+                aria-label="Close player"
+                title="Close player"
+              >
+                <X className="w-5 h-5 text-muted-foreground" />
+              </button>
             </div>
           </div>
         </div>
