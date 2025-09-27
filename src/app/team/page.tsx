@@ -59,15 +59,16 @@ export default function TeamPage() {
   const [deskStride, setDeskStride] = useState<number>(0);
   const [deskBase, setDeskBase] = useState<number>(0);
   const [deskOffset, setDeskOffset] = useState<number>(0);
+  const [deskReady, setDeskReady] = useState<boolean>(false);
   const queuedStepsRef = useRef<number>(0);
   const queuedDirRef = useRef<1 | -1 | 0>(0);
   const [overrideTransform, setOverrideTransform] = useState<string | null>(
     null
   );
-
+  // (audio playback removed as requested)
+  // Build casual tags from department/role for simple filtering
   const tags = useMemo(() => {
     const base = new Set<string>();
-    // FIX 3: Use the correctly typed 'members' array and remove the incorrect type annotation from the callback.
     members.forEach((m) => {
       if (m.department) base.add(m.department.toLowerCase());
       m.role
@@ -161,12 +162,24 @@ export default function TeamPage() {
     const viewport = desktopViewportRef.current;
     if (!track || !viewport) return;
 
+    // Hide track until measurement is ready to avoid initial left alignment flicker
+    setDeskReady(false);
+
     const measure = () => {
       const children = Array.from(track.children) as HTMLElement[];
+      const expected = extendedMembers.length;
+      // For multi-item (with clones), wait until we have at least 3 elements (left clone + first + second)
+      if (total > 1 && children.length < Math.min(3, expected)) {
+        return;
+      }
+      // For single item, require at least 1
+      if (total <= 1 && children.length < 1) {
+        return;
+      }
       const trackRect = track.getBoundingClientRect();
       const viewportRect = viewport.getBoundingClientRect();
       // choose two adjacent real items: index 1 and 2 (skip left clone at 0)
-      if (children.length >= 3) {
+      if (total > 1 && children.length >= 3) {
         const a = children[1].getBoundingClientRect();
         const b = children[2].getBoundingClientRect();
         const strideRaw = Math.abs(b.left - a.left);
@@ -181,6 +194,7 @@ export default function TeamPage() {
         setDeskStride(Math.round(stride));
         setDeskBase(Math.round(base));
         setDeskOffset(Math.round(offset));
+        setDeskReady(true);
       } else if (children.length >= 1) {
         const a = children[0].getBoundingClientRect();
         const base =
@@ -192,6 +206,7 @@ export default function TeamPage() {
         setDeskStride(Math.round(a.width));
         setDeskBase(Math.round(base));
         setDeskOffset(Math.round(offset));
+        setDeskReady(true);
       }
     };
 
@@ -308,8 +323,11 @@ export default function TeamPage() {
     }
   };
 
+  const currentCenteredMember = filtered[total > 0 ? currentSpotlight : 0];
+
   return (
     <div className="min-h-screen pb-24 space-y-20">
+      {/* audio playback removed */}
       {/* Warm Intro */}
       <section className="pt-50 px-6 mx-auto max-w-6xl">
         <div className="space-y-8">
@@ -430,17 +448,19 @@ export default function TeamPage() {
                   ref={desktopTrackRef}
                   className="flex items-stretch justify-center gap-8 px-8"
                   style={{
-                    transform:
-                      overrideTransform ??
-                      `translateX(${Math.round(
-                        deskBase -
-                          (deskOffset +
-                            (total > 1 ? deskStride * (deskPos - 1) : 0))
-                      )}px)`,
+                    transform: deskReady
+                      ? overrideTransform ??
+                        `translateX(${Math.round(
+                          deskBase -
+                            (deskOffset +
+                              (total > 1 ? deskStride * (deskPos - 1) : 0))
+                        )}px)`
+                      : "none",
                     transition: deskTransition
                       ? "transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1)"
                       : "none",
                     willChange: "transform",
+                    opacity: deskReady ? 1 : 0,
                   }}
                   onTransitionEnd={() => {
                     if (total <= 1) return;

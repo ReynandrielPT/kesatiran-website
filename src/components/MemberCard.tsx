@@ -21,6 +21,8 @@ export interface RawMember {
   skills?: Array<{ name: string; category: string; level: string }>;
   availability_status?: string;
   department?: string; // Added department as optional
+  spotify_url?: string; // Optional Spotify track URL for this member
+  audio_src?: string; // Optional local audio path for this member's favorite song
 }
 
 interface MemberCardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -137,7 +139,15 @@ export function MemberCard({
               size={compact ? "sm" : "md"}
               className="border-border bg-background/80 backdrop-blur-sm"
             >
-              <Link href={`/profile/${member.slug}`}>View Profile</Link>
+              <Link
+                href={`/profile/${member.slug}`}
+                onClick={(e) => {
+                  // prevent bubbling to Card onClick (used for Spotify open)
+                  e.stopPropagation();
+                }}
+              >
+                View Profile
+              </Link>
             </Button>
           </div>
         </div>

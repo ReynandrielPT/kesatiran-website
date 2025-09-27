@@ -59,6 +59,9 @@ export default function WorksPage() {
   const [isPlayerClosing, setIsPlayerClosing] = useState(false);
   // ADDED: State to manage the player's entrance animation
   const [playerMounted, setPlayerMounted] = useState(false);
+  // Inline video in-card playback state
+  const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
+  const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
@@ -158,6 +161,27 @@ export default function WorksPage() {
     } catch {
       return raw;
     }
+  };
+
+  const openVideoInline = (work: Work) => {
+    // Pause previously active video if any
+    if (activeVideoId && activeVideoId !== work.id) {
+      const prev = videoRefs.current[activeVideoId];
+      try {
+        prev?.pause();
+      } catch {}
+    }
+    setActiveVideoId(work.id);
+  };
+
+  const closeVideoInline = () => {
+    if (activeVideoId) {
+      const el = videoRefs.current[activeVideoId];
+      try {
+        el?.pause();
+      } catch {}
+    }
+    setActiveVideoId(null);
   };
 
   const headCheck = async (url: string, timeoutMs = 4000) => {
@@ -610,53 +634,85 @@ export default function WorksPage() {
           {/* Visual Section */}
           {activeTab === "visual" && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {visualWorks.map((work, index) => (
-                <RevealOnScroll key={work.id} delay={index * 0.05}>
-                  <div className="panel p-6 transition-shadow hover:shadow-md">
-                    <div className="relative mb-6">
-                      <img
-                        src={work.thumb}
-                        alt={work.title}
-                        className="w-full aspect-video object-cover rounded-md"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-md rounded-lg opacity-0 hover:opacity-100 transition-all duration-300 cursor-pointer group">
-                        <Play className="w-16 h-16 text-foreground group-hover:scale-110 transition-transform" />
+              {visualWorks.map((work, index) => {
+                const mediaHref = sanitizeMediaSrc(work.media);
+                return (
+                  <RevealOnScroll key={work.id} delay={index * 0.05}>
+                    <div className="panel p-6 transition-shadow hover:shadow-md">
+                      <div className="relative mb-6">
+                        {activeVideoId === work.id ? (
+                          <div className="relative">
+                            <video
+                              ref={(el) => {
+                                videoRefs.current[work.id] = el;
+                              }}
+                              src={mediaHref}
+                              poster={work.thumb}
+                              className="w-full aspect-video rounded-md bg-black"
+                              controls
+                              autoPlay
+                              playsInline
+                            />
+                            <button
+                              onClick={closeVideoInline}
+                              className="absolute top-2 right-2 p-2 bg-card/80 hover:bg-card border border-border rounded-full text-foreground hover:text-accent transition-all shadow"
+                              aria-label="Close video"
+                              title="Close video"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <>
+                            <img
+                              src={work.thumb}
+                              alt={work.title}
+                              className="w-full aspect-video object-cover rounded-md"
+                            />
+                            <button
+                              onClick={() => openVideoInline(work)}
+                              className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-md rounded-lg opacity-0 hover:opacity-100 transition-all duration-300 cursor-pointer group"
+                              aria-label={`Play ${work.title}`}
+                            >
+                              <Play className="w-16 h-16 text-foreground group-hover:scale-110 transition-transform" />
+                            </button>
+                            <div className="absolute bottom-3 right-3 bg-card/80 text-foreground px-3 py-1.5 rounded-lg text-sm backdrop-blur-sm border border-border/50 shadow-lg">
+                              Video Demo
+                            </div>
+                          </>
+                        )}
                       </div>
-                      <div className="absolute bottom-3 right-3 bg-card/80 text-foreground px-3 py-1.5 rounded-lg text-sm backdrop-blur-sm border border-border/50 shadow-lg">
-                        Video Demo
-                      </div>
-                    </div>
-                    <h3 className="font-semibold text-xl text-foreground mb-2">
-                      {work.title}
-                    </h3>
-                    <p className="text-muted-foreground mb-4 line-clamp-3">
-                      {work.description}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex flex-wrap gap-2">
-                        {work.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2 py-1 bg-accent/10 text-accent text-xs rounded-full"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                      <Button variant="ghost" size="sm">
-                        <a
-                          href={work.media}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center"
+                      <h3 className="font-semibold text-xl text-foreground mb-2">
+                        {work.title}
+                      </h3>
+                      <p className="text-muted-foreground mb-4 line-clamp-3">
+                        {work.description}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex flex-wrap gap-2">
+                          {work.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="px-2 py-1 bg-accent/10 text-accent text-xs rounded-full"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => openVideoInline(work)}
                         >
-                          Watch <ExternalLink className="w-4 h-4 ml-2" />
-                        </a>
-                      </Button>
+                          <span className="flex items-center">
+                            Watch <ExternalLink className="w-4 h-4 ml-2" />
+                          </span>
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </RevealOnScroll>
-              ))}
+                  </RevealOnScroll>
+                );
+              })}
             </div>
           )}
         </div>
@@ -835,6 +891,8 @@ export default function WorksPage() {
           </div>
         </div>
       )}
+
+      {/* Inline video playback: no modal */}
 
       {/* Hidden Audio Element */}
       <audio
