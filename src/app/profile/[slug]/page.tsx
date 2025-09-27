@@ -156,7 +156,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
           <h2 className="text-base font-semibold flex items-center gap-2">
             <Sparkles size={14} /> about {firstName.toLowerCase()}
           </h2>
-          <p className="text-sm leading-relaxed opacity-80 max-w-prose">
+          <p className="text-sm leading-relaxed opacity-80 text-justify w-full">
             {member.bio_long}
           </p>
         </div>
