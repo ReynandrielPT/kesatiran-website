@@ -29,6 +29,7 @@ interface MemberCardProps extends React.HTMLAttributes<HTMLDivElement> {
   member: RawMember;
   showSkills?: boolean;
   compact?: boolean; // smaller layout variant
+  usePhotoFirst?: boolean; // prefer photo over avatar for the main image
 }
 
 // removed platform label helper; no longer rendering social platform chips
@@ -37,10 +38,14 @@ export function MemberCard({
   member,
   showSkills = false,
   compact = false,
+  usePhotoFirst = false,
   className,
   ...rest
 }: MemberCardProps) {
-  const avatar = member.avatar || member.photo || "/vercel.svg";
+  // Choose the displayed image based on preference
+  const cover = usePhotoFirst
+    ? member.photo || member.avatar || "/vercel.svg"
+    : member.avatar || member.photo || "/vercel.svg";
   const isOnline = member.availability_status === "available";
   const { theme } = useTheme();
   // skills display removed in player card
@@ -70,7 +75,7 @@ export function MemberCard({
           )}
         >
           <Image
-            src={avatar}
+            src={cover}
             alt={member.name}
             fill
             sizes={
@@ -98,12 +103,22 @@ export function MemberCard({
               <div className="min-w-0">
                 <h3
                   className={cn(
-                    "font-semibold tracking-tight",
+                    "font-semibold tracking-tight line-clamp-2",
                     theme === "light"
                       ? "text-gray-900 drop-shadow-sm"
                       : "text-foreground",
                     compact ? "text-lg" : "text-xl"
                   )}
+                  style={{
+                    WebkitTextStroke:
+                      theme === "light" || theme === "aesthetic"
+                        ? "0.8px rgba(0,0,0,0.7)" // dark stroke in light/aesthetic
+                        : "0.8px rgba(255,255,255,0.7)", // light stroke in dark/gaming
+                    textShadow:
+                      theme === "light" || theme === "aesthetic"
+                        ? "0 1px 1px rgba(255,255,255,0.25)"
+                        : "0 1px 1px rgba(0,0,0,0.4)",
+                  }}
                 >
                   {member.name}
                 </h3>
@@ -122,7 +137,7 @@ export function MemberCard({
 
         {/* Footer action (kept minimal, outside overlay) */}
         <div
-          className={cn("absolute inset-x-0 top-0 p-3 flex justify-end")}
+          className={cn("absolute top-0 right-0 p-3 flex justify-end")}
           aria-hidden
         >
           {member.social_links && (

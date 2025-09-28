@@ -56,15 +56,13 @@ export default function TeamPage() {
   const [deskPos, setDeskPos] = useState<number>(1);
   const [deskTransition, setDeskTransition] = useState<boolean>(true);
   const [deskAnimating, setDeskAnimating] = useState<boolean>(false);
-  const [deskStride, setDeskStride] = useState<number>(0);
-  const [deskBase, setDeskBase] = useState<number>(0);
-  const [deskOffset, setDeskOffset] = useState<number>(0);
   const [deskReady, setDeskReady] = useState<boolean>(false);
   const queuedStepsRef = useRef<number>(0);
   const queuedDirRef = useRef<1 | -1 | 0>(0);
   const [overrideTransform, setOverrideTransform] = useState<string | null>(
     null
   );
+  const [deskTranslateX, setDeskTranslateX] = useState<number>(0);
   // (audio playback removed as requested)
   // Build casual tags from department/role for simple filtering
   const tags = useMemo(() => {
@@ -89,6 +87,13 @@ export default function TeamPage() {
 
   const total = filtered.length;
 
+  // Prefer Bhaskara as the default centered member when available
+  const PRIMARY_SLUG = "bhaskara-dhanu-kusuma";
+  const defaultIndex = useMemo(() => {
+    const idx = filtered.findIndex((m) => m.slug === PRIMARY_SLUG);
+    return idx >= 0 ? idx : 0;
+  }, [filtered]);
+
   // Extended member list for seamless revolving (add clones at ends)
   const extendedMembers = useMemo(() => {
     if (total <= 1) return filtered;
@@ -110,21 +115,23 @@ export default function TeamPage() {
 
   // Reset carousel position when the active filter changes or the list size changes
   useEffect(() => {
-    setCurrentIndex(0);
+    // Mobile: start at Bhaskara when present; otherwise at first
+    setCurrentIndex(defaultIndex);
     setEnableTransition(false);
-    setPosIndex(total > 1 ? 1 : 0);
+    setPosIndex(total > 1 ? defaultIndex + 1 : 0);
     const id = requestAnimationFrame(() => setEnableTransition(true));
     return () => cancelAnimationFrame(id);
-  }, [activeTag, total]);
+  }, [activeTag, total, defaultIndex]);
 
   // Reset spotlight and deskPos when list changes
   useEffect(() => {
-    setCurrentSpotlight(0);
+    // Desktop: center Bhaskara when present; otherwise first
+    setCurrentSpotlight(defaultIndex);
     setDeskTransition(false);
-    setDeskPos(total > 0 ? 1 : 0);
+    setDeskPos(total > 0 ? defaultIndex + 1 : 0);
     const id = requestAnimationFrame(() => setDeskTransition(true));
     return () => cancelAnimationFrame(id);
-  }, [activeTag, total]);
+  }, [activeTag, total, defaultIndex]);
 
   // Auto-advance spotlight
   useEffect(() => {
@@ -156,70 +163,43 @@ export default function TeamPage() {
     setCurrentSpotlight(logical);
   }, [deskPos, total]);
 
-  // Measure stride and base offset to center the active card
+  // Compute precise translateX to center the active (deskPos) child, no stride math
   useEffect(() => {
     const track = desktopTrackRef.current;
     const viewport = desktopViewportRef.current;
     if (!track || !viewport) return;
 
-    // Hide track until measurement is ready to avoid initial left alignment flicker
     setDeskReady(false);
 
-    const measure = () => {
+    const compute = () => {
       const children = Array.from(track.children) as HTMLElement[];
-      const expected = extendedMembers.length;
-      // For multi-item (with clones), wait until we have at least 3 elements (left clone + first + second)
-      if (total > 1 && children.length < Math.min(3, expected)) {
-        return;
-      }
-      // For single item, require at least 1
-      if (total <= 1 && children.length < 1) {
-        return;
-      }
+      if (children.length === 0) return;
+      const idx = Math.max(0, Math.min(deskPos, children.length - 1));
+      const el = children[idx] as HTMLElement | undefined;
+      if (!el) return;
       const trackRect = track.getBoundingClientRect();
       const viewportRect = viewport.getBoundingClientRect();
-      // choose two adjacent real items: index 1 and 2 (skip left clone at 0)
-      if (total > 1 && children.length >= 3) {
-        const a = children[1].getBoundingClientRect();
-        const b = children[2].getBoundingClientRect();
-        const strideRaw = Math.abs(b.left - a.left);
-        const stride = strideRaw > 0 ? strideRaw : a.width;
-        // compute base relative to track left so that selected card centers in viewport
-        const base =
-          viewportRect.left +
-          viewportRect.width / 2 -
-          a.width / 2 -
-          trackRect.left;
-        const offset = a.left - trackRect.left;
-        setDeskStride(Math.round(stride));
-        setDeskBase(Math.round(base));
-        setDeskOffset(Math.round(offset));
-        setDeskReady(true);
-      } else if (children.length >= 1) {
-        const a = children[0].getBoundingClientRect();
-        const base =
-          viewportRect.left +
-          viewportRect.width / 2 -
-          a.width / 2 -
-          trackRect.left;
-        const offset = a.left - trackRect.left;
-        setDeskStride(Math.round(a.width));
-        setDeskBase(Math.round(base));
-        setDeskOffset(Math.round(offset));
-        setDeskReady(true);
-      }
+      const elRect = el.getBoundingClientRect();
+      // target translateX to center element within viewport
+      const translateX = Math.round(
+        viewportRect.width / 2 -
+          (elRect.left - trackRect.left + elRect.width / 2)
+      );
+      setDeskTranslateX(translateX);
+      setDeskReady(true);
     };
 
-    measure();
-    const ro = new ResizeObserver(() => measure());
+    // initial compute and observers for resize/layout changes
+    compute();
+    const ro = new ResizeObserver(() => compute());
     ro.observe(track);
     ro.observe(viewport);
-    window.addEventListener("resize", measure);
+    window.addEventListener("resize", compute);
     return () => {
       ro.disconnect();
-      window.removeEventListener("resize", measure);
+      window.removeEventListener("resize", compute);
     };
-  }, [extendedMembers.length]);
+  }, [deskPos, extendedMembers.length]);
 
   // Keep currentIndex (for indicators/mobile) in sync with posIndex on mobile
   useEffect(() => {
@@ -364,6 +344,7 @@ export default function TeamPage() {
                   className="relative inline-block h-14 w-14 rounded-full ring-2 ring-background hover:z-20 transition-transform hover:scale-110"
                 >
                   <FallbackImage
+                    // Prefer avatar for little circles, fall back to photo
                     src={m.avatar || m.photo || "/vercel.svg"}
                     alt={m.name}
                     fill
@@ -449,12 +430,7 @@ export default function TeamPage() {
                   className="flex items-stretch justify-center gap-8 px-8"
                   style={{
                     transform: deskReady
-                      ? overrideTransform ??
-                        `translateX(${Math.round(
-                          deskBase -
-                            (deskOffset +
-                              (total > 1 ? deskStride * (deskPos - 1) : 0))
-                        )}px)`
+                      ? overrideTransform ?? `translateX(${deskTranslateX}px)`
                       : "none",
                     transition: deskTransition
                       ? "transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1)"
@@ -553,6 +529,8 @@ export default function TeamPage() {
                               member={member}
                               compact={false}
                               showSkills={isCenter}
+                              // Use photo for the main card image in team page
+                              usePhotoFirst
                               className={`w-[20rem] h-[26rem] transition-all duration-500 ${
                                 isCenter
                                   ? "hover:scale-[1.05] shadow-2xl"
@@ -583,12 +561,7 @@ export default function TeamPage() {
                   </div>
                 )}
 
-                {/* Auto-advance indicator */}
-                {isHovered && total > 1 && (
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-card/80 backdrop-blur-sm rounded-full px-3 py-1 text-xs text-muted-foreground z-20">
-                    Spotlight paused • Move cursor away to resume
-                  </div>
-                )}
+                {/* Auto-advance indicator removed per request */}
               </div>
             </div>
 
@@ -671,7 +644,8 @@ export default function TeamPage() {
                           <Card className="p-6 flex flex-col gap-4 w-72 h-96 bg-secondary border border-border hover:border-accent/40 transition-all duration-300">
                             <div className="relative aspect-video rounded-xl overflow-hidden">
                               <FallbackImage
-                                src={m.avatar || m.photo || "/vercel.svg"}
+                                // Prefer photo for cards on mobile
+                                src={m.photo || m.avatar || "/vercel.svg"}
                                 alt={m.name}
                                 fill
                                 sizes="280px"
