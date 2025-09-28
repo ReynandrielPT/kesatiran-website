@@ -67,8 +67,8 @@
     "id": "sankya",
     "name": "Sankya",
     "slug": "sankya",
-    "photo": "/media/team/sankya.jpg",
-    "avatar": "/media/team/sankya.jpg",
+    "photo": "/media/team/gafz.jpg",
+    "avatar": "/media/team/gafz.jpg",
     "role": "UI/UX Designer",
     "department": "Design",
     "location": "New York, NY",
@@ -165,21 +165,29 @@
     "personal_quote": "Automate everything, then monitor it."
   },
   {
-    "id": "member-4",
-    "name": "Alice Johnson",
-    "slug": "alice-johnson",
-    "photo": "/media/team/placeholder.jpg",
-    "avatar": "/media/team/placeholder-avatar.jpg",
-    "role": "Frontend Developer",
-    "department": "Engineering",
-    "bio_short": "Frontend enthusiast with a knack for responsive design and modern JavaScript frameworks.",
+    "id": "Aero-Brama-Aji-Wijaya",
+    "name": "Aero Brama Aji Wijaya",
+    "slug": "aero-brama-aji-wijaya",
+    "photo": "/media/team/aer.jpg",
+    "avatar": "/media/team/aer.jpg",
+    "role": "Future Professor",
+    "department": "Civil Engineering",
+    "bio_short": "Currently pursuing a bachelor's degree in Civil Engineering. Passionate about becoming an expert in timber and bamboo structures, and also aspires to master music and the art of swordsmanship.",
     "skills": [
-      { "name": "React", "category": "Frontend", "level": "intermediate" },
-      { "name": "CSS", "category": "Frontend", "level": "expert" }
+      { "name": "Photography", "category": "Photography", "level": "Beginner" },
+      {
+        "name": "Photo and Video Editor",
+        "category": "Editing",
+        "level": "Beginner"
+      }
     ],
-    "fav_songs": ["6WrI0LAC5M1Rw2MnX2ZvEg", "0sY6uRvQa5s8QnMIC9zS24"],
-    "fav_media": ["tt5687612", "tt6710474"],
-    "personal_quote": "Passionate about building interfaces that people love to use."
+    "fav_songs": [
+      "2262bWmqomIaJXwCRHr13j",
+      "3l1grOhgJQG4E1E2MjfHWG",
+      "5EoV2HmAlkqN1XvsIjOBZZ"
+    ],
+    "fav_media": ["tt4154796", "tt0903747", "tt15398776"],
+    "personal_quote": "Old habits die hard, and forming new ones is even harder — not just starting them, but turning them into lasting routines."
   },
   {
     "id": "member-5",
