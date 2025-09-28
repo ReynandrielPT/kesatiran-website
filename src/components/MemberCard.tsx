@@ -83,7 +83,7 @@ export function MemberCard({
                 ? "(max-width: 768px) 240px, 320px"
                 : "(max-width: 768px) 320px, 448px"
             }
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            className="object-cover transition-transform duration-500 opacity-90 group-hover:scale-[1.04] group-hover:opacity-70"
             priority={false}
           />
 
@@ -97,75 +97,61 @@ export function MemberCard({
             )}
           />
 
-          {/* Name and role overlay */}
-          <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
-            <div className="flex items-end justify-between gap-3">
-              <div className="min-w-0">
-                <h3
-                  className={cn(
-                    "font-semibold tracking-tight line-clamp-2",
-                    theme === "light"
-                      ? "text-gray-900 drop-shadow-sm"
-                      : "text-foreground",
-                    compact ? "text-lg" : "text-xl"
-                  )}
-                  style={{
-                    WebkitTextStroke:
-                      theme === "light" || theme === "aesthetic"
-                        ? "0.8px rgba(0,0,0,0.7)" // dark stroke in light/aesthetic
-                        : "0.8px rgba(255,255,255,0.7)", // light stroke in dark/gaming
-                    textShadow:
-                      theme === "light" || theme === "aesthetic"
-                        ? "0 1px 1px rgba(255,255,255,0.25)"
-                        : "0 1px 1px rgba(0,0,0,0.4)",
+          {/* Combined overlay for name, role, and button */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 opacity-0 invisible transition-all duration-300 group-hover:opacity-100 group-hover:visible pointer-events-none p-4 sm:p-5">
+            <div className="text-center pointer-events-auto">
+              <h3
+                className={cn(
+                  "font-semibold tracking-tight line-clamp-2",
+                  theme === "light"
+                    ? "text-gray-900 drop-shadow-sm"
+                    : "text-foreground",
+                  compact ? "text-lg" : "text-xl"
+                )}
+                style={{
+                  WebkitTextStroke:
+                    theme === "light" || theme === "aesthetic"
+                      ? "0.8px rgba(0,0,0,0.7)" // dark stroke in light/aesthetic
+                      : "0.8px rgba(255,255,255,0.7)", // light stroke in dark/gaming
+                  textShadow:
+                    theme === "light" || theme === "aesthetic"
+                      ? "0 1px 1px rgba(255,255,255,0.25)"
+                      : "0 1px 1px rgba(0,0,0,0.4)",
+                }}
+              >
+                {member.name}
+              </h3>
+            </div>
+            <div className="pointer-events-auto">
+              <Button
+                variant="outline"
+                size={compact ? "sm" : "md"}
+                className="border-border bg-background/80 backdrop-blur-sm"
+              >
+                <Link
+                  href={`/profile/${member.slug}`}
+                  onClick={(e) => {
+                    // prevent bubbling to Card onClick (used for Spotify open)
+                    e.stopPropagation();
                   }}
                 >
-                  {member.name}
-                </h3>
-              </div>
-              {isOnline && (
-                <span className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-2 py-1 text-[10px] font-medium text-accent">
-                  <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-                  Online
-                </span>
-              )}
+                  View Profile
+                </Link>
+              </Button>
             </div>
-
-            {/* Skills tags removed for a cleaner player card */}
           </div>
         </div>
 
-        {/* Footer action (kept minimal, outside overlay) */}
-        <div
+        {/* Footer action (kept minimal, outside overlay) - This was an empty div, can be removed if not used */}
+        {/* <div
           className={cn("absolute top-0 right-0 p-3 flex justify-end")}
           aria-hidden
         >
           {member.social_links && (
             <div className="flex items-center gap-1.5">
-              {/* Reserved for future icons if needed; left blank for clean player look */}
             </div>
           )}
-        </div>
-
-        <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 flex justify-end pointer-events-none">
-          <div className="pointer-events-auto">
-            <Button
-              variant="outline"
-              size={compact ? "sm" : "md"}
-              className="border-border bg-background/80 backdrop-blur-sm"
-            >
-              <Link
-                href={`/profile/${member.slug}`}
-                onClick={(e) => {
-                  // prevent bubbling to Card onClick (used for Spotify open)
-                  e.stopPropagation();
-                }}
-              >
-                View Profile
-              </Link>
-            </Button>
-          </div>
-        </div>
+        </div> */}
       </Card>
     </motion.div>
   );

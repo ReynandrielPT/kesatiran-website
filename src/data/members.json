@@ -3,13 +3,13 @@
     "id": "Bhaskara-Dhanu-Kusuma",
     "name": "Bhaskara Dhanu Kusuma",
     "slug": "bhaskara-dhanu-kusuma",
-    "photo": "/media/team/bhas.JPG",
-    "avatar": "/media/team/bhas-av.png",
+    "photo": "/media/team/bhas.png",
+    "avatar": "/media/team/bhas.png",
     "role": "Slow Living Man",
     "department": "Economic/Regional Planning",
-    "location": "Kebakramat, Jawa Tengah",
+    "location": "Kebakkramat, Jawa Tengah",
     "bio_short": "Not a perfect human being, but always trying to be better",
-    "bio_long": "-",
+    "bio_long": "",
     "skills": [
       {
         "name": "Graphic Design",
@@ -64,25 +64,52 @@
     "personal_quote": "Turning coffee into clean, scalable code."
   },
   {
-    "id": "sankya",
-    "name": "Sankya",
-    "slug": "sankya",
-    "photo": "/media/team/gafz.JPG",
-    "avatar": "/media/team/gafz.JPG",
-    "role": "UI/UX Designer",
-    "department": "Design",
-    "location": "New York, NY",
-    "bio_short": "Creative UI/UX designer specializing in user-centered design and brand identity. 4 years of experience crafting digital experiences.",
-    "bio_long": "Jane is a creative and detail-oriented UI/UX designer who believes great design should be both beautiful and functional. With 4 years of experience in digital design, she specializes in user research, wireframing, prototyping, and brand identity. Jane has worked with startups and established companies to create engaging user experiences that drive business results. She's passionate about accessibility and inclusive design practices.",
+    "id": "gafna",
+    "name": "Gafna Al Faatiha Prabowo",
+    "slug": "Gafna-Al-Faatiha-Prabowo",
+    "photo": "/media/team/gafz.jpg",
+    "avatar": "/media/team/gafz.jpg",
+    "role": "Indifferent",
+    "department": "Computer Science",
+    "location": "Sukoharjo, Jawa Tengah",
+    "bio_short": "Just a chill guy who enjoys learning, creating, exploring new things, eating, and sleeping.",
+    "bio_long": "Gafna is a computer science student who likes exploring cybersecurity stuff, playing around with CTF challenges, and messing with tech in general. When not diving into security topics, he also enjoys doing motion graphics and experimenting with creative projects. Always curious, always learning.",
     "skills": [
-      { "name": "UI Design", "category": "Design", "level": "expert" },
-      { "name": "UX Research", "category": "Research", "level": "expert" },
-      { "name": "Prototyping", "category": "Design", "level": "expert" }
+      {
+        "name": "Cybersecurity",
+        "category": "Technology",
+        "level": "intermediate"
+      },
+      {
+        "name": "Motion Graphics",
+        "category": "Design",
+        "level": "intermediate"
+      },
+      {
+        "name": "Photo/Video Editing",
+        "category": "Design",
+        "level": "intermediate"
+      }
     ],
     "tools": [
-      { "name": "Figma", "category": "Design", "icon": "figma" },
-      { "name": "Adobe Creative Suite", "category": "Design", "icon": "adobe" },
-      { "name": "Sketch", "category": "Design", "icon": "sketch" }
+      { "name": "Wireshark", "category": "Cybersecurity", "icon": "wireshark" },
+      {
+        "name": "Burp Suite",
+        "category": "Cybersecurity",
+        "icon": "burpsuite"
+      },
+      {
+        "name": "VirtualBox/WSL",
+        "category": "Development",
+        "icon": "virtualbox"
+      },
+      {
+        "name": "Adobe After Effects",
+        "category": "Design",
+        "icon": "aftereffects"
+      },
+      { "name": "Blender", "category": "Design", "icon": "blender" },
+      { "name": "Git", "category": "Development", "icon": "git" }
     ],
     "social_links": {
       "dribbble": "https://dribbble.com/janesmith",
@@ -115,7 +142,7 @@
       "5g7bsxCqNaucnXpexUoHg8"
     ],
     "fav_media": ["tt5311514", "tt3413018"],
-    "personal_quote": "Empathy is the foundation of good design."
+    "personal_quote": "If you feel useless, just remember that you are useful as a human being."
   },
   {
     "id": "rey",
