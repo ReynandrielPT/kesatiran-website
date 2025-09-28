@@ -1,21 +1,27 @@
 [
   {
-    "id": "john-doe",
-    "name": "John Doe",
-    "slug": "john-doe",
-    "photo": "/media/team/john-doe.jpg",
-    "avatar": "/media/team/john-doe-avatar.jpg",
-    "role": "Full Stack Developer",
-    "department": "Engineering",
-    "location": "San Francisco, CA",
-    "bio_short": "Passionate full-stack developer with 5+ years of experience in React and Node.js. Love creating beautiful, functional web applications.",
-    "bio_long": "John is a seasoned full-stack developer who brings both technical expertise and creative vision to every project. With over 5 years of experience in modern web development, he specializes in React, Node.js, and cloud architecture. John believes in writing clean, maintainable code and is passionate about user experience design. When he's not coding, you can find him contributing to open-source projects or exploring new technologies.",
+    "id": "Bhaskara-Dhanu-Kusuma",
+    "name": "Bhaskara Dhanu Kusuma",
+    "slug": "bhaskara-dhanu-kusuma",
+    "photo": "/media/team/bhas.png",
+    "avatar": "/media/team/bhas.png",
+    "role": "Koor Tolol",
+    "department": "Economic/Regional Planning",
+    "location": "Kebakramat, Jawa Tengah",
+    "bio_short": "Not a perfect human being, but always trying to be better",
+    "bio_long": "-",
     "skills": [
-      { "name": "React", "category": "Frontend", "level": "expert" },
-      { "name": "Node.js", "category": "Backend", "level": "expert" },
-      { "name": "TypeScript", "category": "Languages", "level": "expert" },
-      { "name": "AWS", "category": "Cloud", "level": "intermediate" },
-      { "name": "Docker", "category": "DevOps", "level": "intermediate" }
+      {
+        "name": "Graphic Design",
+        "category": "Design",
+        "level": "intermediate"
+      },
+      {
+        "name": "Photo/Video Editing",
+        "category": "Editing",
+        "level": "beginner"
+      },
+      { "name": "Data Analysis", "category": "Analytical", "level": "beginner" }
     ],
     "tools": [
       { "name": "VS Code", "category": "Editors", "icon": "vscode" },
@@ -49,12 +55,12 @@
       }
     ],
     "fav_songs": [
-      "3z8h0TU7ztPpDkUuZdKGLQ",
-      "40riOy7x9W7GXjyGp4pjAv",
-      "5g7bsxCqNaucnXpexUoHg8",
-      "0wwxj6Dd9NJlirf84wr2c"
+      "26mwiyfmCKJBneTzlELpun",
+      "5W3jFFv3nhHTXAswzjKfPw",
+      "5UqzcOEPhZ3YH1olsfa00l",
+      "3vN8A1HfOcytUpCiEm2qqI"
     ],
-    "fav_media": ["tt0133093", "tt1856101"],
+    "fav_media": ["tt2097298", "tt1190080", "tt0120815", "tt1745960"],
     "personal_quote": "Turning coffee into clean, scalable code."
   },
   {
