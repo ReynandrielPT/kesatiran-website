@@ -33,6 +33,7 @@ import {
   Star,
   Pickaxe,
   Clapperboard,
+  Quote,
 } from "lucide-react";
 
 import RevealOnScroll from "@/components/RevealOnScroll";
@@ -211,8 +212,8 @@ export default function ProfilePage({ params }: ProfilePageProps) {
         </div>
       </section>
 
-      <RevealOnScroll delay={0.4}>
-        <section className="px-6 mx-auto max-w-5xl space-y-16">
+      <section className="px-6 mx-auto max-w-5xl space-y-16">
+        <RevealOnScroll delay={0.4}>
           <div className="space-y-4">
             <h2 className="text-base font-semibold flex items-center gap-2">
               <Sparkles size={14} /> about {firstName.toLowerCase()}
@@ -221,30 +222,34 @@ export default function ProfilePage({ params }: ProfilePageProps) {
               {member.bio_long}
             </p>
           </div>
+        </RevealOnScroll>
 
-          {member.skills && member.skills.length > 0 && (
+        {member.skills && member.skills.length > 0 && (
+          <RevealOnScroll delay={0.45}>
             <div className="space-y-4">
               <h3 className="text-base font-semibold flex items-center gap-2">
                 <Pickaxe size={14} /> some skills
               </h3>
               <div className="flex flex-wrap gap-2">
-                {member.skills.slice(0, 12).map((s: any) => (
-                  <Badge
-                    key={s.name}
-                    size="sm"
-                    variant="outline"
-                    className="flex items-center gap-1.5"
-                  >
-                    {getSkillIcon(s)}
-                    {s.name}
-                  </Badge>
+                {member.skills.slice(0, 12).map((s: any, index: number) => (
+                  <RevealOnScroll key={s.name} delay={index * 0.05}>
+                    <Badge
+                      size="sm"
+                      variant="outline"
+                      className="flex items-center gap-1.5"
+                    >
+                      {getSkillIcon(s)}
+                      {s.name}
+                    </Badge>
+                  </RevealOnScroll>
                 ))}
               </div>
             </div>
-          )}
+          </RevealOnScroll>
+        )}
 
-          {/* EDITED: Fav Songs Section with 2x2 Grid and Staggered Animation */}
-          {member.fav_songs && member.fav_songs.length > 0 && (
+        {member.fav_songs && member.fav_songs.length > 0 && (
+          <RevealOnScroll delay={0.5}>
             <div className="space-y-4">
               <h3 className="text-base font-semibold flex items-center gap-2">
                 <Music size={14} /> fav songs
@@ -267,33 +272,39 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                   ))}
               </div>
             </div>
-          )}
+          </RevealOnScroll>
+        )}
 
-          {member.fav_media && member.fav_media.length > 0 && (
-            <RevealOnScroll delay={0.2}>
-              <div className="space-y-4">
-                <h3 className="text-base font-semibold flex items-center gap-2">
-                  <Clapperboard size={14} /> fav movies & series
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {member.fav_media.slice(0, 4).map((imdbId: string) => (
-                    <div key={imdbId} className="aspect-video w-full">
-                      <iframe
-                        src={`https://multiembed.mov/?video_id=${imdbId}`}
-                        width="100%"
-                        height="100%"
-                        frameBorder="0"
-                        allowFullScreen
-                        className="rounded-lg"
-                      ></iframe>
-                    </div>
+        {member.fav_media && member.fav_media.length > 0 && (
+          <RevealOnScroll delay={0.55}>
+            <div className="space-y-4">
+              <h3 className="text-base font-semibold flex items-center gap-2">
+                <Clapperboard size={14} /> fav movies & series
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {member.fav_media
+                  .slice(0, 4)
+                  .map((imdbId: string, index: number) => (
+                    <RevealOnScroll key={imdbId} delay={index * 0.1}>
+                      <div className="aspect-video w-full">
+                        <iframe
+                          src={`https://multiembed.mov/?video_id=${imdbId}`}
+                          width="100%"
+                          height="100%"
+                          frameBorder="0"
+                          allowFullScreen
+                          className="rounded-lg"
+                        ></iframe>
+                      </div>
+                    </RevealOnScroll>
                   ))}
-                </div>
               </div>
-            </RevealOnScroll>
-          )}
+            </div>
+          </RevealOnScroll>
+        )}
 
-          {memberWorks.length > 0 && (
+        {memberWorks.length > 0 && (
+          <RevealOnScroll delay={0.6}>
             <div className="space-y-5">
               <h3 className="text-base font-semibold">
                 little things helped on
@@ -320,11 +331,22 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                 ))}
               </div>
             </div>
-          )}
-        </section>
-      </RevealOnScroll>
+          </RevealOnScroll>
+        )}
 
-      <RevealOnScroll delay={0.5}>
+        {member.personal_quote && (
+          <RevealOnScroll delay={0.65}>
+            <div className="relative rounded-lg border border-border bg-card/50 p-6">
+              <Quote className="absolute -top-3 -left-3 h-8 w-8 text-accent/30" />
+              <p className="text-sm italic leading-relaxed text-muted-foreground">
+                {member.personal_quote}
+              </p>
+            </div>
+          </RevealOnScroll>
+        )}
+      </section>
+
+      <RevealOnScroll delay={0.7}>
         <section className="px-6 mx-auto max-w-5xl">
           <div className="flex justify-between items-center pt-10 border-t border-[color-mix(in_srgb,var(--foreground)_12%,transparent)]">
             {prevMember ? (

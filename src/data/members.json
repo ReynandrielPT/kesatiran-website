@@ -54,7 +54,8 @@
       "5g7bsxCqNaucnXpexUoHg8",
       "0wwxj6Dd9NJlirf84wr2c"
     ],
-    "fav_media": ["tt0133093", "tt1856101"]
+    "fav_media": ["tt0133093", "tt1856101"],
+    "personal_quote": "Turning coffee into clean, scalable code."
   },
   {
     "id": "sankya",
@@ -104,10 +105,11 @@
     "fav_songs": [
       "5eY7692tmgHB9dbmq6wa2M",
       "5tlb0AxuzsMWL2GtEppXGX",
-      "5g7bsxCqNaucnXpexUoHg8",
-      "60wwxj6Dd9NJlirf84wr2c"
+      "60wwxj6Dd9NJlirf84wr2c",
+      "5g7bsxCqNaucnXpexUoHg8"
     ],
-    "fav_media": ["tt5311514", "tt3413018"]
+    "fav_media": ["tt5311514", "tt3413018"],
+    "personal_quote": "Empathy is the foundation of good design."
   },
   {
     "id": "rey",
@@ -153,7 +155,8 @@
       }
     ],
     "fav_songs": ["0VjIjW4GlUZAMYd2vXMi3b", "2xLMifQCjDGFmkHkpNLD9h"],
-    "fav_media": ["tt0386676", "tt1160419"]
+    "fav_media": ["tt0386676", "tt1160419"],
+    "personal_quote": "Automate everything, then monitor it."
   },
   {
     "id": "member-4",
@@ -169,7 +172,8 @@
       { "name": "CSS", "category": "Frontend", "level": "expert" }
     ],
     "fav_songs": ["6WrI0LAC5M1Rw2MnX2ZvEg", "0sY6uRvQa5s8QnMIC9zS24"],
-    "fav_media": ["tt5687612", "tt6710474"]
+    "fav_media": ["tt5687612", "tt6710474"],
+    "personal_quote": "Passionate about building interfaces that people love to use."
   },
   {
     "id": "member-5",
@@ -185,7 +189,8 @@
       { "name": "Databases", "category": "Backend", "level": "intermediate" }
     ],
     "fav_songs": ["5L6hL6FzD6iVsqo7KjNPUN"],
-    "fav_media": ["tt0903747", "tt0068646"]
+    "fav_media": ["tt0903747", "tt0068646"],
+    "personal_quote": "Solving complex problems with simple, robust backend solutions."
   },
   {
     "id": "member-6",
@@ -201,7 +206,8 @@
       { "name": "Agile", "category": "Methodology", "level": "expert" }
     ],
     "fav_songs": ["5ChkMS8OtdzJeqyybgyCIb", "2ySlAbfrscwL6cK3222I9N"],
-    "fav_media": ["tt7660850", "tt1285016"]
+    "fav_media": ["tt7660850", "tt1285016"],
+    "personal_quote": "The best product is one that solves a real user problem."
   },
   {
     "id": "member-7",
@@ -221,6 +227,7 @@
       }
     ],
     "fav_songs": ["7qiZfU4dY1lWllzX7mP3wj", "4r6eNCsrZnQWJzzx54jtY7"],
-    "fav_media": ["tt7366338", "tt6751668"]
+    "fav_media": ["tt7366338", "tt6751668"],
+    "personal_quote": "If it's not tested, it's broken."
   }
 ]

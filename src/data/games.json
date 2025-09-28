@@ -2,7 +2,7 @@
   {
     "id": "valorant",
     "title": "Valorant",
-    "cover": "/media/games/valorant-cover.jpg",
+    "cover": "/media/game/valorant-cover.jpg",
     "description": "Tactical 5v5 FPS we jump into for ranked anxiety, aim drills and clutch screams.",
     "tags": ["FPS", "Tactical", "Competitive"],
     "platforms": ["PC"],
