@@ -11,17 +11,6 @@
     "collaboration_type": "solo"
   },
   {
-    "id": "image-2024",
-    "type": "image",
-    "title": "2024 Still",
-    "thumb": "/media/works/circle.jpg",
-    "media": "/media/works/image/2024.png",
-    "description": "Local image sample from 2024.",
-    "tags": ["image"],
-    "contributors": [],
-    "collaboration_type": "solo"
-  },
-  {
     "id": "tropical-1",
     "type": "audio",
     "title": "Tropical 1",
@@ -33,5 +22,57 @@
     "collaboration_type": "solo",
     "duration": "5:47",
     "artist": "Kesatiran Beats"
+  },
+  {
+    "id": "experimental",
+    "type": "visual",
+    "title": "experimental by sankya",
+    "thumb": "/media/works/video/thumb/dress.png",
+    "media": "/media/works/video/Dress.mp4",
+    "description": "another experimental video",
+    "tags": ["video"],
+    "contributors": ["gafna"],
+    "collaboration_type": "solo"
+  },
+  {
+    "id": "3d-stuff",
+    "type": "image",
+    "title": "3d stuff by gafnaa",
+    "thumb": "/media/works/circle.jpg",
+    "media": "/media/works/image/nama-gambar-pertama.jpg",
+    "description": "Some of my 3d projects that I made using Blender.",
+    "tags": ["blender", "design", "art"],
+    "contributors": [],
+    "collaboration_type": "solo",
+    "gallery": [
+      "/media/works/image/3d-stuff/1.jpg",
+      "/media/works/image/3d-stuff/2.png",
+      "/media/works/image/3d-stuff/3.jpg",
+      "/media/works/image/3d-stuff/4.jpg",
+      "/media/works/image/3d-stuff/komi.png",
+      "/media/works/image/3d-stuff/lampu.jpg"
+    ]
+  },
+  {
+    "id": "celengan-rindu",
+    "type": "visual",
+    "title": "celengan rindu edit",
+    "thumb": "/media/works/video/thumb/1.png",
+    "media": "/media/works/video/celengan.mp4",
+    "description": "celengan rindu mograp edit",
+    "tags": ["video"],
+    "contributors": ["gafna"],
+    "collaboration_type": "solo"
+  },
+  {
+    "id": "valorant-montage",
+    "type": "visual",
+    "title": "valorant ah montage",
+    "thumb": "/media/works/video/thumb/val.png",
+    "media": "/media/works/video/val.mp4",
+    "description": "valorant montage ah edit",
+    "tags": ["video"],
+    "contributors": ["gafna"],
+    "collaboration_type": "solo"
   }
 ]
