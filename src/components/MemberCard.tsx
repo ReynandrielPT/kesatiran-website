@@ -30,6 +30,7 @@ interface MemberCardProps extends React.HTMLAttributes<HTMLDivElement> {
   showSkills?: boolean;
   compact?: boolean; // smaller layout variant
   usePhotoFirst?: boolean; // prefer photo over avatar for the main image
+  showViewButton?: boolean; // control showing the overlay "View Profile" button
 }
 
 // removed platform label helper; no longer rendering social platform chips
@@ -39,6 +40,7 @@ export function MemberCard({
   showSkills = false,
   compact = false,
   usePhotoFirst = false,
+  showViewButton = true,
   className,
   ...rest
 }: MemberCardProps) {
@@ -97,49 +99,62 @@ export function MemberCard({
             )}
           />
 
-          {/* Combined overlay for name, role, and button */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 opacity-0 invisible transition-all duration-300 group-hover:opacity-100 group-hover:visible pointer-events-none p-4 sm:p-5">
-            <div className="text-center pointer-events-auto">
+          {/* Persistent name label at bottom-left */}
+          <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 pointer-events-none">
+            {/* subtle gradient to improve readability */}
+            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+            <div className="relative flex items-end justify-start">
               <h3
                 className={cn(
-                  "font-semibold tracking-tight line-clamp-2",
-                  theme === "light"
-                    ? "text-gray-900 drop-shadow-sm"
-                    : "text-foreground",
-                  compact ? "text-lg" : "text-xl"
+                  "font-semibold tracking-tight leading-snug line-clamp-1 max-w-full",
+                  compact ? "text-base" : "text-lg"
                 )}
+                title={member.name}
                 style={{
+                  // Determine base text color by theme
+                  color:
+                    theme === "dark" || theme === "gaming"
+                      ? "#ffffff" // light font on dark-ish themes
+                      : "#111111", // dark font on light/aesthetic
+                  // Stroke should contrast with font color
                   WebkitTextStroke:
-                    theme === "light" || theme === "aesthetic"
-                      ? "0.8px rgba(0,0,0,0.7)" // dark stroke in light/aesthetic
-                      : "0.8px rgba(255,255,255,0.7)", // light stroke in dark/gaming
+                    theme === "dark" || theme === "gaming"
+                      ? "0.8px rgba(0,0,0,0.7)" // dark stroke for light font
+                      : "0.8px rgba(255,255,255,0.8)", // light stroke for dark font
+                  // Subtle shadow matching contrast direction
                   textShadow:
-                    theme === "light" || theme === "aesthetic"
-                      ? "0 1px 1px rgba(255,255,255,0.25)"
-                      : "0 1px 1px rgba(0,0,0,0.4)",
+                    theme === "dark" || theme === "gaming"
+                      ? "0 1px 2px rgba(0,0,0,0.45)"
+                      : "0 1px 2px rgba(255,255,255,0.45)",
                 }}
               >
                 {member.name}
               </h3>
             </div>
-            <div className="pointer-events-auto">
-              <Button
-                variant="outline"
-                size={compact ? "sm" : "md"}
-                className="border-border bg-background/80 backdrop-blur-sm"
-              >
-                <Link
-                  href={`/profile/${member.slug}`}
-                  onClick={(e) => {
-                    // prevent bubbling to Card onClick (used for Spotify open)
-                    e.stopPropagation();
-                  }}
-                >
-                  View Profile
-                </Link>
-              </Button>
-            </div>
           </div>
+
+          {/* Hover overlay for actions only */}
+          {showViewButton && (
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 invisible transition-all duration-300 group-hover:opacity-100 group-hover:visible pointer-events-none p-4 sm:p-5">
+              <div className="pointer-events-auto">
+                <Button
+                  variant="outline"
+                  size={compact ? "sm" : "md"}
+                  className="border-border bg-background/80 backdrop-blur-sm"
+                >
+                  <Link
+                    href={`/profile/${member.slug}`}
+                    onClick={(e) => {
+                      // prevent bubbling to Card onClick (used for Spotify open)
+                      e.stopPropagation();
+                    }}
+                  >
+                    View Profile
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Footer action (kept minimal, outside overlay) - This was an empty div, can be removed if not used */}

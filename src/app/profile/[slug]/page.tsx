@@ -159,9 +159,20 @@ export default function ProfilePage({ params }: ProfilePageProps) {
           <RevealOnScroll delay={0.3}>
             <div className="flex-1 space-y-6">
               <div className="space-y-2">
-                <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-heading">
-                  {member.name.toLowerCase()}
-                </h1>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-heading">
+                    {member.name.toLowerCase()}
+                  </h1>
+                  {member.department && (
+                    <Badge
+                      size="sm"
+                      variant="secondary"
+                      className="align-middle"
+                    >
+                      {member.department}
+                    </Badge>
+                  )}
+                </div>
                 <p className="text-sm font-medium text-[var(--accent)]">
                   {member.role}
                 </p>

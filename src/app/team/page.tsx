@@ -64,11 +64,10 @@ export default function TeamPage() {
   );
   const [deskTranslateX, setDeskTranslateX] = useState<number>(0);
   // (audio playback removed as requested)
-  // Build casual tags from department/role for simple filtering
+  // Build casual tags from role words only (department removed from filter tags)
   const tags = useMemo(() => {
     const base = new Set<string>();
     members.forEach((m) => {
-      if (m.department) base.add(m.department.toLowerCase());
       m.role
         .split(/[,/]|and|&/i)
         .map((r: string) => r.trim().toLowerCase())
@@ -79,9 +78,10 @@ export default function TeamPage() {
   }, []);
 
   // FIX 4: Use the typed 'members' array and remove the redundant type annotation.
+  // Filter by role only (department removed from search)
   const filtered = members.filter((m) => {
     if (activeTag === "all") return true;
-    const haystack = [m.department, m.role].join(" ").toLowerCase();
+    const haystack = m.role.toLowerCase();
     return haystack.includes(activeTag);
   });
 
@@ -523,14 +523,16 @@ export default function TeamPage() {
                         >
                           <Link
                             href={`/profile/${member.slug}`}
-                            className="group block"
+                            className="group block relative"
                           >
+                            {/* Department badge removed on desktop card */}
                             <MemberCard
                               member={member}
                               compact={false}
                               showSkills={isCenter}
                               // Use photo for the main card image in team page
                               usePhotoFirst
+                              showViewButton={false}
                               className={`w-[20rem] h-[26rem] transition-all duration-500 ${
                                 isCenter
                                   ? "hover:scale-[1.05] shadow-2xl"
@@ -659,6 +661,7 @@ export default function TeamPage() {
                               <p className="text-sm text-muted-foreground">
                                 {m.role}
                               </p>
+                              {/* Department badge removed on mobile card */}
                               <p className="text-xs text-muted-foreground line-clamp-4 leading-relaxed">
                                 {m.bio_short}
                               </p>
