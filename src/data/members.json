@@ -217,20 +217,38 @@
     "personal_quote": "Old habits die hard, and forming new ones is even harder — not just starting them, but turning them into lasting routines."
   },
   {
-    "id": "member-5",
-    "name": "Bob Williams",
-    "slug": "bob-williams",
-    "photo": "/media/team/placeholder.jpg",
-    "avatar": "/media/team/placeholder-avatar.jpg",
-    "role": "Backend Developer",
-    "department": "Engineering",
-    "bio_short": "Building robust and scalable backend systems with a focus on performance and security.",
+    "id": "Faiz-Hanuraga-Febrianta-Prayudhi",
+    "name": "Faiz Hanuraga Febrianta Prayudhi",
+    "slug": "faiz-hanuraga-febrianta-prayudhi",
+    "photo": "/media/team/faiz.JPG",
+    "avatar": "/media/team/faiz-av.png",
+    "role": "No Jobless man",
+    "department": "Architecture",
+    "bio_short": "Do ur best, and let god do the rest!",
     "skills": [
-      { "name": "Node.js", "category": "Backend", "level": "intermediate" },
-      { "name": "Databases", "category": "Backend", "level": "intermediate" }
+      {
+        "name": "Photo/Video Editing",
+        "category": "Editing",
+        "level": "Beginner"
+      },
+      {
+        "name": "Graphic Design",
+        "category": "Design",
+        "level": "intermediate"
+      },
+      {
+        "name": "3D Designer & Rendering",
+        "category": "Design",
+        "level": "intermediate"
+      }
     ],
-    "fav_songs": ["5L6hL6FzD6iVsqo7KjNPUN"],
-    "fav_media": ["tt0903747", "tt0068646"],
+    "fav_songs": [
+      "2a6n4CoUhnssQiU9pv8Gxz",
+      "5VNEPO8ZgW1sWQOfWhQqm0",
+      "6ppefZt5uQ62aHAfSa1Jx9",
+      "0wEeW8Bwr0fHXuS2zLiDXk"
+    ],
+    "fav_media": ["tt5323662", "tt10477558", "tt8652818", "tt3114376"],
     "personal_quote": "Solving complex problems with simple, robust backend solutions."
   },
   {
