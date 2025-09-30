@@ -2,7 +2,7 @@
   {
     "id": "valorant",
     "title": "Valorant",
-    "cover": "/media/game/valorant-cover.jpg",
+    "cover": "/media/game/valo.png",
     "description": "Tactical 5v5 FPS we jump into for ranked anxiety, aim drills and clutch screams.",
     "tags": ["FPS", "Tactical", "Competitive"],
     "platforms": ["PC"],
@@ -12,7 +12,7 @@
     "links": {
       "website": "https://playvalorant.com"
     },
-    "screenshots": ["/media/games/valorant-1.jpg"],
+    "screenshots": ["/media/game/valorant-1.jpg"],
     "players": [
       {
         "memberId": "john-doe",
@@ -53,7 +53,7 @@
   {
     "id": "mobile-legends",
     "title": "Mobile Legends",
-    "cover": "/media/games/mobile-legends-cover.jpg",
+    "cover": "/media/game/mole.png",
     "description": "Fast mobile MOBA we spam when away from the pc.",
     "tags": ["MOBA", "Mobile", "Casual"],
     "platforms": ["Mobile"],

@@ -1,29 +1,5 @@
 [
   {
-    "id": "video-2019-trim",
-    "type": "visual",
-    "title": "2019 Capture",
-    "thumb": "/media/works/circle.jpg",
-    "media": "/media/works/video/2019-04-01 20-48-16_Trim.mp4",
-    "description": "Local video sample captured in 2019.",
-    "tags": ["video"],
-    "contributors": [],
-    "collaboration_type": "solo"
-  },
-  {
-    "id": "tropical-1",
-    "type": "audio",
-    "title": "Tropical 1",
-    "thumb": "/media/works/circle.jpg",
-    "media": "/media/audio/tropis-ngons-1-2.mp3",
-    "description": "A vibrant tropical music collection featuring upbeat rhythms and sunny melodies that capture the essence of paradise.",
-    "tags": ["Tropical", "Upbeat", "World Music", "Paradise"],
-    "contributors": ["john-doe"],
-    "collaboration_type": "solo",
-    "duration": "5:47",
-    "artist": "Kesatiran Beats"
-  },
-  {
     "id": "experimental",
     "type": "visual",
     "title": "experimental by sankya",
@@ -38,11 +14,11 @@
     "id": "3d-stuff",
     "type": "image",
     "title": "3d stuff by gafnaa",
-    "thumb": "/media/works/circle.jpg",
-    "media": "/media/works/image/nama-gambar-pertama.jpg",
+    "thumb": "/media/works/image/3d-stuff/3.jpg",
+    "media": "",
     "description": "Some of my 3d projects that I made using Blender.",
     "tags": ["blender", "design", "art"],
-    "contributors": [],
+    "contributors": ["gafna"],
     "collaboration_type": "solo",
     "gallery": [
       "/media/works/image/3d-stuff/1.jpg",
@@ -74,5 +50,29 @@
     "tags": ["video"],
     "contributors": ["gafna"],
     "collaboration_type": "solo"
+  },
+  {
+    "id": "video-2019-trim",
+    "type": "visual",
+    "title": "2019 Capture",
+    "thumb": "/media/works/circle.jpg",
+    "media": "/media/works/video/2019-04-01 20-48-16_Trim.mp4",
+    "description": "Local video sample captured in 2019.",
+    "tags": ["video"],
+    "contributors": [],
+    "collaboration_type": "solo"
+  },
+  {
+    "id": "tropical-1",
+    "type": "audio",
+    "title": "Tropical 1",
+    "thumb": "/media/works/circle.jpg",
+    "media": "/media/audio/tropis-ngons-1-2.mp3",
+    "description": "A vibrant tropical music collection featuring upbeat rhythms and sunny melodies that capture the essence of paradise.",
+    "tags": ["Tropical", "Upbeat", "World Music", "Paradise"],
+    "contributors": ["reynan"],
+    "collaboration_type": "solo",
+    "duration": "5:47",
+    "artist": "Kesatiran Beats"
   }
 ]
