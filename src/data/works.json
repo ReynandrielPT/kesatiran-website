@@ -55,7 +55,7 @@
     "id": "video-2019-trim",
     "type": "visual",
     "title": "2019 Capture",
-    "thumb": "/media/works/circle.jpg",
+    "thumb": "/media/works/video/thumb/2019.png",
     "media": "/media/works/video/2019-04-01 20-48-16_Trim.mp4",
     "description": "Local video sample captured in 2019.",
     "tags": ["video"],
@@ -74,5 +74,67 @@
     "collaboration_type": "solo",
     "duration": "5:47",
     "artist": "Kesatiran Beats"
+  },
+  {
+    "id": "3d-project",
+    "type": "image",
+    "title": "3d project by faiz",
+    "thumb": "/media/works/image/fazi/2.png",
+    "media": "",
+    "description": "3d project for trainin' to be archi college student",
+    "tags": ["Blender", "Design", "Art"],
+    "contributors": ["faiz"],
+    "collaboration_type": "solo",
+    "gallery": [
+      "/media/works/image/faiz/1.png",
+      "/media/works/image/faiz/2.png",
+      "/media/works/image/faiz/3.png",
+      "/media/works/image/faiz/4.png"
+    ]
+  },
+  {
+    "id": "illustrator-project",
+    "type": "image",
+    "title": "illustrator project by faiz",
+    "thumb": "/media/works/image/fazi/5.png",
+    "media": "",
+    "description": "3d project for trainin' to be archi college student",
+    "tags": ["Adobe Illustrator", "Design", "Art"],
+    "contributors": ["faiz"],
+    "collaboration_type": "solo",
+    "gallery": ["/media/works/image/faiz/5.png"]
+  },
+  {
+    "id": "3d-car-animation",
+    "type": "visual",
+    "title": "3d car animation ah edit",
+    "thumb": "/media/works/video/thumb/car1.png",
+    "media": "/media/works/video/car1.mp4",
+    "description": "some 3d car animation that i made using blender, while chilling",
+    "tags": ["video"],
+    "contributors": ["faiz"],
+    "collaboration_type": "solo"
+  },
+  {
+    "id": "second-3d-car-animation",
+    "type": "visual",
+    "title": "Second 3d edit car animation",
+    "thumb": "/media/works/video/thumb/car2.png",
+    "media": "/media/works/video/car2.mp4",
+    "description": "another 3d car animation that i made after",
+    "tags": ["video"],
+    "contributors": ["faiz"],
+    "collaboration_type": "solo"
+  },
+  {
+    "id": "third-3d-car-animation",
+    "type": "visual",
+    "title": "Third 3d project bout' car animation",
+    "thumb": "/media/works/video/thumb/car3.png",
+    "media": "/media/works/video/car3.mp4",
+    "description": "another 3d project bout car animation, but for the first time i cant render it, cause my pc really want to explode",
+    "tags": ["video"],
+    "contributors": ["faiz"],
+    "collaboration_type": "solo"
   }
 ]
