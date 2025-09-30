@@ -316,24 +316,39 @@
     "personal_quote": ""
   },
   {
-    "id": "member-7",
-    "name": "Diana Prince",
-    "slug": "diana-prince",
-    "photo": "/media/team/placeholder.jpg",
-    "avatar": "/media/team/placeholder-avatar.jpg",
-    "role": "QA Engineer",
-    "department": "Quality Assurance",
-    "bio_short": "Ensuring high-quality software delivery through meticulous testing and quality assurance processes.",
+    "id": "Muiz-Afif-Mirza-Lindu-Aji",
+    "name": "Muiz Afif Mirza Lindu Aji",
+    "slug": "muiz-afif-mirza-lindu-aji",
+    "photo": "/media/team/muiz.jpg",
+    "avatar": "/media/team/muiz.jpg",
+    "institute": "",
+    "role": "Mage only",
+    "department": "Informatic",
+    "location": "",
+    "bio_short": "no bio yet",
+    "bio_long": "",
     "skills": [
-      { "name": "Manual Testing", "category": "QA", "level": "expert" },
       {
-        "name": "Automation Testing",
-        "category": "QA",
-        "level": "intermediate"
+        "name": "Programer Robotic Line Follower",
+        "category": "",
+        "level": ""
       }
     ],
-    "fav_songs": ["7qiZfU4dY1lWllzX7mP3wj", "4r6eNCsrZnQWJzzx54jtY7"],
-    "fav_media": ["tt7366338", "tt6751668"],
-    "personal_quote": "If it's not tested, it's broken."
+    "tools": [],
+    "social_links": {
+      "instagram": "",
+      "linkedin": "",
+      "twitter": "",
+      "github": ""
+    },
+    "contact_email": "",
+    "resume_url": "",
+    "member_since": "",
+    "availability_status": "",
+    "career_highlights": [],
+    "testimonials": [],
+    "fav_songs": ["5tib0AxuzsMWL2GtEppXGX"],
+    "fav_media": ["tt5311514"],
+    "personal_quote": ""
   }
 ]
