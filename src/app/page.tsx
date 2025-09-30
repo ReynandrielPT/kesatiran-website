@@ -338,7 +338,7 @@ export default function Home() {
                         </p>
                         <div className="flex flex-wrap gap-1 justify-center">
                           <Badge size="xs" variant="secondary">
-                            {member.role.split(",")[0].toLowerCase()}
+                            {member.department.split(",")[0].toLowerCase()}
                           </Badge>
                         </div>
                       </div>

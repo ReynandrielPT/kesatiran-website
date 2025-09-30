@@ -30,12 +30,11 @@
       { "name": "PostgreSQL", "category": "Databases", "icon": "postgresql" }
     ],
     "social_links": {
-      "github": "https://github.com/johndoe",
-      "linkedin": "https://linkedin.com/in/johndoe",
-      "twitter": "https://twitter.com/johndoe",
-      "website": "https://johndoe.dev"
+      "instagram": "https://www.instagram.com/bhaskadk/",
+      "linkedin": "https://www.linkedin.com/in/bhaskaradhanukusuma/",
+      "twitter": ""
     },
-    "contact_email": "john@kesatiran.com",
+    "contact_email": "",
     "resume_url": "/media/resumes/john-doe-resume.pdf",
     "member_since": "2022-01-15",
     "availability_status": "available",
@@ -112,13 +111,14 @@
       { "name": "Git", "category": "Development", "icon": "git" }
     ],
     "social_links": {
-      "dribbble": "https://dribbble.com/janesmith",
-      "behance": "https://behance.net/janesmith",
+      "instagram": "https://www.instagram.com/gafnaa/",
+      "github": "https://github.com/gafnaa",
       "linkedin": "https://linkedin.com/in/gafnaa"
     },
-    "contact_email": "jane@kesatiran.com",
+    "contact_email": "gafnaalfaatiha@gmail.com",
     "resume_url": "/media/resumes/jane-smith-resume.pdf",
     "member_since": "2020-03-01",
+    "website": "gafnaworks.my.id",
     "availability_status": "turu",
     "career_highlights": [
       {
@@ -208,6 +208,10 @@
         "level": "Beginner"
       }
     ],
+    "social_links": {
+      "instagram": "https://www.instagram.com/aero_brama/",
+      "linkedin": "https://www.linkedin.com/in/aerobrama/"
+    },
     "fav_songs": [
       "2262bWmqomIaJXwCRHr13j",
       "3l1grOhgJQG4E1E2MjfHWG",
@@ -242,6 +246,10 @@
         "level": "intermediate"
       }
     ],
+    "social_links": {
+      "instagram": "https://www.instagram.com/faiz_hanuraga/",
+      "linkedin": "https://www.linkedin.com/in/faizhanuraga17/"
+    },
     "fav_songs": [
       "2a6n4CoUhnssQiU9pv8Gxz",
       "5VNEPO8ZgW1sWQOfWhQqm0",

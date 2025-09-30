@@ -11,6 +11,7 @@ import {
   Github,
   Linkedin,
   Twitter,
+  Instagram,
   ChevronRight,
   ChevronLeft,
   Sparkles,
@@ -203,6 +204,8 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                           ? Linkedin
                           : platform === "twitter"
                           ? Twitter
+                          : platform === "instagram"
+                          ? Instagram
                           : Mail;
                       return (
                         <a
