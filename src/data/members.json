@@ -265,21 +265,55 @@
     "personal_quote": "Solving complex problems with simple, robust backend solutions."
   },
   {
-    "id": "member-6",
-    "name": "Charlie Brown",
-    "slug": "charlie-brown",
-    "photo": "/media/team/placeholder.jpg",
-    "avatar": "/media/team/placeholder-avatar.jpg",
-    "role": "Product Manager",
-    "department": "Product",
-    "bio_short": "Driving product vision and strategy, ensuring alignment with user needs and business goals.",
+    "id": "Cahyo-Setio-Utomo",
+    "name": "Cahyo Setio Utomo",
+    "slug": "cahyo-setio-utomo",
+    "photo": "/media/team/cah.jpg",
+    "avatar": "/media/team/cah-av.jpg",
+    "institute": "Universitas Brawijaya",
+    "role": "The Doctor",
+    "department": "Medicine",
+    "location": "",
+    "bio_short": "Currently pursuing a bachelor's degree and the \"Doctor\" title at Faculty of Medicine. Determined to become an expert in the field of Anesthesia.",
+    "bio_long": "",
     "skills": [
-      { "name": "Product Strategy", "category": "Product", "level": "expert" },
-      { "name": "Agile", "category": "Methodology", "level": "expert" }
+      {
+        "name": "Writing (Novel)",
+        "category": "Language",
+        "level": "intermediate"
+      },
+      {
+        "name": "Sphygmomanometer (Manual)",
+        "category": "Medicine",
+        "level": "intermediate"
+      },
+      {
+        "name": "Gram Staining/ Ziehl-Neelsen Staining",
+        "category": "Medicine",
+        "level": "intermediate"
+      }
     ],
-    "fav_songs": ["5ChkMS8OtdzJeqyybgyCIb", "2ySlAbfrscwL6cK3222I9N"],
-    "fav_media": ["tt7660850", "tt1285016"],
-    "personal_quote": "The best product is one that solves a real user problem."
+    "tools": [],
+    "social_links": {
+      "instagram": "",
+      "linkedin": "",
+      "twitter": "",
+      "github": ""
+    },
+    "contact_email": "",
+    "resume_url": "",
+    "member_since": "",
+    "availability_status": "",
+    "career_highlights": [],
+    "testimonials": [],
+    "fav_songs": [
+      "69WpV0U7OMNFGyq8163dcC",
+      "0EmYZZ8OqeALedVhijSjsg",
+      "2qcMYiZzzmzoF8PPAfL310",
+      "2qgjgbi96IAOBzZFC6H57U"
+    ],
+    "fav_media": ["tt3228774", "tt0773262", "tt13443470", "tt11126994"],
+    "personal_quote": ""
   },
   {
     "id": "member-7",
