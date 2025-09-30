@@ -5,12 +5,12 @@
     "slug": "bhaskara-dhanu-kusuma",
     "photo": "/media/team/bhas.JPG",
     "avatar": "/media/team/bhas-av.png",
-    "institute": "Universitas Gajah Mada",
+    "institute": "Universitas Gadjah Mada",
     "role": "Slow Living Man",
     "department": "Economic/Regional Planning",
-    "location": "Kebakkramat, Jawa Tengah",
+    "location": "Surakarta, Jawa Tengah, Indonesia",
     "bio_short": "Not a perfect human being, but always trying to be better",
-    "bio_long": "",
+    "bio_long": "Bhaskara is passionate about growth and continuous improvement. With interests across design, analysis, and visual storytelling, he enjoys learning by building and collaborating with friends. Outside of work, he spends time refining creative skills while keeping life simple and grounded.",
     "skills": [
       {
         "name": "Graphic Design",
@@ -22,7 +22,11 @@
         "category": "Editing",
         "level": "beginner"
       },
-      { "name": "Data Analysis", "category": "Analytical", "level": "beginner" }
+      {
+        "name": "Data Analysis",
+        "category": "Analytical",
+        "level": "beginner"
+      }
     ],
     "tools": [
       { "name": "VS Code", "category": "Editors", "icon": "vscode" },
@@ -61,7 +65,13 @@
       "3vN8A1HfOcytUpCiEm2qqI"
     ],
     "fav_media": ["tt2097298", "tt1190080", "tt0120815", "tt1745960"],
-    "personal_quote": "Turning coffee into clean, scalable code."
+    "personal_quote": "Turning coffee into clean, scalable code.",
+    "education": [
+      {
+        "subject": "High School",
+        "institution": "SMAN 3 Surakarta"
+      }
+    ]
   },
   {
     "id": "gafna",
@@ -114,12 +124,19 @@
     "social_links": {
       "instagram": "https://www.instagram.com/gafnaa/",
       "github": "https://github.com/gafnaa",
-      "linkedin": "https://linkedin.com/in/gafnaa"
+      "linkedin": "https://www.linkedin.com/in/gafnaa/"
     },
     "contact_email": "gafnaalfaatiha@gmail.com",
     "resume_url": "/media/resumes/jane-smith-resume.pdf",
     "member_since": "2020-03-01",
     "website": "gafnaworks.my.id",
+    "institute": "Universitas Gadjah Mada",
+    "education": [
+      {
+        "subject": "Computer Science",
+        "institution": "Universitas Gadjah Mada"
+      }
+    ],
     "availability_status": "turu",
     "career_highlights": [
       {
@@ -155,7 +172,7 @@
     "department": "Informatics on Institut Teknologi Sepuluh Nopember",
     "location": "Surabaya, Indonesia",
     "bio_short": "DevOps engineer passionate about automation, scalability, and cloud infrastructure. 6 years of experience with AWS and Kubernetes.",
-    "bio_long": "Rey is a highly skilled DevOps engineer who thrives on solving complex infrastructure challenges. With 6 years of experience in cloud computing and automation, Alex specializes in AWS, Kubernetes, and CI/CD pipeline optimization. They have helped numerous companies scale their infrastructure while maintaining reliability and security. Alex is also passionate about mentoring junior developers and promoting DevOps best practices.",
+    "bio_long": "Rey is an informatics student and DevOps enthusiast who enjoys building scalable systems and automating workflows. He explores cloud-native tooling, CI/CD, and developer experience, and frequently prototypes projects to learn by doing. He’s also active in tech communities and collaborative initiatives.",
     "skills": [
       { "name": "AWS", "category": "Cloud", "level": "expert" },
       { "name": "Kubernetes", "category": "Orchestration", "level": "expert" }
@@ -170,6 +187,14 @@
       "twitter": "https://twitter.com/reynandrielpt"
     },
     "contact_email": "alex@kesatiran.com",
+    "institute": "Institut Teknologi Sepuluh Nopember",
+    "education": [
+      {
+        "subject": "Informatics",
+        "institution": "Institut Teknologi Sepuluh Nopember",
+        "period": "2023 — present"
+      }
+    ],
     "resume_url": "/media/resumes/reynandrielpt-resume.pdf",
     "member_since": "2021-08-15",
     "availability_status": "available",
@@ -200,7 +225,10 @@
     "avatar": "/media/team/aer.JPG",
     "role": "Future Professor",
     "department": "Civil Engineering",
+    "institute": "Universitas Gadjah Mada",
+    "location": "Yogyakarta, Indonesia",
     "bio_short": "Currently pursuing a bachelor's degree in Civil Engineering. Passionate about becoming an expert in timber and bamboo structures, and also aspires to master music and the art of swordsmanship.",
+    "bio_long": "Aero is a civil engineering undergraduate with a growing interest in timber and bamboo structures. He balances technical learning with creative pursuits like photography and music, and enjoys sharpening focus and discipline through practice.",
     "skills": [
       { "name": "Photography", "category": "Photography", "level": "Beginner" },
       {
@@ -220,45 +248,6 @@
     ],
     "fav_media": ["tt4154796", "tt0903747", "tt15398776"],
     "personal_quote": "Old habits die hard, and forming new ones is even harder — not just starting them, but turning them into lasting routines."
-  },
-  {
-    "id": "Faiz-Hanuraga-Febrianta-Prayudhi",
-    "name": "Faiz Hanuraga Febrianta Prayudhi",
-    "slug": "faiz-hanuraga-febrianta-prayudhi",
-    "photo": "/media/team/faiz.JPG",
-    "avatar": "/media/team/faiz-av.png",
-    "role": "No Jobless man",
-    "department": "Architecture",
-    "bio_short": "Do ur best, and let god do the rest!",
-    "skills": [
-      {
-        "name": "Photo/Video Editing",
-        "category": "Editing",
-        "level": "Beginner"
-      },
-      {
-        "name": "Graphic Design",
-        "category": "Design",
-        "level": "intermediate"
-      },
-      {
-        "name": "3D Designer & Rendering",
-        "category": "Design",
-        "level": "intermediate"
-      }
-    ],
-    "social_links": {
-      "instagram": "https://www.instagram.com/faiz_hanuraga/",
-      "linkedin": "https://www.linkedin.com/in/faizhanuraga17/"
-    },
-    "fav_songs": [
-      "2a6n4CoUhnssQiU9pv8Gxz",
-      "5VNEPO8ZgW1sWQOfWhQqm0",
-      "6ppefZt5uQ62aHAfSa1Jx9",
-      "0wEeW8Bwr0fHXuS2zLiDXk"
-    ],
-    "fav_media": ["tt5323662", "tt10477558", "tt8652818", "tt3114376"],
-    "personal_quote": "Solving complex problems with simple, robust backend solutions."
   },
   {
     "id": "member-6",
