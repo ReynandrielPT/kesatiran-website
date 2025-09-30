@@ -119,16 +119,20 @@ export default function ProfilePage({ params }: ProfilePageProps) {
   const nextMember = membersData[currentIndex + 1];
 
   const firstName = member.name.split(" ")[0];
-  // Derive institute from explicit field or parse from department string
+
+  // Logika untuk memisahkan departemen dan institusi
   let instituteName: string | null = (member as any).institute ?? null;
-  if (!instituteName && member.department) {
-    const dept = String(member.department);
+  let departmentName: string | null = member.department ?? null;
+
+  if (!instituteName && departmentName) {
+    const dept = String(departmentName);
     const lower = dept.toLowerCase();
     const separators = [" on ", " at "];
     for (const sep of separators) {
       const idx = lower.indexOf(sep);
       if (idx !== -1) {
         instituteName = dept.slice(idx + sep.length).trim();
+        departmentName = dept.slice(0, idx).trim();
         break;
       }
     }
@@ -139,6 +143,7 @@ export default function ProfilePage({ params }: ProfilePageProps) {
       if (m) instituteName = m[0].trim();
     }
   }
+
   const funFacts: string[] = [];
   if (member.location) funFacts.push(member.location);
   const joinedYear = member.member_since
@@ -213,23 +218,19 @@ export default function ProfilePage({ params }: ProfilePageProps) {
                   <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-heading">
                     {titleCase(member.name)}
                   </h1>
-                  {member.department && (
-                    <Badge
-                      size="sm"
-                      variant="secondary"
-                      className="align-middle"
-                    >
-                      {member.department}
-                    </Badge>
-                  )}
                 </div>
                 <p className="text-sm font-medium text-[var(--accent)]">
                   {member.role}
                 </p>
-                {instituteName && (
+                {(departmentName || instituteName) && (
                   <div className="flex items-center gap-2 pt-1">
                     <span className="inline-flex items-center gap-1 text-xs opacity-75">
-                      <GraduationCap size={12} /> {titleCase(instituteName)}
+                      <GraduationCap size={12} />
+                      {titleCase(
+                        [departmentName, instituteName]
+                          .filter(Boolean)
+                          .join(" at ")
+                      )}
                     </span>
                   </div>
                 )}
@@ -335,7 +336,6 @@ export default function ProfilePage({ params }: ProfilePageProps) {
           </RevealOnScroll>
         )}
 
-        {/* Education */}
         {(education.length > 0 || instituteName) && (
           <RevealOnScroll delay={0.44}>
             <div className="space-y-4">

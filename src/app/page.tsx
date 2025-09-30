@@ -1,6 +1,4 @@
 "use client";
-import members from "@/data/members.json";
-import works from "@/data/works.json";
 import games from "@/data/games.json";
 import Link from "next/link";
 import Image from "next/image";
@@ -16,17 +14,138 @@ import {
   Clock,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // Added useEffect
+
+// Utility function to shuffle an array
+function shuffleArray<T>(array: T[]): T[] {
+  let currentIndex = array.length,
+    randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex !== 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
+}
+
+interface Member {
+  id: string;
+  name: string;
+  slug: string;
+  photo: string;
+  avatar: string;
+  institute: string;
+  role: string;
+  department: string;
+  location?: string;
+  bio_short?: string;
+  bio_long?: string;
+  skills?: { name: string; category: string; level: string }[];
+  tools?: { name: string; category: string; icon: string }[];
+  social_links?: {
+    instagram?: string;
+    linkedin?: string;
+    twitter?: string;
+    github?: string;
+  };
+  contact_email?: string;
+  resume_url?: string;
+  member_since?: string;
+  availability_status?: string;
+  career_highlights?: { year: string; title: string; description: string }[];
+  testimonials?: {
+    text: string;
+    author: string;
+    role: string;
+    company: string;
+  }[];
+  fav_songs?: string[];
+  fav_media?: string[];
+  personal_quote?: string;
+  website?: string;
+}
+
+interface Work {
+  id: string;
+  type: string;
+  title: string;
+  thumb: string;
+  media: string;
+  description: string;
+  tags: string[];
+  contributors: string[];
+  collaboration_type: string;
+  gallery?: string[];
+  duration?: string;
+  artist?: string;
+}
 
 export default function Home() {
-  // Curate a lighter, more casual surface slice
-  const recentProjects = works.slice(0, 3);
-  const recentGames = games.slice(0, 2);
-  const circle = members.slice(0, 9); // just a handful for the collage
+  const [membersData, setMembersData] = useState<Member[]>([]);
+  const [worksData, setWorksData] = useState<Work[]>([]);
+  const [loadingMembers, setLoadingMembers] = useState(true);
+  const [loadingWorks, setLoadingWorks] = useState(true);
+  const [errorMembers, setErrorMembers] = useState<string | null>(null);
+  const [errorWorks, setErrorWorks] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const res = await fetch("/api/members");
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        setMembersData(data);
+      } catch (error: unknown) {
+        setErrorMembers(
+          error instanceof Error ? error.message : "An unknown error occurred"
+        );
+      } finally {
+        setLoadingMembers(false);
+      }
+    };
+
+    const fetchWorks = async () => {
+      try {
+        const res = await fetch("/api/works");
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        setWorksData(data);
+      } catch (error: unknown) {
+        setErrorWorks(
+          error instanceof Error ? error.message : "An unknown error occurred"
+        );
+      } finally {
+        setLoadingWorks(false);
+      }
+    };
+
+    fetchMembers();
+    fetchWorks();
+  }, []);
+
+  // Shuffle and curate a lighter, more casual surface slice
+  const shuffledWorks = shuffleArray([...worksData]); // Shuffle a copy
+  const recentProjects = shuffledWorks.slice(0, 3);
+  const recentGames = games.slice(0, 2); // Games are not part of the dynamic request
+  const shuffledMembers = shuffleArray([...membersData]); // Shuffle a copy
+  const circle = shuffledMembers.slice(0, 9); // just a handful for the collage
   // Home hero circle image: try a custom image in public first, fallback to first member
   const [useMemberCircle, setUseMemberCircle] = useState(false);
   const heroCircleSrc = useMemberCircle
-    ? members[0].avatar || members[0].photo
+    ? shuffledMembers[0]?.avatar || shuffledMembers[0]?.photo
     : "/media/works/circle.jpg"; // place your image here (public/media/works/circle.jpg)
   const statusPhrases = [
     "editing pixel art",
@@ -36,6 +155,15 @@ export default function Home() {
     "renaming a variable again",
     "tuning game feel",
   ];
+
+  if (errorMembers || errorWorks) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-500">
+        Error loading data: {errorMembers || errorWorks}
+      </div>
+    );
+  }
+  // Removed loading state as per user request. Content will appear once data is fetched.
 
   return (
     <div className="min-h-screen pb-24 space-y-24">
@@ -130,7 +258,7 @@ export default function Home() {
             <div className="relative size-80 rounded-full overflow-hidden border-4 border-accent/40 shadow-lg">
               <Image
                 src={heroCircleSrc}
-                alt={useMemberCircle ? members[0].name : "Circle image"}
+                alt={useMemberCircle ? membersData[0]?.name : "Circle image"}
                 fill
                 sizes="320px"
                 className="object-cover"
@@ -294,7 +422,7 @@ export default function Home() {
         <div className="relative overflow-hidden">
           {/* Desktop Gallery View */}
           <div className="hidden lg:flex gap-6 justify-center items-center py-8">
-            {members.slice(0, 7).map((member, i) => {
+            {shuffledMembers.slice(0, 7).map((member, i) => {
               const centerIndex = Math.floor(7 / 2); // Index 3 is center
               const distanceFromCenter = Math.abs(i - centerIndex);
               const isCenter = i === centerIndex;
@@ -352,7 +480,7 @@ export default function Home() {
           {/* Mobile/Tablet Horizontal Scroll */}
           <div className="lg:hidden overflow-x-auto scrollbar-hide py-4">
             <div className="flex gap-4 px-4" style={{ width: "max-content" }}>
-              {members.slice(0, 7).map((member, i) => (
+              {shuffledMembers.slice(0, 7).map((member, i) => (
                 <motion.div
                   key={member.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -400,4 +528,4 @@ export default function Home() {
 // Avoid heavy motion – gentle vertical slide
 // Using small line-height container to mask overflow
 // Each phrase is 1rem tall (h-4 with text-[11px])
-export const dynamic = "force-static";
+// Removed: export const dynamic = "force-static";
