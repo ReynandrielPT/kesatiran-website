@@ -373,9 +373,18 @@ export default function WorksPage() {
   };
 
   const openLightbox = (imageSrc: string, gallery?: string[]) => {
-    if (gallery) {
+    if (gallery && gallery.length > 0) {
+      // Normalize potential encoded/space differences when finding index
+      const norm = (s: string) => {
+        try {
+          return decodeURI(s);
+        } catch {
+          return s;
+        }
+      };
+      const idx = gallery.findIndex((g) => norm(g) === norm(imageSrc));
       setLightboxGallery(gallery);
-      setLightboxIndex(gallery.indexOf(imageSrc));
+      setLightboxIndex(idx >= 0 ? idx : 0);
     } else {
       setLightboxGallery([imageSrc]);
       setLightboxIndex(0);
@@ -846,7 +855,7 @@ export default function WorksPage() {
       {/* Lightbox Modal */}
       {lightboxImage && (
         <div
-          className="fixed inset-0 bg-background/95 backdrop-blur-md z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-background/95 backdrop-blur-md z-[60] flex items-center justify-center p-4"
           onClick={closeLightbox}
         >
           <div

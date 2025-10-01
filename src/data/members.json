@@ -148,51 +148,91 @@
   },
   {
     "id": "rey",
-    "name": "ReynandrielPT",
+    "name": "Reynandriel Pramas Thandya",
     "slug": "rey",
     "photo": "/media/team/reynandrielpt.jpg",
     "avatar": "/media/team/reynandrielpt.jpg",
-    "role": "Yapper",
+    "role": "The Yapper",
     "department": "Informatics",
     "institute": "Institut Teknologi Sepuluh Nopember",
     "location": "Surabaya, Indonesia",
-    "bio_short": "DevOps engineer passionate about automation, scalability, and cloud infrastructure. 6 years of experience with AWS and Kubernetes.",
-    "bio_long": "Rey is a highly skilled DevOps engineer who thrives on solving complex infrastructure challenges. With 6 years of experience in cloud computing and automation, Alex specializes in AWS, Kubernetes, and CI/CD pipeline optimization. They have helped numerous companies scale their infrastructure while maintaining reliability and security. Alex is also passionate about mentoring junior developers and promoting DevOps best practices.",
+    "bio_short": "You can call me Rey, I'm currently a bachelor's student in Informatics at ITS. I'm passionate about Cybersecurity, Research, and Editing.",
+    "bio_long": "A curious and enthusiastic individual with a strong passion for Cybersecurity, Research, and Editing. Currently pursuing a bachelor's degree in Informatics at Institut Teknologi Sepuluh Nopember (ITS). Eager to learn and grow in the field of technology while contributing to innovative projects.",
     "skills": [
-      { "name": "AWS", "category": "Cloud", "level": "expert" },
-      { "name": "Kubernetes", "category": "Orchestration", "level": "expert" }
+      {
+        "name": "Cybersecurity",
+        "category": "Technology",
+        "level": "beginner"
+      },
+      {
+        "name": "Photo/Video Editing",
+        "category": "Design",
+        "level": "beginner"
+      },
+      {
+        "name": "Research Writing",
+        "category": "Technology",
+        "level": "beginner"
+      }
     ],
     "tools": [
-      { "name": "AWS Console", "category": "Cloud", "icon": "aws" },
-      { "name": "Terraform", "category": "IaC", "icon": "terraform" }
+      { "name": "Wireshark", "category": "Cybersecurity", "icon": "wireshark" },
+      {
+        "name": "Burp Suite",
+        "category": "Cybersecurity",
+        "icon": "burpsuite"
+      },
+      {
+        "name": "VirtualBox/WSL",
+        "category": "Development",
+        "icon": "virtualbox"
+      },
+      {
+        "name": "Adobe After Effects",
+        "category": "Design",
+        "icon": "aftereffects"
+      },
+      { "name": "Blender", "category": "Design", "icon": "blender" },
+      { "name": "Git", "category": "Development", "icon": "git" }
     ],
     "social_links": {
       "github": "https://github.com/ReynandrielPT",
       "linkedin": "https://www.linkedin.com/in/reynandriel-pramas-thandya-94b936255/",
-      "twitter": "https://twitter.com/reynandrielpt"
+      "instagram": "https://www.instagram.com/reynandriel/",
+      "soundcloud": "https://soundcloud.com/user-3868509-583178041"
     },
-    "contact_email": "alex@kesatiran.com",
-    "resume_url": "/media/resumes/reynandrielpt-resume.pdf",
     "member_since": "2021-08-15",
     "availability_status": "available",
     "career_highlights": [
       {
-        "year": "2023",
-        "title": "Multi-Cloud Architecture",
-        "description": "Designed and implemented multi-cloud strategy reducing infrastructure costs by 35% while improving reliability"
-      }
-    ],
-    "testimonials": [
+        "year": "Aug 2025 - Now",
+        "title": "Computer Network Lecturer Assistant",
+        "description": "Assisted in teaching Computer Network concepts and practical labs for undergraduate students, enhancing their understanding of networking principles"
+      },
       {
-        "text": "Alex's expertise in cloud architecture and automation saved us countless hours and significantly improved our deployment process.",
-        "author": "Lisa Wang",
-        "role": "CTO",
-        "company": "CloudFirst Inc"
+        "year": "Mar 2025 - Now",
+        "title": "Net Centric Computing Research Assistant",
+        "description": "Assisted in research projects related to Data Hiding and Botnet Detection, contributing to the development of innovative solutions and publications"
+      },
+      {
+        "year": "Jan 2025 - Jun 2025",
+        "title": "Operating System Lecturer Assistant",
+        "description": "Assisted in teaching Operating System concepts and practical labs for undergraduate students, enhancing their understanding of OS principles"
+      },
+      {
+        "year": "Jan 2025 - Now",
+        "title": "Schematics NPC-CTF Expert Staff",
+        "description": "Contributed to the organization and execution of the Schematics NPC-CTF event, providing expertise in cybersecurity challenges and ensuring a smooth competition experience for participants"
       }
     ],
-    "fav_songs": ["0VjIjW4GlUZAMYd2vXMi3b", "2xLMifQCjDGFmkHkpNLD9h"],
-    "fav_media": ["tt0386676", "tt1160419"],
-    "personal_quote": "Automate everything, then monitor it."
+    "fav_songs": [
+      "4UQy41kC5LjzwQuiuWOpwA",
+      "7JDfWHxOFo63yQmVs5wSPM",
+      "69xt31HhLvo0foFpM6iaaJ",
+      "3T9Xm9qyMuUrT4ChUQu4Sq"
+    ],
+    "fav_media": ["tt5311514", "tt0107290", "tt1160419", "tt0816692"],
+    "personal_quote": "I realize what I can and cannot control, and thus I suffer less."
   },
   {
     "id": "Aero-Brama-Aji-Wijaya",

@@ -48,18 +48,18 @@
     "media": "/media/works/video/val.mp4",
     "description": "valorant montage ah edit",
     "tags": ["video"],
-    "contributors": ["gafna"],
-    "collaboration_type": "solo"
+    "contributors": ["gafna", "rey"],
+    "collaboration_type": "duo"
   },
   {
-    "id": "video-2019-trim",
+    "id": "rey1",
     "type": "visual",
-    "title": "2019 Capture",
-    "thumb": "/media/works/video/thumb/2019.png",
-    "media": "/media/works/video/2019-04-01 20-48-16_Trim.mp4",
-    "description": "Local video sample captured in 2019.",
+    "title": "Rey's 3D Animation",
+    "thumb": "/media/works/video/thumb/rey1.png",
+    "media": "/media/works/video/rey1.mp4",
+    "description": "3D video sample created in 2023.",
     "tags": ["video"],
-    "contributors": [],
+    "contributors": ["rey"],
     "collaboration_type": "solo"
   },
   {
@@ -70,7 +70,33 @@
     "media": "/media/audio/tropis-ngons-1-2.mp3",
     "description": "A vibrant tropical music collection featuring upbeat rhythms and sunny melodies that capture the essence of paradise.",
     "tags": ["Tropical", "Upbeat", "World Music", "Paradise"],
-    "contributors": ["reynan"],
+    "contributors": ["rey"],
+    "collaboration_type": "solo",
+    "duration": "5:47",
+    "artist": "RGX26"
+  },
+  {
+    "id": "phonk-1",
+    "type": "audio",
+    "title": "Phink Phonk",
+    "thumb": "/media/works/circle.jpg",
+    "media": "/media/audio/phonk1.mp3",
+    "description": "A chill phonk music collection featuring smooth beats and nostalgic vibes that capture the essence of late-night drives.",
+    "tags": ["Phonk", "Chill", "Hip-Hop", "Nostalgia"],
+    "contributors": ["rey"],
+    "collaboration_type": "solo",
+    "duration": "5:47",
+    "artist": "RGX26"
+  },
+  {
+    "id": "tropical-1",
+    "type": "audio",
+    "title": "Tropical 1",
+    "thumb": "/media/works/circle.jpg",
+    "media": "/media/audio/tropis-ngons-1-2.mp3",
+    "description": "A vibrant tropical music collection featuring upbeat rhythms and sunny melodies that capture the essence of paradise.",
+    "tags": ["Tropical", "Upbeat", "World Music", "Paradise"],
+    "contributors": ["rey"],
     "collaboration_type": "solo",
     "duration": "5:47",
     "artist": "Kesatiran Beats"
@@ -136,5 +162,57 @@
     "tags": ["video"],
     "contributors": ["faiz"],
     "collaboration_type": "solo"
+  },
+  {
+    "id": "bhass-photography",
+    "type": "image",
+    "title": "Bhas's Photography",
+    "thumb": "/media/works/image/bhas-photo/thumb.jpg",
+    "media": "",
+    "description": "Some of Bhaskara's photography works that he took using his camera.",
+    "tags": ["Photography", "Art"],
+    "contributors": ["bhaskara"],
+    "collaboration_type": "solo",
+    "gallery": [
+      "/media/works/image/bhas-photo/20230728_083724.jpg",
+      "/media/works/image/bhas-photo/20240110_110514.jpg",
+      "/media/works/image/bhas-photo/20250107_092855.jpg",
+      "/media/works/image/bhas-photo/20250107_093054.jpg",
+      "/media/works/image/bhas-photo/20250107_101251.jpg",
+      "/media/works/image/bhas-photo/thumb.jpg"
+    ]
+  },
+  {
+    "id": "rey-3d",
+    "type": "image",
+    "title": "Rey's 3d project",
+    "thumb": "/media/works/image/rey-3d/1.png",
+    "description": "Rey's 3d project that i made using blender, while chilling",
+    "tags": ["Blender", "Design", "Art"],
+    "contributors": ["rey"],
+    "collaboration_type": "solo",
+    "gallery": [
+      "/media/works/image/rey-3d/1.png",
+      "/media/works/image/rey-3d/2.png",
+      "/media/works/image/rey-3d/3.jpg"
+    ]
+  },
+  {
+    "id": "rey-photo",
+    "type": "image",
+    "title": "Rey's Photographs",
+    "thumb": "/media/works/image/rey-photo/2.png",
+    "description": "A collection of photographs taken by Rey.",
+    "tags": ["Photography", "Art"],
+    "contributors": ["rey"],
+    "collaboration_type": "solo",
+    "gallery": [
+      "/media/works/image/rey-photo/1.jpg",
+      "/media/works/image/rey-photo/2.jpg",
+      "/media/works/image/rey-photo/3.jpg",
+      "/media/works/image/rey-photo/4.jpg",
+      "/media/works/image/rey-photo/5.jpg",
+      "/media/works/image/rey-photo/6.jpg"
+    ]
   }
 ]
