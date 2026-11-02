@@ -1,11 +1,7 @@
 "use client";
+import { usePrefersReducedMotion } from "@/lib/motion/use-reveal";
 import { useRef, useState } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useReducedMotion,
-} from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -47,7 +43,7 @@ export function EditorialImage({
 }) {
   const [failedSource, setFailedSource] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],

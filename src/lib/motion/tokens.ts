@@ -2,10 +2,8 @@
  * Motion tokens derived from the reverse-engineering pass documented in
  * `docs/motion-reverse-engineering.md`.
  *
- * Every value here was read out of the shipped bundle at charlesleclerc.com,
- * not invented. Keep them in sync with the `--tp-*` custom properties in
- * `globals.css`; the CSS ladder and these JS easings must agree or the
- * cascade will feel like two different systems.
+ * Easings come from the reference; durations are shortened for this site.
+ * Keep the CSS motion durations in globals.css aligned with these tokens.
  */
 
 /** Cubic-bezier control points, as framer-motion expects them. */
@@ -27,19 +25,19 @@ export const EASE = {
 /** Durations in seconds. */
 export const DUR = {
   /** Veil rectangle collapse. */
-  veil: 0.15,
+  veil: 0.1,
   /** Total veil stagger budget (the `amount`, not per-element). */
-  veilStagger: 0.7,
+  veilStagger: 0.22,
   /** Hover roll. */
-  roll: 0.4,
+  roll: 0.25,
   /** Hairline / small reveal. */
-  quick: 0.6,
+  quick: 0.3,
   /** Standard scroll reveal. */
-  reveal: 1,
+  reveal: 0.45,
   /** Column cascade. */
-  column: 1.2,
+  column: 0.55,
   /** Hero title characters. */
-  hero: 1.8,
+  hero: 0.65,
 } as const;
 
 /**
@@ -56,7 +54,7 @@ export const REVEAL_LADDER = {
 } as const;
 
 /** Shared ScrollTrigger-style stagger across every reveal variant. */
-export const REVEAL_STAGGER = 0.15;
+export const REVEAL_STAGGER = 0.07;
 
 /** Where a block must sit in the viewport before it plays. */
 export const REVEAL_VIEWPORT = {

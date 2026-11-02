@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { DUR } from "@/lib/motion/tokens";
@@ -72,7 +78,7 @@ const PASS_MS = DUR.veilStagger * 1000 + DUR.veil * 1000;
 
 export function SkewVeil({
   /** How long the veil stays fully closed before it starts to open. */
-  holdMs = 120,
+  holdMs = 30,
 }: {
   holdMs?: number;
 }) {
@@ -103,7 +109,7 @@ export function SkewVeil({
       later(() => setPhase("opening"), delay);
       later(() => setPhase("open"), delay + PASS_MS + 100);
     },
-    [later]
+    [later],
   );
 
   /** Per-cell delay in ms, matching `stagger: { amount: 0.7, from: "random" }`. */
@@ -141,7 +147,8 @@ export function SkewVeil({
 
     const onClick = (event: MouseEvent) => {
       // Modified clicks must keep their browser meaning (new tab, download…).
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+        return;
       if (event.button !== 0) return;
 
       const anchor = (event.target as Element | null)?.closest?.("a");
@@ -181,8 +188,8 @@ export function SkewVeil({
         router.push(pendingHref.current as never);
       }, 60);
       // Give the push time to commit, then uncover the new route.
-      later(() => setPhase("opening"), 60 + 220);
-      later(() => setPhase("open"), 60 + 220 + PASS_MS + 100);
+      later(() => setPhase("opening"), 60 + 80);
+      later(() => setPhase("open"), 60 + 80 + PASS_MS + 100);
     };
 
     // Capture phase: Next attaches its Link handler to the root container, so a
@@ -221,7 +228,7 @@ export function SkewVeil({
       aria-hidden
       className={cn(
         "pointer-events-none fixed inset-0 z-[998] overflow-hidden",
-        phase === "open" && "invisible"
+        phase === "open" && "invisible",
       )}
     >
       {/* The -10deg skew lives on the layer, not the cells, so the cell grid
