@@ -1,7 +1,8 @@
 "use client";
+import { usePrefersReducedMotion } from "@/lib/motion/use-reveal";
 
 import React, { useMemo } from "react";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { DUR, EASE } from "@/lib/motion/tokens";
 
@@ -33,7 +34,7 @@ export function SplitTitle({
   wordClassName,
   charClassName,
   delay = 0,
-  stagger = 0.3,
+  stagger = 0.12,
   once = true,
 }: {
   text: string;
@@ -46,12 +47,9 @@ export function SplitTitle({
   stagger?: number;
   once?: boolean;
 }) {
-  const reduced = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
   const words = useMemo(() => text.split(/(\s+)/).filter(Boolean), [text]);
-  const totalChars = useMemo(
-    () => text.replace(/\s/g, "").length || 1,
-    [text]
-  );
+  const totalChars = useMemo(() => text.replace(/\s/g, "").length || 1, [text]);
 
   const container: Variants = {
     hidden: {},
@@ -92,7 +90,7 @@ export function SplitTitle({
                 // The mask. Padding/negative margin gives descenders room to
                 // breathe without opening a visible gap between lines.
                 "inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom",
-                wordClassName
+                wordClassName,
               )}
             >
               {Array.from(word).map((char) => {
@@ -100,7 +98,10 @@ export function SplitTitle({
                 return (
                   <motion.span
                     key={`${char}-${thisIndex}`}
-                    className={cn("inline-block will-change-transform", charClassName)}
+                    className={cn(
+                      "inline-block will-change-transform",
+                      charClassName,
+                    )}
                     variants={{
                       hidden: { y: "110%", scale: 0.85, opacity: 0.001 },
                       visible: {

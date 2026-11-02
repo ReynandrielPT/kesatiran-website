@@ -1,6 +1,7 @@
 import Link from "next/link";
 import works from "@/data/works.json";
-import members from "@/data/members.json";
+import { MemberStories } from "@/components/MemberStories";
+import { ScrollText } from "@/components/motion/ScrollText";
 import games from "@/data/games.json";
 import { EditorialImage, TextLink } from "@/components/Editorial";
 import { SplitTitle } from "@/components/motion/SplitTitle";
@@ -28,13 +29,13 @@ export default function Home() {
               as="span"
               text="BEYOND"
               className="hero-line"
-              delay={0.3}
+              delay={0.05}
             />
             <SplitTitle
               as="span"
               text="ORDINARY."
               className="hero-line"
-              delay={0.45}
+              delay={0.12}
             />
           </h1>
           <div className="hero-caption">
@@ -59,29 +60,24 @@ export default function Home() {
           <span className="eyebrow">The circle</span>
           <span>People before projects</span>
         </div>
-        <Reveal>
-          <h2 className="statement">
-            Different minds.
-            <br />
-            Same wavelength.
-          </h2>
-        </Reveal>
-        <div className="manifesto-grid">
-          <EditorialImage src={members[0].photo} alt={members[0].name} />
-          <div>
-            <p className="large-copy">
-              A small circle making room for big ideas. Art, code, music, and
-              everything in between.
-            </p>
-            <p>
-              Some days we build. Some days we play. Most days, we learn
-              something along the way. This is a collection of the things we
-              make and the people behind them.
-            </p>
-            <TextLink href="/team">Meet our people</TextLink>
-          </div>
+        <ScrollText
+          as="h2"
+          className="statement"
+          text="Different minds. Same wavelength."
+        />
+        <div className="manifesto-copy">
+          <ScrollText
+            className="large-copy"
+            text="A small circle making room for big ideas. Art, code, music, and everything in between."
+          />
+          <p>
+            Some days we build. Some days we play. Most days, we learn something
+            along the way. This is a collection of the things we make and the
+            people behind them.
+          </p>
         </div>
       </section>
+      <MemberStories />
       <section className="selected-section editorial-section">
         <div className="section-meta">
           <span className="eyebrow">Selected works</span>

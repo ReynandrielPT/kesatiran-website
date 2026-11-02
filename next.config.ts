@@ -1,8 +1,9 @@
 import type { NextConfig } from "next";
+import { PHASE_DEVELOPMENT_SERVER } from "next/constants";
 
-const nextConfig: NextConfig = {
+const nextConfig = (phase: string): NextConfig => ({
   // Keep production builds from overwriting the running dev server artifacts.
-  distDir: process.env.NODE_ENV === "development" ? ".next-dev" : ".next",
+  distDir: phase === PHASE_DEVELOPMENT_SERVER ? ".next-dev" : ".next",
   eslint: {
     // Allow production builds to succeed even if there are ESLint errors.
     ignoreDuringBuilds: true,
@@ -12,6 +13,6 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
-};
+});
 
 export default nextConfig;

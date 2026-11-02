@@ -1,10 +1,13 @@
 "use client";
 
 import React from "react";
-import { motion, useReducedMotion, type HTMLMotionProps, type Variants } from "framer-motion";
+import { motion, type HTMLMotionProps, type Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { DUR, EASE, REVEAL_VIEWPORT } from "@/lib/motion/tokens";
-import { isAboveTrigger } from "@/lib/motion/use-reveal";
+import {
+  isAboveTrigger,
+  usePrefersReducedMotion,
+} from "@/lib/motion/use-reveal";
 
 /**
  * The reveal vocabulary, ported from the `data-*` attribute system on
@@ -24,14 +27,12 @@ import { isAboveTrigger } from "@/lib/motion/use-reveal";
  * hidden.
  */
 export type RevealDirection =
-  | "up"
-  | "up-sm"
-  | "left"
-  | "right"
-  | "fade"
-  | "scale";
+  "up" | "up-sm" | "left" | "right" | "fade" | "scale";
 
-const offsets: Record<RevealDirection, { x?: number; y?: number; scale?: number }> = {
+const offsets: Record<
+  RevealDirection,
+  { x?: number; y?: number; scale?: number }
+> = {
   up: { y: 40 },
   "up-sm": { y: 10 },
   left: { x: -40, y: 40 },
@@ -112,7 +113,7 @@ export function Reveal({
   children,
   ...props
 }: RevealProps) {
-  const reduced = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
   const MotionTag = motion[as] as typeof motion.div;
   const { ref, passed } = usePassedTrigger(early);
 
@@ -121,7 +122,11 @@ export function Reveal({
     visible: {
       ...visibleState(direction),
       // Already on screen when the page loaded: show it, don't animate it.
-      transition: { duration: passed ? 0 : duration, delay: passed ? 0 : delay, ease: EASE.power2 },
+      transition: {
+        duration: passed ? 0 : duration,
+        delay: passed ? 0 : delay,
+        ease: EASE.power2,
+      },
     },
   };
 
@@ -165,7 +170,7 @@ export function RevealGroup({
   early?: boolean;
   as?: "div" | "section" | "article" | "ul";
 } & Omit<HTMLMotionProps<"div">, "children">) {
-  const reduced = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
   const MotionTag = motion[as] as typeof motion.div;
   const { ref, passed } = usePassedTrigger(early);
 
@@ -188,7 +193,9 @@ export function RevealGroup({
       }}
       {...props}
     >
-      <PassedTriggerContext.Provider value={passed}>{children}</PassedTriggerContext.Provider>
+      <PassedTriggerContext.Provider value={passed}>
+        {children}
+      </PassedTriggerContext.Provider>
     </MotionTag>
   );
 }
