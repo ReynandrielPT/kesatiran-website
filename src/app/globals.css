@@ -52,6 +52,45 @@
   --heading-weight: 600;
   --body-weight: 400;
 
+  /* ---------------------------------------------------------------- */
+  /* Motion system — see docs/motion-reverse-engineering.md            */
+  /* Easing vocabulary lifted from the reference bundle so the CSS    */
+  /* ladder and the JS primitives share one rhythm.                   */
+  /* ---------------------------------------------------------------- */
+  --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --ease-material: cubic-bezier(0, 0, 0.2, 1);
+  --ease-power2-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  --dur-quick: 0.6s;
+  --dur-reveal: 1s;
+  --dur-column: 1.2s;
+  --dur-hero: 1.8s;
+  --dur-roll: 0.4s;
+
+  /* Reveal travel ladder: distance and delay both grow down the page. */
+  --reveal-title-y: 5rem;
+  --reveal-media-y: 10rem;
+  --reveal-paragraph-y: 15rem;
+  --reveal-column-x: 5rem;
+  --reveal-delay-media: 0.1s;
+  --reveal-delay-paragraph: 0.2s;
+
+  /* Veil colour.
+   *
+   * The reference layer is `.rectangle-bg--black` (#000016) over a #f1f1f1 page:
+   * the curtain is deliberately the *inverse* of the page, which is what makes
+   * the dissolve legible. Matching the background instead makes the whole
+   * effect invisible.
+   *
+   * `--foreground` is the per-theme ink colour (near-black on light, near-white
+   * on dark), so this inverts correctly for free in every theme without a
+   * second token to maintain. Note it must be `--foreground` and not
+   * `--fg-primary`: only the base theme block defines `--fg-primary`, so the
+   * light/aesthetic/gaming blocks would never override it. Override per-theme
+   * if a tinted curtain is wanted. */
+  --veil-color: var(--foreground);
+
   /* Cyber Aesthetic Theme */
   --bg-primary: #050507;
   --bg-secondary: #0d0b10;
@@ -728,4 +767,144 @@ a:hover {
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* ======================================================================== */
+/* Motion utilities                                                          */
+/* Ported from charlesleclerc.com. See docs/motion-reverse-engineering.md.   */
+/* ======================================================================== */
+
+/*
+ * The text-roll pair (.ah / .ah2 in the original).
+ * `.roll-a` is the resting copy, `.roll-b` waits one line below the mask.
+ */
+.roll-b {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: var(--roll-from, translateY(100%));
+  pointer-events: none;
+}
+
+@media (pointer: fine) {
+  .group\/roll:hover .roll-a {
+    transform: var(--roll-out, translateY(-105%));
+    opacity: 0.7;
+  }
+  .group\/roll:hover .roll-b {
+    transform: translate(0, 0);
+  }
+  .group\/roll .roll-a,
+  .group\/roll .roll-b {
+    transition: transform var(--dur-roll) var(--ease-material),
+      opacity var(--dur-roll) var(--ease-material);
+  }
+}
+
+/* Keyboard parity: focus should reveal the second copy like hover does. */
+.group\/roll:focus-visible .roll-a {
+  transform: var(--roll-out, translateY(-105%));
+  opacity: 0.7;
+}
+.group\/roll:focus-visible .roll-b {
+  transform: translate(0, 0);
+}
+
+/*
+ * CSS reveal ladder (.tp-motion-* in the original).
+ *
+ * Available for markup that cannot host a motion component — server-rendered
+ * blocks, third-party children, or long lists where 200 observers would be
+ * wasteful. Pair with `data-reveal` on an ancestor: the `RevealLadder` client
+ * component adds `.is-revealed` when the block scrolls into view.
+ */
+[data-reveal] [data-reveal-item] {
+  transition-property: transform, opacity;
+  transition-timing-function: var(--ease-out-cubic);
+}
+
+[data-reveal] [data-reveal-item="title"] {
+  transform: translateY(var(--reveal-title-y));
+  transition-duration: 0.8s;
+}
+
+[data-reveal] [data-reveal-item="media"] {
+  transform: translateY(var(--reveal-media-y));
+  transition-duration: 0.8s;
+  transition-delay: var(--reveal-delay-media);
+}
+
+[data-reveal] [data-reveal-item="paragraph"] {
+  transform: translateY(var(--reveal-paragraph-y));
+  transition-duration: 0.8s;
+  transition-delay: var(--reveal-delay-paragraph);
+}
+
+[data-reveal] [data-reveal-item="column"] {
+  transform: translateX(var(--reveal-column-x));
+  opacity: 0;
+  transition-duration: var(--dur-column);
+}
+
+[data-reveal] [data-reveal-item="card"] {
+  transform: scale(0.85);
+  opacity: 0;
+  transition-duration: var(--dur-reveal);
+}
+
+[data-reveal].is-revealed [data-reveal-item] {
+  transform: translate(0, 0) scale(1);
+  opacity: 1;
+}
+
+/*
+ * Reduced motion.
+ *
+ * Two distinct obligations:
+ *  a) never animate — everything resolves to its final state instantly;
+ *  b) never *hide* content behind an animation that will not run.
+ *
+ * (b) is the one that breaks sites: a reveal that sets opacity:0 and waits for
+ * an IntersectionObserver will leave the page blank for anyone who has the
+ * preference set and lands mid-document. Everything below resolves to visible.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .group\/roll .roll-a,
+  .group\/roll .roll-b,
+  [data-reveal] [data-reveal-item] {
+    transition: none !important;
+  }
+  .group\/roll .roll-b {
+    display: none;
+  }
+  [data-reveal] [data-reveal-item] {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * Reduced-motion safety net for the JS reveal primitives.
+ *
+ * framer-motion writes `opacity` and `transform` as inline styles, and its own
+ * `reducedMotion="user"` option only suppresses transform/layout animations —
+ * opacity still tweens. `useReducedMotion()` also reports `false` on the first
+ * render (it can only read the media query after mount), so an element can
+ * begin its fade before the hook catches up.
+ *
+ * This rule is evaluated by the CSS engine before any JS runs and uses
+ * `!important` so it outranks the inline styles. It is the one guarantee that
+ * holds regardless of hydration timing: content is never left hidden.
+ */
+@media (prefers-reduced-motion: reduce) {
+  [data-motion-reveal],
+  [data-motion-reveal] * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
 }

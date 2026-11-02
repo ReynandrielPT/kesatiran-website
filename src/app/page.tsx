@@ -13,8 +13,9 @@ import {
   Sparkles,
   Clock,
 } from "lucide-react";
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react"; // Added useEffect
+import { useState, useEffect } from "react";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { SplitTitle } from "@/components/motion/SplitTitle";
 
 // Utility function to shuffle an array
 function shuffleArray<T>(array: T[]): T[] {
@@ -171,45 +172,26 @@ export default function Home() {
       <section className="pt-45 px-6 py-6 mx-auto max-w-6xl">
         <div className="grid lg:grid-cols-[1.1fr_.9fr] gap-14 items-center">
           <div className="space-y-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="flex items-center gap-2 text-sm font-medium text-accent uppercase tracking-wider"
-            >
+            <Reveal direction="up-sm" delay={0.2} className="flex items-center gap-2 text-sm font-medium text-accent uppercase tracking-wider">
               <Sparkles size={16} /> Just a small friend circle
-            </motion.div>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
+            </Reveal>
+            <SplitTitle
+              as="h1"
+              text="We make tiny things that make us smile"
+              delay={0.25}
               className="text-4xl md:text-6xl font-semibold leading-tight tracking-tighter text-heading"
-            >
-              We make tiny things
-              <span className="block text-muted-foreground">
-                that make us smile
-              </span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
+            />
+            <Reveal
+              as="p"
+              direction="up"
+              delay={0.55}
               className="text-base md:text-lg max-w-prose text-muted-foreground"
             >
               No pitch deck. No roadmap. Just a rotating pile of hobby projects,
               mini games, sketches & experiments while we study. Everything here
               is unfinished in a cozy way.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              viewport={{ once: true }}
-              className="flex flex-wrap gap-3 pt-2"
-            >
+            </Reveal>
+            <Reveal direction="up-sm" delay={0.7} className="flex flex-wrap gap-3 pt-2">
               <Link href="/team">
                 <Button variant="gradient" size="md">
                   Meet the Circle
@@ -225,14 +207,8 @@ export default function Home() {
                   Games
                 </Button>
               </Link>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              viewport={{ once: true }}
-              className="relative mt-4 pt-4"
-            >
+            </Reveal>
+            <Reveal direction="up-sm" delay={0.8} className="relative mt-4 pt-4">
               <div className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg bg-secondary text-muted-foreground w-fit">
                 <Clock size={12} /> Currently{" "}
                 <span className="inline-flex overflow-hidden relative w-40 h-4">
@@ -245,16 +221,10 @@ export default function Home() {
                   </span>
                 </span>
               </div>
-            </motion.div>
+            </Reveal>
           </div>
           {/* Single Circular Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            viewport={{ once: true }}
-            className="flex justify-center items-center"
-          >
+          <Reveal direction="scale" delay={0.7} className="flex justify-center items-center">
             <div className="relative size-80 rounded-full overflow-hidden border-4 border-accent/40 shadow-lg">
               <Image
                 src={heroCircleSrc}
@@ -265,36 +235,28 @@ export default function Home() {
                 onError={() => setUseMemberCircle(true)}
               />
             </div>
-          </motion.div>
+          </Reveal>
         </div>
       </section>
 
       {/* Recently made stuff */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="mx-auto max-w-6xl px-6 space-y-12"
-      >
-        <div className="space-y-2">
-          <h2 className="text-2xl font-semibold flex items-center gap-3">
-            <Briefcase size={22} /> Recent Little Projects
-          </h2>
-          <p className="text-sm text-muted-foreground max-w-sm">
-            Half-finished things we still like enough to show.
-          </p>
-        </div>
-        <div className="grid sm:grid-cols-3 gap-6">
-          {recentProjects.map((p, i) => (
-            <motion.div
-              key={p.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Link href="/works" className="group">
+      <section className="mx-auto max-w-6xl px-6 space-y-12">
+        <RevealGroup className="space-y-2" stagger={0.1}>
+          <RevealItem as="div">
+            <h2 className="text-2xl font-semibold flex items-center gap-3">
+              <Briefcase size={22} /> Recent Little Projects
+            </h2>
+          </RevealItem>
+          <RevealItem as="div">
+            <p className="text-sm text-muted-foreground max-w-sm">
+              Half-finished things we still like enough to show.
+            </p>
+          </RevealItem>
+        </RevealGroup>
+        <RevealGroup className="grid sm:grid-cols-3 gap-6" stagger={0.12}>
+          {recentProjects.map((p) => (
+            <RevealItem key={p.id} direction="up" className="h-full">
+              <Link href="/works" className="group block h-full">
                 <Card className="p-4 flex flex-col gap-4 h-full bg-secondary border border-border hover:border-accent/40 transition-all duration-300">
                   <div className="aspect-video relative rounded-md overflow-hidden">
                     <Image
@@ -324,45 +286,38 @@ export default function Home() {
                   </div>
                 </Card>
               </Link>
-            </motion.div>
+            </RevealItem>
           ))}
-        </div>
-      </motion.section>
+        </RevealGroup>
+      </section>
 
       {/* Games (small) */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="mx-auto max-w-6xl px-6 space-y-10"
-      >
-        <div className="flex items-center justify-between">
-          <div>
+      <section className="mx-auto max-w-6xl px-6 space-y-10">
+        <RevealGroup className="flex items-center justify-between" stagger={0.1}>
+          <RevealItem>
             <h2 className="text-2xl font-semibold flex items-center gap-3">
               <Gamepad2 size={22} /> Quick Little Games
             </h2>
             <p className="text-sm text-muted-foreground mt-1">
-              Break-time loops & tiny mechanics.
+              Break-time loops &amp; tiny mechanics.
             </p>
-          </div>
-          <Link
-            href="/games"
-            className="text-sm text-accent hover:underline flex items-center gap-1.5"
-          >
-            All Games <ArrowRight size={14} />
-          </Link>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {recentGames.map((g, i) => (
-            <motion.div
-              key={g.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              viewport={{ once: true }}
+          </RevealItem>
+          <RevealItem>
+            <Link
+              href="/games"
+              className="text-sm text-accent hover:underline flex items-center gap-1.5"
             >
-              <Link href="/games" className="group">
+              All Games <ArrowRight size={14} />
+            </Link>
+          </RevealItem>
+        </RevealGroup>
+        <RevealGroup
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+          stagger={0.1}
+        >
+          {recentGames.map((g) => (
+            <RevealItem key={g.id} direction="scale">
+              <Link href="/games" className="group block">
                 <div className="bg-secondary rounded-lg p-3 text-center border border-border hover:border-accent/40 transition-all duration-300">
                   <div className="relative aspect-square rounded-md overflow-hidden mb-3">
                     <Image
@@ -390,38 +345,37 @@ export default function Home() {
                   </div>
                 </div>
               </Link>
-            </motion.div>
+            </RevealItem>
           ))}
-        </div>
-      </motion.section>
+        </RevealGroup>
+      </section>
 
       {/* Team Section */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="mx-auto max-w-6xl px-6 space-y-10"
-      >
-        <div className="flex items-center justify-between">
-          <div>
+      <section className="mx-auto max-w-6xl px-6 space-y-10">
+        <RevealGroup className="flex items-center justify-between" stagger={0.1}>
+          <RevealItem>
             <h2 className="text-2xl font-semibold flex items-center gap-3">
               <Users size={22} /> The Circle
             </h2>
             <p className="text-sm text-muted-foreground mt-1">
               A few of the friends behind the projects.
             </p>
-          </div>
-          <Link
-            href="/team"
-            className="text-sm text-accent hover:underline flex items-center gap-1.5"
-          >
-            Full Team <ArrowRight size={14} />
-          </Link>
-        </div>
+          </RevealItem>
+          <RevealItem>
+            <Link
+              href="/team"
+              className="text-sm text-accent hover:underline flex items-center gap-1.5"
+            >
+              Full Team <ArrowRight size={14} />
+            </Link>
+          </RevealItem>
+        </RevealGroup>
         <div className="relative overflow-hidden">
           {/* Desktop Gallery View */}
-          <div className="hidden lg:flex gap-6 justify-center items-center py-8">
+          <RevealGroup
+            className="hidden lg:flex gap-6 justify-center items-center py-8"
+            stagger={0.06}
+          >
             {shuffledMembers.slice(0, 7).map((member, i) => {
               const centerIndex = Math.floor(7 / 2); // Index 3 is center
               const distanceFromCenter = Math.abs(i - centerIndex);
@@ -430,63 +384,62 @@ export default function Home() {
               const opacity = isCenter ? 1 : 0.6 - distanceFromCenter * 0.15;
 
               return (
-                <motion.div
-                  key={member.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: i * 0.05 }}
-                  viewport={{ once: true }}
-                  className="flex-shrink-0"
-                  style={{
-                    transform: `scale(${scale})`,
-                    opacity: opacity,
-                    transition: "all 0.3s ease",
-                  }}
-                >
-                  <Link
-                    href={`/profile/${member.slug}`}
-                    className="group block"
+                <RevealItem key={member.id} direction="up-sm" className="flex-shrink-0">
+                  {/* The depth ramp lives on an inner node: framer-motion owns
+                      `transform` on the RevealItem, so writing scale onto the
+                      same element would be overwritten mid-animation. */}
+                  <div
+                    style={{
+                      transform: `scale(${scale})`,
+                      opacity,
+                      transition: "transform 0.3s ease, opacity 0.3s ease",
+                    }}
                   >
-                    <Card className="p-6 flex flex-col gap-4 w-48 h-64 bg-secondary border border-border hover:border-accent/40 transition-all duration-300 hover:scale-105">
-                      <div className="relative aspect-square rounded-xl overflow-hidden">
-                        <Image
-                          src={member.avatar || member.photo}
-                          alt={member.name}
-                          fill
-                          sizes="160px"
-                          className="object-cover group-hover:scale-105 transition-transform"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-2 text-center">
-                        <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-1">
-                          {member.name}
-                        </h3>
-                        <p className="text-xs text-muted-foreground line-clamp-2">
-                          {member.role.split(",")[0]}
-                        </p>
-                        <div className="flex flex-wrap gap-1 justify-center">
-                          <Badge size="xs" variant="secondary">
-                            {member.department.split(",")[0].toLowerCase()}
-                          </Badge>
+                    <Link
+                      href={`/profile/${member.slug}`}
+                      className="group block"
+                    >
+                      <Card className="p-6 flex flex-col gap-4 w-48 h-64 bg-secondary border border-border hover:border-accent/40 transition-all duration-300 hover:scale-105">
+                        <div className="relative aspect-square rounded-xl overflow-hidden">
+                          <Image
+                            src={member.avatar || member.photo}
+                            alt={member.name}
+                            fill
+                            sizes="160px"
+                            className="object-cover group-hover:scale-105 transition-transform"
+                          />
                         </div>
-                      </div>
-                    </Card>
-                  </Link>
-                </motion.div>
+                        <div className="flex flex-col gap-2 text-center">
+                          <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-1">
+                            {member.name}
+                          </h3>
+                          <p className="text-xs text-muted-foreground line-clamp-2">
+                            {member.role.split(",")[0]}
+                          </p>
+                          <div className="flex flex-wrap gap-1 justify-center">
+                            <Badge size="xs" variant="secondary">
+                              {member.department.split(",")[0].toLowerCase()}
+                            </Badge>
+                          </div>
+                        </div>
+                      </Card>
+                    </Link>
+                  </div>
+                </RevealItem>
               );
             })}
-          </div>
+          </RevealGroup>
 
           {/* Mobile/Tablet Horizontal Scroll */}
-          <div className="lg:hidden overflow-x-auto scrollbar-hide py-4">
+          <RevealGroup
+            className="lg:hidden overflow-x-auto scrollbar-hide py-4"
+            stagger={0.06}
+          >
             <div className="flex gap-4 px-4" style={{ width: "max-content" }}>
-              {shuffledMembers.slice(0, 7).map((member, i) => (
-                <motion.div
+              {shuffledMembers.slice(0, 7).map((member) => (
+                <RevealItem
                   key={member.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: i * 0.05 }}
-                  viewport={{ once: true }}
+                  direction="up-sm"
                   className="flex-shrink-0"
                 >
                   <Link
@@ -513,12 +466,12 @@ export default function Home() {
                       </div>
                     </Card>
                   </Link>
-                </motion.div>
+                </RevealItem>
               ))}
             </div>
-          </div>
+          </RevealGroup>
         </div>
-      </motion.section>
+      </section>
     </div>
   );
 }

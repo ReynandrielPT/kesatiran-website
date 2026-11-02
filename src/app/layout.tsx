@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Inter, Merriweather } from "next/font/google";
 import "./globals.css";
+import { MotionConfig } from "framer-motion";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { SkewVeil } from "@/components/motion/SkewVeil";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -47,11 +49,19 @@ export default function RootLayout({
         className={`${inter.variable} ${merriweather.variable} antialiased`}
       >
         <ThemeProvider>
-          <div className="min-h-screen flex flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          {/* `reducedMotion="user"` makes framer-motion honour the OS setting for
+              every component in the tree at once: transforms and opacity are
+              applied instantly instead of tweened. Without it, each reveal has
+              to remember to check the media query itself, and the ones that
+              forget leave content stuck at opacity 0 for those users. */}
+          <MotionConfig reducedMotion="user">
+            <SkewVeil />
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </MotionConfig>
         </ThemeProvider>
       </body>
     </html>
