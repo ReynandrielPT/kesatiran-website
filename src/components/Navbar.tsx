@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 import ThemeSwitcher from "./ThemeSwitcher";
+import { RollText } from "./motion/RollText";
 
 const navigation = [
   { name: "Home", href: "/", icon: Home },
@@ -73,7 +74,8 @@ export function Navbar() {
                 )}
               >
                 <span className="flex items-center gap-1.5">
-                  <item.icon size={16} /> {item.name}
+                  <item.icon size={16} />
+                  <RollText>{item.name}</RollText>
                 </span>
                 {active && (
                   <span
