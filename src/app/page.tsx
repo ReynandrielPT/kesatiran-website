@@ -1,484 +1,133 @@
-"use client";
-import games from "@/data/games.json";
 import Link from "next/link";
-import Image from "next/image";
-import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import {
-  ArrowRight,
-  Users,
-  Gamepad2,
-  Briefcase,
-  Sparkles,
-  Clock,
-} from "lucide-react";
-import { useState, useEffect } from "react";
-import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import works from "@/data/works.json";
+import members from "@/data/members.json";
+import games from "@/data/games.json";
+import { EditorialImage, TextLink } from "@/components/Editorial";
 import { SplitTitle } from "@/components/motion/SplitTitle";
-
-// Utility function to shuffle an array
-function shuffleArray<T>(array: T[]): T[] {
-  let currentIndex = array.length,
-    randomIndex;
-
-  // While there remain elements to shuffle.
-  while (currentIndex !== 0) {
-    // Pick a remaining element.
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-  }
-
-  return array;
-}
-
-interface Member {
-  id: string;
-  name: string;
-  slug: string;
-  photo: string;
-  avatar: string;
-  institute: string;
-  role: string;
-  department: string;
-  location?: string;
-  bio_short?: string;
-  bio_long?: string;
-  skills?: { name: string; category: string; level: string }[];
-  tools?: { name: string; category: string; icon: string }[];
-  social_links?: {
-    instagram?: string;
-    linkedin?: string;
-    twitter?: string;
-    github?: string;
-  };
-  contact_email?: string;
-  resume_url?: string;
-  member_since?: string;
-  availability_status?: string;
-  career_highlights?: { year: string; title: string; description: string }[];
-  testimonials?: {
-    text: string;
-    author: string;
-    role: string;
-    company: string;
-  }[];
-  fav_songs?: string[];
-  fav_media?: string[];
-  personal_quote?: string;
-  website?: string;
-}
-
-interface Work {
-  id: string;
-  type: string;
-  title: string;
-  thumb: string;
-  media: string;
-  description: string;
-  tags: string[];
-  contributors: string[];
-  collaboration_type: string;
-  gallery?: string[];
-  duration?: string;
-  artist?: string;
-}
-
+import { Reveal } from "@/components/motion/Reveal";
 export default function Home() {
-  const [membersData, setMembersData] = useState<Member[]>([]);
-  const [worksData, setWorksData] = useState<Work[]>([]);
-  const [loadingMembers, setLoadingMembers] = useState(true);
-  const [loadingWorks, setLoadingWorks] = useState(true);
-  const [errorMembers, setErrorMembers] = useState<string | null>(null);
-  const [errorWorks, setErrorWorks] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const res = await fetch("/api/members");
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        const data = await res.json();
-        setMembersData(data);
-      } catch (error: unknown) {
-        setErrorMembers(
-          error instanceof Error ? error.message : "An unknown error occurred"
-        );
-      } finally {
-        setLoadingMembers(false);
-      }
-    };
-
-    const fetchWorks = async () => {
-      try {
-        const res = await fetch("/api/works");
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        const data = await res.json();
-        setWorksData(data);
-      } catch (error: unknown) {
-        setErrorWorks(
-          error instanceof Error ? error.message : "An unknown error occurred"
-        );
-      } finally {
-        setLoadingWorks(false);
-      }
-    };
-
-    fetchMembers();
-    fetchWorks();
-  }, []);
-
-  // Shuffle and curate a lighter, more casual surface slice
-  const shuffledWorks = shuffleArray([...worksData]); // Shuffle a copy
-  const recentProjects = shuffledWorks.slice(0, 3);
-  const recentGames = games.slice(0, 2); // Games are not part of the dynamic request
-  const shuffledMembers = shuffleArray([...membersData]); // Shuffle a copy
-  const circle = shuffledMembers.slice(0, 9); // just a handful for the collage
-  // Home hero circle image: try a custom image in public first, fallback to first member
-  const [useMemberCircle, setUseMemberCircle] = useState(false);
-  const heroCircleSrc = useMemberCircle
-    ? shuffledMembers[0]?.avatar || shuffledMembers[0]?.photo
-    : "/media/works/circle.jpg"; // place your image here (public/media/works/circle.jpg)
-  const statusPhrases = [
-    "editing pixel art",
-    "debugging a sound loop",
-    "arguing about indentation",
-    "collecting reference screenshots",
-    "renaming a variable again",
-    "tuning game feel",
-  ];
-
-  if (errorMembers || errorWorks) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-red-500">
-        Error loading data: {errorMembers || errorWorks}
-      </div>
-    );
-  }
-  // Removed loading state as per user request. Content will appear once data is fetched.
-
   return (
-    <div className="min-h-screen pb-24 space-y-24">
-      {/* Hero – softer, personal */}
-      <section className="pt-45 px-6 py-6 mx-auto max-w-6xl">
-        <div className="grid lg:grid-cols-[1.1fr_.9fr] gap-14 items-center">
-          <div className="space-y-8">
-            <Reveal direction="up-sm" delay={0.2} className="flex items-center gap-2 text-sm font-medium text-accent uppercase tracking-wider">
-              <Sparkles size={16} /> Just a small friend circle
-            </Reveal>
+    <div className="editorial-home" id="top">
+      <section className="cinema-hero">
+        <EditorialImage
+          src="/media/works/circle.jpg"
+          alt="The Kesatiran circle together"
+          priority
+          className="hero-media"
+        />
+        <div className="hero-shade" />
+        <div className="hero-topline">
+          <span>A circle of friends. A world of ideas.</span>
+          <span>Indonesia · Online everywhere</span>
+        </div>
+        <div className="hero-title">
+          <h1 aria-label="Beyond ordinary">
             <SplitTitle
-              as="h1"
-              text="We make tiny things that make us smile"
-              delay={0.25}
-              className="text-4xl md:text-6xl font-semibold leading-tight tracking-tighter text-heading"
+              as="span"
+              text="BEYOND"
+              className="hero-line"
+              delay={0.3}
             />
-            <Reveal
-              as="p"
-              direction="up"
-              delay={0.55}
-              className="text-base md:text-lg max-w-prose text-muted-foreground"
-            >
-              No pitch deck. No roadmap. Just a rotating pile of hobby projects,
-              mini games, sketches & experiments while we study. Everything here
-              is unfinished in a cozy way.
-            </Reveal>
-            <Reveal direction="up-sm" delay={0.7} className="flex flex-wrap gap-3 pt-2">
-              <Link href="/team">
-                <Button variant="gradient" size="md">
-                  Meet the Circle
-                </Button>
-              </Link>
-              <Link href="/works">
-                <Button variant="outline" size="md">
-                  Projects
-                </Button>
-              </Link>
-              <Link href="/games">
-                <Button variant="ghost" size="md">
-                  Games
-                </Button>
-              </Link>
-            </Reveal>
-            <Reveal direction="up-sm" delay={0.8} className="relative mt-4 pt-4">
-              <div className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg bg-secondary text-muted-foreground w-fit">
-                <Clock size={12} /> Currently{" "}
-                <span className="inline-flex overflow-hidden relative w-40 h-4">
-                  <span className="animate-[statusSlide_10s_linear_infinite] absolute inset-0 flex flex-col justify-start">
-                    {statusPhrases.map((p) => (
-                      <span key={p} className="h-4 leading-4">
-                        {p}
-                      </span>
-                    ))}
-                  </span>
-                </span>
-              </div>
-            </Reveal>
+            <SplitTitle
+              as="span"
+              text="ORDINARY."
+              className="hero-line"
+              delay={0.45}
+            />
+          </h1>
+          <div className="hero-caption">
+            <p>
+              We create, play, and figure it out together.
+              <br />
+              Welcome to our corner of the internet.
+            </p>
+            <Link href="#our-world" className="skew-button">
+              Explore our world <span>↓</span>
+            </Link>
           </div>
-          {/* Single Circular Image */}
-          <Reveal direction="scale" delay={0.7} className="flex justify-center items-center">
-            <div className="relative size-80 rounded-full overflow-hidden border-4 border-accent/40 shadow-lg">
-              <Image
-                src={heroCircleSrc}
-                alt={useMemberCircle ? membersData[0]?.name : "Circle image"}
-                fill
-                sizes="320px"
-                className="object-cover"
-                onError={() => setUseMemberCircle(true)}
-              />
-            </div>
-          </Reveal>
+        </div>
+        <div className="hero-bottom">
+          <span>SCROLL TO EXPLORE</span>
+          <span className="scroll-rule" />
+          <span>EST. IN FRIENDSHIP</span>
         </div>
       </section>
-
-      {/* Recently made stuff */}
-      <section className="mx-auto max-w-6xl px-6 space-y-12">
-        <RevealGroup className="space-y-2" stagger={0.1}>
-          <RevealItem as="div">
-            <h2 className="text-2xl font-semibold flex items-center gap-3">
-              <Briefcase size={22} /> Recent Little Projects
-            </h2>
-          </RevealItem>
-          <RevealItem as="div">
-            <p className="text-sm text-muted-foreground max-w-sm">
-              Half-finished things we still like enough to show.
+      <section className="manifesto editorial-section" id="our-world">
+        <div className="section-meta">
+          <span className="eyebrow">The circle</span>
+          <span>People before projects</span>
+        </div>
+        <Reveal>
+          <h2 className="statement">
+            Different minds.
+            <br />
+            Same wavelength.
+          </h2>
+        </Reveal>
+        <div className="manifesto-grid">
+          <EditorialImage src={members[0].photo} alt={members[0].name} />
+          <div>
+            <p className="large-copy">
+              A small circle making room for big ideas. Art, code, music, and
+              everything in between.
             </p>
-          </RevealItem>
-        </RevealGroup>
-        <RevealGroup className="grid sm:grid-cols-3 gap-6" stagger={0.12}>
-          {recentProjects.map((p) => (
-            <RevealItem key={p.id} direction="up" className="h-full">
-              <Link href="/works" className="group block h-full">
-                <Card className="p-4 flex flex-col gap-4 h-full bg-secondary border border-border hover:border-accent/40 transition-all duration-300">
-                  <div className="aspect-video relative rounded-md overflow-hidden">
-                    <Image
-                      src={p.thumb}
-                      alt={p.title}
-                      fill
-                      sizes="(max-width:768px) 100vw, 240px"
-                      className="object-cover group-hover:scale-105 transition-transform"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-base font-semibold line-clamp-2 group-hover:text-accent transition-colors">
-                      {p.title}
-                    </h3>
-                    <div className="flex flex-wrap gap-1.5">
-                      {p.tags.slice(0, 2).map((t) => (
-                        <Badge key={t} size="sm" variant="secondary">
-                          {t}
-                        </Badge>
-                      ))}
-                      {p.tags.length > 2 && (
-                        <Badge size="sm" variant="outline">
-                          +{p.tags.length - 2}
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-                </Card>
-              </Link>
-            </RevealItem>
-          ))}
-        </RevealGroup>
+            <p>
+              Some days we build. Some days we play. Most days, we learn
+              something along the way. This is a collection of the things we
+              make and the people behind them.
+            </p>
+            <TextLink href="/team">Meet our people</TextLink>
+          </div>
+        </div>
       </section>
-
-      {/* Games (small) */}
-      <section className="mx-auto max-w-6xl px-6 space-y-10">
-        <RevealGroup className="flex items-center justify-between" stagger={0.1}>
-          <RevealItem>
-            <h2 className="text-2xl font-semibold flex items-center gap-3">
-              <Gamepad2 size={22} /> Quick Little Games
-            </h2>
-            <p className="text-sm text-muted-foreground mt-1">
-              Break-time loops &amp; tiny mechanics.
-            </p>
-          </RevealItem>
-          <RevealItem>
+      <section className="selected-section editorial-section">
+        <div className="section-meta">
+          <span className="eyebrow">Selected works</span>
+          <span>Ideas made real</span>
+        </div>
+        <Reveal>
+          <h2 className="section-display">
+            IN THE
+            <br />
+            MAKING.
+          </h2>
+        </Reveal>
+        <div className="home-work-grid">
+          {works.slice(0, 3).map((work, i) => (
             <Link
-              href="/games"
-              className="text-sm text-accent hover:underline flex items-center gap-1.5"
+              className={`work-feature work-feature-${i}`}
+              href="/works"
+              key={work.id}
             >
-              All Games <ArrowRight size={14} />
+              <EditorialImage src={work.thumb} alt={work.title} />
+              <div className="work-caption">
+                <span>{work.title}</span>
+                <span>{work.type} ↗</span>
+              </div>
             </Link>
-          </RevealItem>
-        </RevealGroup>
-        <RevealGroup
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-          stagger={0.1}
-        >
-          {recentGames.map((g) => (
-            <RevealItem key={g.id} direction="scale">
-              <Link href="/games" className="group block">
-                <div className="bg-secondary rounded-lg p-3 text-center border border-border hover:border-accent/40 transition-all duration-300">
-                  <div className="relative aspect-square rounded-md overflow-hidden mb-3">
-                    <Image
-                      src={g.cover}
-                      alt={g.title}
-                      fill
-                      sizes="(max-width:768px) 50vw, 200px"
-                      className="object-cover group-hover:scale-105 transition-transform"
-                    />
-                  </div>
-                  <h3 className="text-sm font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-1">
-                    {g.title}
-                  </h3>
-                  <div className="flex flex-wrap gap-1 justify-center mt-2">
-                    {g.tags.slice(0, 1).map((t) => (
-                      <Badge key={t} size="xs" variant="secondary">
-                        {t}
-                      </Badge>
-                    ))}
-                    {g.tags.length > 1 && (
-                      <Badge size="xs" variant="outline">
-                        +{g.tags.length - 1}
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-              </Link>
-            </RevealItem>
           ))}
-        </RevealGroup>
+        </div>
+        <TextLink href="/works">Explore all works</TextLink>
       </section>
-
-      {/* Team Section */}
-      <section className="mx-auto max-w-6xl px-6 space-y-10">
-        <RevealGroup className="flex items-center justify-between" stagger={0.1}>
-          <RevealItem>
-            <h2 className="text-2xl font-semibold flex items-center gap-3">
-              <Users size={22} /> The Circle
-            </h2>
-            <p className="text-sm text-muted-foreground mt-1">
-              A few of the friends behind the projects.
-            </p>
-          </RevealItem>
-          <RevealItem>
-            <Link
-              href="/team"
-              className="text-sm text-accent hover:underline flex items-center gap-1.5"
-            >
-              Full Team <ArrowRight size={14} />
-            </Link>
-          </RevealItem>
-        </RevealGroup>
-        <div className="relative overflow-hidden">
-          {/* Desktop Gallery View */}
-          <RevealGroup
-            className="hidden lg:flex gap-6 justify-center items-center py-8"
-            stagger={0.06}
-          >
-            {shuffledMembers.slice(0, 7).map((member, i) => {
-              const centerIndex = Math.floor(7 / 2); // Index 3 is center
-              const distanceFromCenter = Math.abs(i - centerIndex);
-              const isCenter = i === centerIndex;
-              const scale = isCenter ? 1 : 0.8 - distanceFromCenter * 0.1;
-              const opacity = isCenter ? 1 : 0.6 - distanceFromCenter * 0.15;
-
-              return (
-                <RevealItem key={member.id} direction="up-sm" className="flex-shrink-0">
-                  {/* The depth ramp lives on an inner node: framer-motion owns
-                      `transform` on the RevealItem, so writing scale onto the
-                      same element would be overwritten mid-animation. */}
-                  <div
-                    style={{
-                      transform: `scale(${scale})`,
-                      opacity,
-                      transition: "transform 0.3s ease, opacity 0.3s ease",
-                    }}
-                  >
-                    <Link
-                      href={`/profile/${member.slug}`}
-                      className="group block"
-                    >
-                      <Card className="p-6 flex flex-col gap-4 w-48 h-64 bg-secondary border border-border hover:border-accent/40 transition-all duration-300 hover:scale-105">
-                        <div className="relative aspect-square rounded-xl overflow-hidden">
-                          <Image
-                            src={member.avatar || member.photo}
-                            alt={member.name}
-                            fill
-                            sizes="160px"
-                            className="object-cover group-hover:scale-105 transition-transform"
-                          />
-                        </div>
-                        <div className="flex flex-col gap-2 text-center">
-                          <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-1">
-                            {member.name}
-                          </h3>
-                          <p className="text-xs text-muted-foreground line-clamp-2">
-                            {member.role.split(",")[0]}
-                          </p>
-                          <div className="flex flex-wrap gap-1 justify-center">
-                            <Badge size="xs" variant="secondary">
-                              {member.department.split(",")[0].toLowerCase()}
-                            </Badge>
-                          </div>
-                        </div>
-                      </Card>
-                    </Link>
-                  </div>
-                </RevealItem>
-              );
-            })}
-          </RevealGroup>
-
-          {/* Mobile/Tablet Horizontal Scroll */}
-          <RevealGroup
-            className="lg:hidden overflow-x-auto scrollbar-hide py-4"
-            stagger={0.06}
-          >
-            <div className="flex gap-4 px-4" style={{ width: "max-content" }}>
-              {shuffledMembers.slice(0, 7).map((member) => (
-                <RevealItem
-                  key={member.id}
-                  direction="up-sm"
-                  className="flex-shrink-0"
-                >
-                  <Link
-                    href={`/profile/${member.slug}`}
-                    className="group block"
-                  >
-                    <Card className="p-4 flex flex-col gap-3 w-40 h-56 bg-secondary border border-border hover:border-accent/40 transition-all duration-300">
-                      <div className="relative aspect-square rounded-lg overflow-hidden">
-                        <Image
-                          src={member.avatar || member.photo}
-                          alt={member.name}
-                          fill
-                          sizes="120px"
-                          className="object-cover group-hover:scale-105 transition-transform"
-                        />
-                      </div>
-                      <div className="flex flex-col gap-2 text-center">
-                        <h3 className="text-sm font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-1">
-                          {member.name}
-                        </h3>
-                        <p className="text-xs text-muted-foreground line-clamp-2">
-                          {member.role.split(",")[0]}
-                        </p>
-                      </div>
-                    </Card>
-                  </Link>
-                </RevealItem>
-              ))}
-            </div>
-          </RevealGroup>
+      <section className="after-hours">
+        <EditorialImage src={games[0].cover} alt={games[0].title} />
+        <div className="after-hours-copy">
+          <span className="eyebrow">When the work stops</span>
+          <h2>
+            AFTER
+            <br />
+            HOURS.
+          </h2>
+          <p>
+            One more round. A familiar voice in the lobby.
+            <br />
+            The games that bring us back together.
+          </p>
+          <Link href="/games" className="skew-button">
+            Enter the playground ↗
+          </Link>
         </div>
       </section>
     </div>
   );
 }
-
-// animation keyframes (scoped via style jsx for now)
-// could move to globals if reused elsewhere
-// Avoid heavy motion – gentle vertical slide
-// Using small line-height container to mask overflow
-// Each phrase is 1rem tall (h-4 with text-[11px])
-// Removed: export const dynamic = "force-static";
