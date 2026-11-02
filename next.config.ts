@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Keep production builds from overwriting the running dev server artifacts.
+  distDir: process.env.NODE_ENV === "development" ? ".next-dev" : ".next",
   eslint: {
     // Allow production builds to succeed even if there are ESLint errors.
     ignoreDuringBuilds: true,
