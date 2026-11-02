@@ -54,7 +54,7 @@ export function MemberStories() {
           {members.map((m) => (
             <Link href={`/profile/${m.slug}`} key={m.id}>
               <EditorialImage
-                src={m.avatar || m.photo}
+                src={m.photo || m.avatar}
                 alt={m.name}
                 sizes="160px"
               />
@@ -78,37 +78,36 @@ export function MemberStories() {
           <span>Scroll to meet everyone ↓</span>
         </div>
         <div className="member-composition">
-          <div className="member-photo-stage">
-            <AnimatePresence initial={false} mode="sync">
+          <AnimatePresence initial={false} mode="wait">
+            <motion.article
+              className="member-slide"
+              key={member.id}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.22, ease: [0.215, 0.61, 0.355, 1] }}
+            >
+              <header className="member-headline">
+                <p className="eyebrow">{member.role}</p>
+                <h2>{member.name}</h2>
+              </header>
               <motion.div
                 className="member-photo"
-                key={member.id}
-                initial={{ opacity: 0, y: 25, scale: 0.96, rotate: 2 }}
-                animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-                exit={{ opacity: 0, y: -20, scale: 0.98, rotate: -2 }}
-                transition={{ duration: 0.3, ease: [0.215, 0.61, 0.355, 1] }}
+                initial={{ clipPath: "inset(0 0 12% 0)", scale: 0.97 }}
+                animate={{ clipPath: "inset(0)", scale: 1 }}
+                transition={{ duration: 0.35 }}
               >
                 <EditorialImage
                   src={member.photo || member.avatar}
                   alt={member.name}
-                  sizes="(max-width:700px) 180px, 320px"
+                  sizes="(max-width:700px) 140px, 240px"
+                  quality={95}
                 />
               </motion.div>
-            </AnimatePresence>
-          </div>
-          <div className="member-copy-stage">
-            <AnimatePresence initial={false} mode="wait">
-              <motion.div
-                key={member.id}
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.16 }}
-              >
-                <p className="eyebrow">{member.role}</p>
-                <h2>{member.name}</h2>
+              <div className="member-copy-stage">
                 <p className="member-bio">
-                  {member.bio_short ||
+                  {member.bio_preview ||
+                    member.bio_short ||
                     `Part of the circle. Exploring ${member.department.toLowerCase()}.`}
                 </p>
                 <p className="member-location">{member.institute}</p>
@@ -116,11 +115,11 @@ export function MemberStories() {
                   href={`/profile/${member.slug}`}
                   className="editorial-link"
                 >
-                  Get to know {member.name.split(" ")[0]} <span>↗</span>
+                  Explore profile <span>↗</span>
                 </Link>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+              </div>
+            </motion.article>
+          </AnimatePresence>
         </div>
         <div className="member-controls">
           <span className="member-count">

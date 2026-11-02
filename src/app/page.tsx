@@ -11,9 +11,10 @@ export default function Home() {
     <div className="editorial-home" id="top">
       <section className="cinema-hero">
         <EditorialImage
-          src="/media/works/circle-hero-wide.webp"
-          mobileSrc="/media/works/circle-portrait.jpg"
+          src="/media/works/circle-hero-hq.webp"
+          mobileSrc="/media/works/circle-portrait-hq.webp"
           sizes="100vw"
+          quality={95}
           alt="The Kesatiran circle together"
           priority
           className="hero-media"

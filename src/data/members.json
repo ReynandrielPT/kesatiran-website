@@ -3,7 +3,7 @@
     "id": "Bhaskara-Dhanu-Kusuma",
     "name": "Bhaskara Dhanu Kusuma",
     "slug": "bhaskara-dhanu-kusuma",
-    "photo": "/media/team/bhas.JPG",
+    "photo": "/media/team/enhanced/bhaskara-dhanu-kusuma.webp",
     "avatar": "/media/team/bhas-av.png",
     "institute": "Universitas Gajah Mada",
     "role": "Slow Living Man",
@@ -22,13 +22,33 @@
         "category": "Editing",
         "level": "beginner"
       },
-      { "name": "Data Analysis", "category": "Analytical", "level": "beginner" }
+      {
+        "name": "Data Analysis",
+        "category": "Analytical",
+        "level": "beginner"
+      }
     ],
     "tools": [
-      { "name": "VS Code", "category": "Editors", "icon": "vscode" },
-      { "name": "Git", "category": "Version Control", "icon": "git" },
-      { "name": "Figma", "category": "Design", "icon": "figma" },
-      { "name": "PostgreSQL", "category": "Databases", "icon": "postgresql" }
+      {
+        "name": "VS Code",
+        "category": "Editors",
+        "icon": "vscode"
+      },
+      {
+        "name": "Git",
+        "category": "Version Control",
+        "icon": "git"
+      },
+      {
+        "name": "Figma",
+        "category": "Design",
+        "icon": "figma"
+      },
+      {
+        "name": "PostgreSQL",
+        "category": "Databases",
+        "icon": "postgresql"
+      }
     ],
     "social_links": {
       "instagram": "https://www.instagram.com/bhaskadk/",
@@ -60,14 +80,20 @@
       "5UqzcOEPhZ3YH1olsfa00l",
       "3vN8A1HfOcytUpCiEm2qqI"
     ],
-    "fav_media": ["tt2097298", "tt1190080", "tt0120815", "tt1745960"],
-    "personal_quote": "Turning coffee into clean, scalable code."
+    "fav_media": [
+      "tt2097298",
+      "tt1190080",
+      "tt0120815",
+      "tt1745960"
+    ],
+    "personal_quote": "Turning coffee into clean, scalable code.",
+    "bio_preview": "Not a perfect human being, but always trying to be better"
   },
   {
     "id": "gafna",
     "name": "Gafna Al Faatiha Prabowo",
     "slug": "gafna",
-    "photo": "/media/team/gafna.jpg",
+    "photo": "/media/team/enhanced/gafna.webp",
     "avatar": "/media/team/gafna.jpg",
     "institute": "Universitas Gajah Mada",
     "role": "Indifferent",
@@ -93,7 +119,11 @@
       }
     ],
     "tools": [
-      { "name": "Wireshark", "category": "Cybersecurity", "icon": "wireshark" },
+      {
+        "name": "Wireshark",
+        "category": "Cybersecurity",
+        "icon": "wireshark"
+      },
       {
         "name": "Burp Suite",
         "category": "Cybersecurity",
@@ -109,8 +139,16 @@
         "category": "Design",
         "icon": "aftereffects"
       },
-      { "name": "Blender", "category": "Design", "icon": "blender" },
-      { "name": "Git", "category": "Development", "icon": "git" }
+      {
+        "name": "Blender",
+        "category": "Design",
+        "icon": "blender"
+      },
+      {
+        "name": "Git",
+        "category": "Development",
+        "icon": "git"
+      }
     ],
     "social_links": {
       "instagram": "https://www.instagram.com/gafnaa/",
@@ -143,14 +181,19 @@
       "60wwxj6Dd9NJlirf84wr2c",
       "5g7bsxCqNaucnXpexUoHg8"
     ],
-    "fav_media": ["tt5311514", "tt3413018", "tt34548722"],
-    "personal_quote": "If you feel useless, just remember that you are useful as a human being."
+    "fav_media": [
+      "tt5311514",
+      "tt3413018",
+      "tt34548722"
+    ],
+    "personal_quote": "If you feel useless, just remember that you are useful as a human being.",
+    "bio_preview": "Learning, creating, and exploring new things at my own pace."
   },
   {
     "id": "rey",
     "name": "Reynandriel Pramas Thandya",
     "slug": "rey",
-    "photo": "/media/team/reynandrielpt.jpg",
+    "photo": "/media/team/enhanced/rey.webp",
     "avatar": "/media/team/reynandrielpt.jpg",
     "role": "The Yapper",
     "department": "Informatics",
@@ -176,7 +219,11 @@
       }
     ],
     "tools": [
-      { "name": "Wireshark", "category": "Cybersecurity", "icon": "wireshark" },
+      {
+        "name": "Wireshark",
+        "category": "Cybersecurity",
+        "icon": "wireshark"
+      },
       {
         "name": "Burp Suite",
         "category": "Cybersecurity",
@@ -192,8 +239,16 @@
         "category": "Design",
         "icon": "aftereffects"
       },
-      { "name": "Blender", "category": "Design", "icon": "blender" },
-      { "name": "Git", "category": "Development", "icon": "git" }
+      {
+        "name": "Blender",
+        "category": "Design",
+        "icon": "blender"
+      },
+      {
+        "name": "Git",
+        "category": "Development",
+        "icon": "git"
+      }
     ],
     "social_links": {
       "github": "https://github.com/ReynandrielPT",
@@ -231,21 +286,31 @@
       "69xt31HhLvo0foFpM6iaaJ",
       "3T9Xm9qyMuUrT4ChUQu4Sq"
     ],
-    "fav_media": ["tt5311514", "tt0107290", "tt1160419", "tt0816692"],
-    "personal_quote": "I realize what I can and cannot control, and thus I suffer less."
+    "fav_media": [
+      "tt5311514",
+      "tt0107290",
+      "tt1160419",
+      "tt0816692"
+    ],
+    "personal_quote": "I realize what I can and cannot control, and thus I suffer less.",
+    "bio_preview": "Exploring cybersecurity, research, and visual editing."
   },
   {
     "id": "Aero-Brama-Aji-Wijaya",
     "name": "Aero Brama Aji Wijaya",
     "slug": "aero-brama-aji-wijaya",
-    "photo": "/media/team/aer.JPG",
+    "photo": "/media/team/enhanced/aero-brama-aji-wijaya.webp",
     "avatar": "/media/team/aer.JPG",
     "institute": "Universitas Gajah Mada",
     "role": "Future Professor",
     "department": "Civil Engineering",
     "bio_short": "Currently pursuing a bachelor's degree in Civil Engineering. Passionate about becoming an expert in timber and bamboo structures, and also aspires to master music and the art of swordsmanship.",
     "skills": [
-      { "name": "Photography", "category": "Photography", "level": "Beginner" },
+      {
+        "name": "Photography",
+        "category": "Photography",
+        "level": "Beginner"
+      },
       {
         "name": "Photo and Video Editor",
         "category": "Editing",
@@ -261,14 +326,19 @@
       "3l1grOhgJQG4E1E2MjfHWG",
       "5EoV2HmAlkqN1XvsIjOBZZ"
     ],
-    "fav_media": ["tt4154796", "tt0903747", "tt15398776"],
-    "personal_quote": "Old habits die hard, and forming new ones is even harder — not just starting them, but turning them into lasting routines."
+    "fav_media": [
+      "tt4154796",
+      "tt0903747",
+      "tt15398776"
+    ],
+    "personal_quote": "Old habits die hard, and forming new ones is even harder \u2014 not just starting them, but turning them into lasting routines.",
+    "bio_preview": "Civil engineering, timber structures, music, and swordsmanship."
   },
   {
     "id": "faiz",
     "name": "Faiz Hanuraga Febrianta Prayudhi",
     "slug": "faiz",
-    "photo": "/media/team/faiz.JPG",
+    "photo": "/media/team/enhanced/faiz.webp",
     "avatar": "/media/team/faiz-av.png",
     "role": "No Jobless man",
     "department": "Architecture",
@@ -301,14 +371,20 @@
       "6ppefZt5uQ62aHAfSa1Jx9",
       "0wEeW8Bwr0fHXuS2zLiDXk"
     ],
-    "fav_media": ["tt5323662", "tt10477558", "tt8652818", "tt3114376"],
-    "personal_quote": "Solving complex problems with simple, robust backend solutions."
+    "fav_media": [
+      "tt5323662",
+      "tt10477558",
+      "tt8652818",
+      "tt3114376"
+    ],
+    "personal_quote": "Solving complex problems with simple, robust backend solutions.",
+    "bio_preview": "Do ur best, and let god do the rest!"
   },
   {
     "id": "Cahyo-Setio-Utomo",
     "name": "Cahyo Setio Utomo",
     "slug": "cahyo-setio-utomo",
-    "photo": "/media/team/cah.jpg",
+    "photo": "/media/team/enhanced/cahyo-setio-utomo.webp",
     "avatar": "/media/team/cah-av.jpg",
     "institute": "Universitas Brawijaya",
     "role": "The Doctor",
@@ -352,14 +428,20 @@
       "2gcMYiZzzmzoF8PPAfL3IO",
       "2qgjqbi96IAOBzZFC6H57U"
     ],
-    "fav_media": ["tt3228774", "tt0773262", "tt13443470", "tt11126994"],
-    "personal_quote": ""
+    "fav_media": [
+      "tt3228774",
+      "tt0773262",
+      "tt13443470",
+      "tt11126994"
+    ],
+    "personal_quote": "",
+    "bio_preview": "Medical student working toward a future in anesthesia."
   },
   {
     "id": "Muiz-Afif-Mirza-Lindu-Aji",
     "name": "Muiz Afif Mirza Lindu Aji",
     "slug": "muiz-afif-mirza-lindu-aji",
-    "photo": "/media/team/muiz.JPG",
+    "photo": "/media/team/enhanced/muiz-afif-mirza-lindu-aji.webp",
     "avatar": "/media/team/muiz.JPG",
     "institute": "",
     "role": "Mage only",
@@ -387,8 +469,15 @@
     "availability_status": "",
     "career_highlights": [],
     "testimonials": [],
-    "fav_songs": ["1zFaLYA10ImwEejge3F5nm"],
-    "fav_media": ["tt5323662", "tt5311514", "tt36592690"],
-    "personal_quote": ""
+    "fav_songs": [
+      "1zFaLYA10ImwEejge3F5nm"
+    ],
+    "fav_media": [
+      "tt5323662",
+      "tt5311514",
+      "tt36592690"
+    ],
+    "personal_quote": "",
+    "bio_preview": "Part of the Kesatiran circle."
   }
 ]

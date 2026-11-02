@@ -89,7 +89,7 @@ export function SplitTitle({
               className={cn(
                 // The mask. Padding/negative margin gives descenders room to
                 // breathe without opening a visible gap between lines.
-                "inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom",
+                "inline-block overflow-hidden px-[0.14em] -mx-[0.14em] pt-[0.1em] -mt-[0.1em] pb-[0.16em] -mb-[0.16em] align-bottom",
                 wordClassName,
               )}
             >
