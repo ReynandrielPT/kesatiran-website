@@ -1794,3 +1794,6 @@ html[data-theme] {
     object-position: center top;
   }
 }
+.editorial-home a.skew-button {
+  color: #000016;
+}
