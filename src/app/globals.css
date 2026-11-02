@@ -1781,3 +1781,16 @@ html[data-theme] {
 .editorial-page h2 {
   font-family: var(--font-inter), Arial, sans-serif;
 }
+/* Keep the supplied portrait intact on narrow screens. */
+@media (max-width: 700px) {
+  .hero-media {
+    background: #78726f;
+  }
+  .hero-media .image-inner {
+    inset: 0;
+  }
+  .hero-media img {
+    object-fit: contain;
+    object-position: center top;
+  }
+}

@@ -35,11 +35,15 @@ export function EditorialImage({
   alt,
   className = "",
   priority = false,
+  mobileSrc,
+  sizes = "(max-width: 700px) 100vw, 70vw",
 }: {
   src: string;
   alt: string;
   className?: string;
   priority?: boolean;
+  mobileSrc?: string;
+  sizes?: string;
 }) {
   const [failedSource, setFailedSource] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
@@ -52,15 +56,20 @@ export function EditorialImage({
   return (
     <div ref={ref} className={`editorial-image ${className}`}>
       <motion.div className="image-inner" style={reduce ? undefined : { y }}>
-        <Image
-          src={failedSource === src ? "/media/image-unavailable.svg" : src}
-          alt={failedSource === src ? `${alt} — image unavailable` : alt}
-          onError={() => setFailedSource(src)}
-          fill
-          priority={priority}
-          sizes="(max-width: 700px) 100vw, 70vw"
-          className="object-cover"
-        />
+        <picture>
+          {mobileSrc && (
+            <source media="(max-width: 700px)" srcSet={mobileSrc} />
+          )}
+          <Image
+            src={failedSource === src ? "/media/image-unavailable.svg" : src}
+            alt={failedSource === src ? `${alt} — image unavailable` : alt}
+            onError={() => setFailedSource(src)}
+            fill
+            priority={priority}
+            sizes={sizes}
+            className="object-cover"
+          />
+        </picture>
       </motion.div>
     </div>
   );
