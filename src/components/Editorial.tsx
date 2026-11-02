@@ -33,6 +33,7 @@ export function EditorialImage({
   priority = false,
   mobileSrc,
   sizes = "(max-width: 700px) 100vw, 70vw",
+  quality = 90,
 }: {
   src: string;
   alt: string;
@@ -40,6 +41,7 @@ export function EditorialImage({
   priority?: boolean;
   mobileSrc?: string;
   sizes?: string;
+  quality?: number;
 }) {
   const [failedSource, setFailedSource] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
@@ -63,6 +65,7 @@ export function EditorialImage({
             fill
             priority={priority}
             sizes={sizes}
+            quality={quality}
             className="object-cover"
           />
         </picture>
