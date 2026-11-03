@@ -4,43 +4,56 @@ import { MemberStories } from "@/components/MemberStories";
 import { ScrollText } from "@/components/motion/ScrollText";
 import games from "@/data/games.json";
 import { EditorialImage, TextLink } from "@/components/Editorial";
+import { SplitTitle } from "@/components/motion/SplitTitle";
 import { Reveal } from "@/components/motion/Reveal";
 export default function Home() {
   return (
     <div className="editorial-home" id="top">
-      <section className="cinema-hero spatial-hero">
-        <div className="spatial-hero-copy">
-          <p className="eyebrow">A shared creative universe</p>
-          <h1>
-            <span>Different minds.</span>
-            <span>Infinite possibilities.</span>
-          </h1>
-          <p>
-            Friends, makers, and late-night explorers. Step into the things we
-            create and the worlds we share.
-          </p>
-          <div className="spatial-hero-links">
-            <Link href="#our-world" className="skew-button">
-              Enter our world ↓
-            </Link>
-            <Link href="/works">Explore the archive ↗</Link>
-          </div>
+      <section className="cinema-hero">
+        <EditorialImage
+          src="/media/works/circle-hero-hq.webp"
+          mobileSrc="/media/works/circle-portrait-hq.webp"
+          sizes="100vw"
+          quality={95}
+          alt="The Kesatiran circle together"
+          priority
+          className="hero-media"
+        />
+        <div className="hero-shade" />
+        <div className="hero-topline">
+          <span>A circle of friends. A world of ideas.</span>
+          <span>Indonesia · Online everywhere</span>
         </div>
-        <div className="spatial-hero-photo">
-          <EditorialImage
-            src="/media/works/circle-hero-hq.webp"
-            mobileSrc="/media/works/circle-portrait-hq.webp"
-            alt="The Kesatiran circle together"
-            priority
-            sizes="(max-width:700px) 90vw, 44vw"
-            quality={90}
-          />
-          <span>Our own little universe.</span>
+        <div className="hero-title">
+          <h1 aria-label="Beyond ordinary">
+            <SplitTitle
+              as="span"
+              text="BEYOND"
+              className="hero-line"
+              delay={0.05}
+            />
+            <SplitTitle
+              as="span"
+              text="ORDINARY."
+              className="hero-line"
+              delay={0.12}
+            />
+          </h1>
+          <div className="hero-caption">
+            <p>
+              We create, play, and figure it out together.
+              <br />
+              Welcome to our corner of the internet.
+            </p>
+            <Link href="#our-world" className="skew-button">
+              Explore our world <span>↓</span>
+            </Link>
+          </div>
         </div>
         <div className="hero-bottom">
           <span>SCROLL TO EXPLORE</span>
           <span className="scroll-rule" />
-          <span>INDONESIA / CONNECTED EVERYWHERE</span>
+          <span>EST. IN FRIENDSHIP</span>
         </div>
       </section>
       <section className="manifesto editorial-section" id="our-world">

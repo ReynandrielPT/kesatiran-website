@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { DepthSurface } from "@/components/spatial/DepthSurface";
 import { Play, X } from "lucide-react";
 
 export interface GameMontage {
@@ -29,7 +27,10 @@ export default function MontageGrid({ montages }: { montages: GameMontage[] }) {
           }
         })();
         return (
-          <DepthSurface key={m.id} className="montage-card group">
+          <div
+            key={m.id}
+            className="group rounded-lg border border-border bg-card/70 hover:bg-card transition overflow-hidden"
+          >
             <div className="relative aspect-video w-full bg-muted/40">
               {isActive ? (
                 <>
@@ -65,14 +66,12 @@ export default function MontageGrid({ montages }: { montages: GameMontage[] }) {
                   className="absolute inset-0 flex items-center justify-center"
                   aria-label={`Play ${m.title}`}
                 >
-                  <Image
+                  <img
                     src={m.thumb}
                     alt={m.title}
-                    fill
-                    sizes="(max-width:700px) 90vw, 30vw"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-background/40 opacity-100 transition flex items-center justify-center">
+                  <div className="absolute inset-0 bg-card/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
                     <Play className="w-10 h-10 text-card-foreground" />
                   </div>
                 </button>
@@ -86,7 +85,7 @@ export default function MontageGrid({ montages }: { montages: GameMontage[] }) {
                 {new Date(m.createdAt).toLocaleDateString()}
               </p>
             </div>
-          </DepthSurface>
+          </div>
         );
       })}
     </div>

@@ -3,7 +3,6 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { DepthSurface } from "./spatial/DepthSurface";
 import { SplitTitle } from "./motion/SplitTitle";
 export function ChapterTitle({
   title,
@@ -44,7 +43,7 @@ export function EditorialImage({
 }) {
   const [failedSource, setFailedSource] = useState<string | null>(null);
   return (
-    <DepthSurface className={`editorial-image ${className}`}>
+    <div className={`editorial-image ${className}`}>
       <div className="image-inner">
         <picture>
           {mobileSrc && (
@@ -62,7 +61,7 @@ export function EditorialImage({
           />
         </picture>
       </div>
-    </DepthSurface>
+    </div>
   );
 }
 export function TextLink({
