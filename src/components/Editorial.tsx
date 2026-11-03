@@ -1,7 +1,5 @@
 "use client";
-import { usePrefersReducedMotion } from "@/lib/motion/use-reveal";
-import { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -44,16 +42,9 @@ export function EditorialImage({
   quality?: number;
 }) {
   const [failedSource, setFailedSource] = useState<string | null>(null);
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = usePrefersReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   return (
-    <div ref={ref} className={`editorial-image ${className}`}>
-      <motion.div className="image-inner" style={reduce ? undefined : { y }}>
+    <div className={`editorial-image ${className}`}>
+      <div className="image-inner">
         <picture>
           {mobileSrc && (
             <source media="(max-width: 700px)" srcSet={mobileSrc} />
@@ -69,7 +60,7 @@ export function EditorialImage({
             className="object-cover"
           />
         </picture>
-      </motion.div>
+      </div>
     </div>
   );
 }

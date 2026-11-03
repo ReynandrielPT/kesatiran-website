@@ -98,10 +98,7 @@ export function SplitTitle({
                 return (
                   <motion.span
                     key={`${char}-${thisIndex}`}
-                    className={cn(
-                      "inline-block will-change-transform",
-                      charClassName,
-                    )}
+                    className={cn("inline-block", charClassName)}
                     variants={{
                       hidden: { y: "110%", scale: 0.85, opacity: 0.001 },
                       visible: {

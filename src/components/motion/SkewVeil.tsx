@@ -219,7 +219,7 @@ export function SkewVeil({
 
   useEffect(() => clearTimers, [clearTimers]);
 
-  if (reduced) return null;
+  if (reduced || phase === "open") return null;
 
   const dissolving = phase !== "closed";
 
@@ -228,7 +228,6 @@ export function SkewVeil({
       aria-hidden
       className={cn(
         "pointer-events-none fixed inset-0 z-[998] overflow-hidden",
-        phase === "open" && "invisible",
       )}
     >
       {/* The -10deg skew lives on the layer, not the cells, so the cell grid
